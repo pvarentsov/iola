@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
+    "build": "tsc",
     "typedoc": "typedoc src/index.ts && touch docs/.nojekyll",
     "test": "jest --config jest.json --runInBand",
     "test:cov": "jest --config jest.json --runInBand --coverage",
@@ -40,5 +41,8 @@
     "ts-jest": "26.5.6",
     "typedoc": "0.20.36",
     "typescript": "4.2.4"
+  },
+  "dependencies": {
+    "reflect-metadata": "0.1.13"
   }
 }
