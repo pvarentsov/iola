@@ -1,0 +1,40 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "tsconfig.json",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint/eslint-plugin"],
+  "extends": [
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "root": true,
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "rules": {
+    "max-len": ["error", 120],
+    "quotes": ["error", "single"],
+    "indent": ["error", 2, {
+      "MemberExpression": 1,
+      "SwitchCase": 1
+    }],
+    "@typescript-eslint/typedef": ["error", {
+      "memberVariableDeclaration": true,
+      "propertyDeclaration": true,
+      "variableDeclaration": false,
+      "variableDeclarationIgnoreFunction": true,
+      "arrowParameter": false,
+      "parameter": true
+    }],
+    "@typescript-eslint/ban-types": "error",
+    "@typescript-eslint/no-var-requires": "error",
+    "@typescript-eslint/explicit-function-return-type": "error",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-empty-interface": "error",
+    "@typescript-eslint/no-inferrable-types": "off",
+    "@typescript-eslint/semi": ["error", "never"]
+  }
+}

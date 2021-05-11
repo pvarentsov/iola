@@ -1,0 +1,26 @@
+{
+  "moduleFileExtensions": [
+    "ts",
+    "js"
+  ],
+  "rootDir": ".",
+  "verbose": true,
+  "testEnvironment": "node",
+  "testRegex": "./test/.*.spec.ts$",
+  "coverageReporters": [
+    "lcov",
+    "text"
+  ],
+  "coverageDirectory": "coverage",
+  "collectCoverageFrom": [
+    "src/**/*.ts"
+  ],
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "reporters": [
+    "default",
+    "jest-junit"
+  ],
+  "testResultsProcessor": "jest-sonar-reporter"
+}

@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "strictPropertyInitialization": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "declaration": false,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "types": [
+      "reflect-metadata",
+      "jest",
+      "node"
+    ],
+    "lib": [
+      "ES2017"
+    ]
+  },
+  "include": ["./src", "./test"]
+}
