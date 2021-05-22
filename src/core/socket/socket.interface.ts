@@ -6,7 +6,7 @@ export interface ISocketClient<TType extends SocketType> {
   connect(options: SocketConnection[TType]): Promise<void>
   send<TMessage>(message: TMessage): Promise<void>
   read<TMessage>(): Observable<TMessage>
-  info(): SocketInfo
+  getInfo(): SocketInfo
 }
 
 export interface ISocketClientFactory {

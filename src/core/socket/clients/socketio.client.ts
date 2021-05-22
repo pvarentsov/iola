@@ -18,9 +18,10 @@ export class SocketIOClient implements ISocketClient<SocketType.SocketIO> {
     return undefined
   }
 
-  info(): SocketInfo {
+  getInfo(): SocketInfo {
     return {
-      type: SocketType.SocketIO
+      type: SocketType.SocketIO,
+      connected: false,
     }
   }
 }

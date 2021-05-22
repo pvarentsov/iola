@@ -18,9 +18,10 @@ export class TcpSocketClient implements ISocketClient<SocketType.Tcp> {
     return undefined
   }
 
-  info(): SocketInfo {
+  getInfo(): SocketInfo {
     return {
-      type: SocketType.Tcp
+      type: SocketType.SocketIO,
+      connected: false,
     }
   }
 }

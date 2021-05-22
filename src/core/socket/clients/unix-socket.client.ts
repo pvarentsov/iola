@@ -18,9 +18,10 @@ export class UnixSocketClient implements ISocketClient<SocketType.Unix> {
     return undefined
   }
 
-  info(): SocketInfo {
+  getInfo(): SocketInfo {
     return {
-      type: SocketType.Unix
+      type: SocketType.SocketIO,
+      connected: false,
     }
   }
 }

@@ -20,5 +20,12 @@ import { SocketFactory, SocketType } from './core/socket'
 
   const client = SocketFactory.createClient(response.type)
 
-  console.log(client.info())
+  await client.connect({address: ''})
+  await client.send(JSON.stringify({event: 'event'}))
+
+  console.log(client.getInfo())
+
+  client
+    .read()
+    .subscribe(message => console.log(message))
 })()

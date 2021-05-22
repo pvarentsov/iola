@@ -2,23 +2,20 @@ import { SocketType } from './socket.enum'
 
 export type SocketConnection = {
   [SocketType.WebSocket]: {
-    host: string,
-    port?: number,
+    address: string,
   },
   [SocketType.SocketIO]: {
-    host: string,
-    port?: number,
+    address: string,
   },
   [SocketType.Tcp]: {
-    host: string,
-    port?: number,
+    address: string,
   },
   [SocketType.Unix]: {
-    host: string,
-    port?: number,
+    address: string,
   }
 }
 
 export type SocketInfo = {
-  type: SocketType
+  type: SocketType,
+  connected: boolean,
 }
