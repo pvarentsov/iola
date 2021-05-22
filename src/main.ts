@@ -1,7 +1,7 @@
 import prompts = require('prompts')
 import { Choice } from 'prompts'
-import { EnumUtil } from './core/common/util/enum.util'
-import { SocketType } from './core/socket/contract/socket.enum'
+import { EnumUtil } from './core/common'
+import { SocketFactory, SocketType } from './core/socket'
 
 (async (): Promise<void> => {
   const socketTypes = EnumUtil.values(SocketType)
@@ -11,13 +11,15 @@ import { SocketType } from './core/socket/contract/socket.enum'
     value: type,
   }))
 
-  const socketTypeResponse = await prompts({
+  const response = await prompts({
     type: 'select',
     choices: choices,
-    name: 'socketType',
+    name: 'type',
     message: 'Select socket type',
     validate: value => socketTypes.includes(value) ? true : `Available types: ${socketTypes}`
   })
 
-  console.log(socketTypeResponse)
+  const client = SocketFactory.createClient(response.type)
+
+  console.log(client.info())
 })()

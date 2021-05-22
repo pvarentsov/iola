@@ -18,3 +18,7 @@ export type SocketConnection = {
     port?: number,
   }
 }
+
+export type SocketInfo = {
+  type: SocketType
+}
