@@ -13,7 +13,8 @@
     "lib:check": "ncu",
     "lib:upgrade": "ncu -u && npm install",
     "lint": "eslint 'src/**/*.ts'",
-    "lint:fix": "eslint --fix 'src/**/*.ts'"
+    "lint:fix": "eslint --fix 'src/**/*.ts'",
+    "server:websocket": "node ./external/websocket.server.js"
   },
   "repository": {
     "type": "git",

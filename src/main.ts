@@ -1,5 +1,5 @@
 import prompts = require('prompts')
-import { EnumUtil } from './core/common'
+import { EnumUtil, MessageUtil, ParsedMessage } from './core/common'
 import { SocketFactory, SocketType } from './core/socket'
 
 (async (): Promise<void> => {
@@ -20,12 +20,13 @@ import { SocketFactory, SocketType } from './core/socket'
 
   const client = SocketFactory.createClient(response.type)
 
-  await client.connect({address: ''})
-  await client.send(JSON.stringify({event: 'event'}))
+  await client.connect({address: 'ws://localhost:8080'})
+  await client.send(JSON.stringify({event: 'greeting', data: 'Hello!'}))
 
-  console.log(client.getInfo())
+  console.log(`\n${MessageUtil.humanize(client.getInfo())}`)
 
   client
-    .read()
-    .subscribe(message => console.log(message))
+    .read<ParsedMessage>()
+    .subscribe(message => console.log(`\n${MessageUtil.humanize(message)}`))
 })()
+

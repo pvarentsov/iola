@@ -2,6 +2,7 @@ import { firstValueFrom, fromEvent, Observable } from 'rxjs'
 import { filter, map } from 'rxjs/operators'
 import * as WebSocket from 'ws'
 import { MessageEvent } from 'ws'
+import { MessageUtil } from '../../common'
 import { SocketType } from '../socket.enum'
 import { ISocketClient } from '../socket.interface'
 import { SocketConnection, SocketInfo } from '../socket.type'
@@ -32,7 +33,7 @@ export class WebSocketClient implements ISocketClient<SocketType.WebSocket> {
   read<TMessage>(): Observable<TMessage> {
     return this.messages!.pipe(
       filter(message => message.type === 'message'),
-      map(message => message.data as any)
+      map(message => MessageUtil.parseRawMessage(message.data) as any)
     )
   }
 
