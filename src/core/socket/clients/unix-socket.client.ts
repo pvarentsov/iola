@@ -1,25 +1,26 @@
 import { Observable, of } from 'rxjs'
 import { SocketType } from '../contract/socket.enum'
 import { ISocketClient } from '../contract/socket.interface'
-import { SocketInfo } from '../contract/socket.type'
+import { SocketEvent, SocketInfo } from '../contract/socket.type'
 
 export class UnixSocketClient implements ISocketClient {
   async connect(): Promise<void> {
     return undefined
   }
 
-  read<TMessage>(): Observable<TMessage> {
-    return of({} as TMessage)
-  }
-
-  async send<TMessage>(message: TMessage): Promise<void> {
+  send<TMessage>(message: TMessage): void {
     console.log(message)
     return undefined
   }
 
+  getEvents(): Observable<SocketEvent> {
+    return of({} as SocketEvent)
+  }
+
   getInfo(): SocketInfo {
     return {
-      type: SocketType.SocketIO,
+      type: SocketType.Unix,
+      address: '',
       connected: false,
     }
   }

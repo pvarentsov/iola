@@ -1,9 +1,12 @@
 import prompts = require('prompts')
-import { EnumUtil, MessageUtil, ParsedMessage } from './core/common'
-import { SocketFactory, SocketType } from './core/socket'
+import * as moment from 'moment'
+import { EnumUtil, MessageUtil } from './core/common'
+import { SocketEvent, SocketEventType, SocketFactory, SocketType } from './core/socket'
 
 (async (): Promise<void> => {
   const socketTypes = EnumUtil.values(SocketType)
+
+  console.log('')
 
   const response = await prompts({
     name: 'type',
@@ -24,12 +27,37 @@ import { SocketFactory, SocketType } from './core/socket'
   })
 
   await client.connect()
-  await client.send(JSON.stringify({event: 'greeting', data: 'Hello!'}))
 
-  console.log(`\n${MessageUtil.humanize(client.getInfo())}`)
+  client.send(JSON.stringify({
+    event: 'greeting',
+    data: 'Hello!'
+  }))
 
-  client
-    .read<ParsedMessage>()
-    .subscribe(message => console.log(`\n${MessageUtil.humanize(message)}`))
+  setTimeout(() => {
+    client
+      .getEvents()
+      .subscribe(event => console.log(`\n${parseEvent(event)}`))
+  }, 1000)
+
 })()
+
+
+function parseEvent(event: SocketEvent): string {
+  const eventName: Record<SocketEventType, string> = {
+    [SocketEventType.ReceivedMessage]: '📥 Received message',
+    [SocketEventType.SentMessage]: '📤 Sent message',
+    [SocketEventType.Connected]: '🔌 Client connected',
+    [SocketEventType.Error]: 'Error',
+    [SocketEventType.Closed]: 'Client closed the connection',
+  }
+
+  const time = moment(event.date).format('YYYY-MM-D HH:mm:ss')
+  const title = `[${time}] ${eventName[event.type]}`
+
+  const body = '  ' + MessageUtil
+    .humanize(event.message)
+    .replace(new RegExp('\n', 'g'), '\n  ')
+
+  return `${title}:\n${body}`
+}
 

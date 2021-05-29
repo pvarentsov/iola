@@ -1,49 +1,81 @@
-import { firstValueFrom, fromEvent, Observable } from 'rxjs'
-import { filter, map } from 'rxjs/operators'
+import { firstValueFrom, fromEvent, Observable, ReplaySubject, Subject } from 'rxjs'
+import { mapTo, tap, timeout } from 'rxjs/operators'
 import * as WebSocket from 'ws'
-import { MessageEvent } from 'ws'
 import { MessageUtil } from '../../common'
-import { SocketType } from '../contract/socket.enum'
+import { SocketEventType } from '../contract/socket.enum'
 import { ISocketClient } from '../contract/socket.interface'
-import { SocketConnection, SocketInfo } from '../contract/socket.type'
+import { SocketConnection, SocketEvent, SocketInfo } from '../contract/socket.type'
 
 export class WebSocketClient implements ISocketClient {
   private client?: WebSocket
-  private messages?: Observable<MessageEvent>
 
-  private readonly options: SocketConnection[SocketType.WebSocket]
+  private readonly events: Subject<SocketEvent>
   private readonly info: SocketInfo
 
-  constructor(options: SocketConnection[SocketType.WebSocket]) {
-    this.options = options
+  constructor(options: SocketConnection) {
     this.info = {
       type: options.type,
+      address: options.address,
       connected: false,
     }
+    
+    this.events = new ReplaySubject(100)
+    this.events.subscribe()
   }
 
   async connect(): Promise<void> {
     if (!this.info.connected) {
-      const client = new WebSocket(this.options.address)
-      await firstValueFrom(fromEvent(client, 'open'))
+      this.client = new WebSocket(this.info.address)
 
-      this.messages = fromEvent<MessageEvent>(client, 'message')
-      this.info.connected = true
-      this.client = client
+      this.client.on('message', message => this.events.next({
+        type: SocketEventType.ReceivedMessage,
+        date: new Date(),
+        message: MessageUtil.parseRawMessage(message),
+      }))
+
+      this.client.on('error', err => this.events.next({
+        type: SocketEventType.Error,
+        date: new Date(),
+        message: err.message,
+      }))
+
+      this.client.on('close', (code: number, reason: string) => this.events.next({
+        type: SocketEventType.Error,
+        date: new Date(),
+        message: {code, reason},
+      }))
+
+      const openStream = fromEvent(this.client, 'open').pipe(
+        timeout(3000),
+        tap(() => this.info.connected = true),
+        tap(() => this.events.next({
+          type: SocketEventType.Connected,
+          date: new Date(),
+          message: this.info,
+        })),
+        mapTo(undefined),
+      )
+
+      return firstValueFrom<void>(openStream)
     }
   }
 
-  read<TMessage>(): Observable<TMessage> {
-    return this.messages!.pipe(
-      filter(message => message.type === 'message'),
-      map(message => MessageUtil.parseRawMessage(message.data) as any)
-    )
+  send<TMessage>(message: TMessage): void {
+    if (this.client && this.info.connected) {
+      this.client.send(message, err => {
+        if (!err) {
+          this.events.next({
+            type: SocketEventType.SentMessage,
+            date: new Date(),
+            message: MessageUtil.parseRawMessage(message),
+          })
+        }
+      })
+    }
   }
 
-  async send<TMessage>(message: TMessage): Promise<void> {
-    if (this.info.connected) {
-      this.client?.send(message)
-    }
+  getEvents(): Observable<SocketEvent> {
+    return this.events
   }
 
   getInfo(): SocketInfo {

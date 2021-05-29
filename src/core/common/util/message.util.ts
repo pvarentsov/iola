@@ -33,7 +33,7 @@ export class MessageUtil {
     }
     return inspect(message, {
       colors: true,
-      compact: false,
+      compact: true,
     })
   }
 }

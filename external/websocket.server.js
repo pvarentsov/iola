@@ -19,7 +19,7 @@ wss.on('connection', ws => {
   setInterval(() => {
     ws.send(JSON.stringify({
       event: 'ping',
-      data: ':)'
+      data: '🏓'
     }))
-  }, 5_000)
+  }, 2_000)
 })

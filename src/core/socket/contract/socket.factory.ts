@@ -7,12 +7,10 @@ import { ISocketClient } from './socket.interface'
 import { SocketConnection } from './socket.type'
 
 export class SocketFactory {
-  static createClient<TType extends SocketType>(options: SocketConnection[TType]): ISocketClient {
-    type WebSocketConnection = SocketConnection[SocketType.WebSocket]
-
+  static createClient(options: SocketConnection): ISocketClient {
     const factory: Record<SocketType, () => ISocketClient> = {
       [SocketType.SocketIO]: () => new SocketIOClient(),
-      [SocketType.WebSocket]: () => new WebSocketClient(options as WebSocketConnection),
+      [SocketType.WebSocket]: () => new WebSocketClient(options),
       [SocketType.Tcp]: () => new TcpSocketClient(),
       [SocketType.Unix]: () => new UnixSocketClient(),
     }
