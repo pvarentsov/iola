@@ -18,9 +18,12 @@ import { SocketFactory, SocketType } from './core/socket'
       : `Available types: ${socketTypes}`
   })
 
-  const client = SocketFactory.createClient(response.type)
+  const client = SocketFactory.createClient({
+    type: response.type,
+    address: 'ws://localhost:8080',
+  })
 
-  await client.connect({address: 'ws://localhost:8080'})
+  await client.connect()
   await client.send(JSON.stringify({event: 'greeting', data: 'Hello!'}))
 
   console.log(`\n${MessageUtil.humanize(client.getInfo())}`)

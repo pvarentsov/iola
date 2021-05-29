@@ -3,25 +3,28 @@ import { filter, map } from 'rxjs/operators'
 import * as WebSocket from 'ws'
 import { MessageEvent } from 'ws'
 import { MessageUtil } from '../../common'
-import { SocketType } from '../socket.enum'
-import { ISocketClient } from '../socket.interface'
-import { SocketConnection, SocketInfo } from '../socket.type'
+import { SocketType } from '../contract/socket.enum'
+import { ISocketClient } from '../contract/socket.interface'
+import { SocketConnection, SocketInfo } from '../contract/socket.type'
 
-export class WebSocketClient implements ISocketClient<SocketType.WebSocket> {
+export class WebSocketClient implements ISocketClient {
   private client?: WebSocket
   private messages?: Observable<MessageEvent>
+
+  private readonly options: SocketConnection[SocketType.WebSocket]
   private readonly info: SocketInfo
 
-  constructor() {
+  constructor(options: SocketConnection[SocketType.WebSocket]) {
+    this.options = options
     this.info = {
-      type: SocketType.WebSocket,
+      type: options.type,
       connected: false,
     }
   }
 
-  async connect(options: SocketConnection[SocketType.WebSocket]): Promise<void> {
+  async connect(): Promise<void> {
     if (!this.info.connected) {
-      const client = new WebSocket(options.address)
+      const client = new WebSocket(this.options.address)
       await firstValueFrom(fromEvent(client, 'open'))
 
       this.messages = fromEvent<MessageEvent>(client, 'message')

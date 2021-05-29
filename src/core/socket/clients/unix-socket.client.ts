@@ -1,11 +1,10 @@
 import { Observable, of } from 'rxjs'
-import { SocketType } from '../socket.enum'
-import { ISocketClient } from '../socket.interface'
-import { SocketConnection, SocketInfo } from '../socket.type'
+import { SocketType } from '../contract/socket.enum'
+import { ISocketClient } from '../contract/socket.interface'
+import { SocketInfo } from '../contract/socket.type'
 
-export class UnixSocketClient implements ISocketClient<SocketType.Unix> {
-  async connect(options: SocketConnection[SocketType.Unix]): Promise<void> {
-    console.log(options)
+export class UnixSocketClient implements ISocketClient {
+  async connect(): Promise<void> {
     return undefined
   }
 
