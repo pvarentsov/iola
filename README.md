@@ -1,7 +1,6 @@
-<p align="center">
-  <img src="./asset/iola.gif" width="120" alt="iola" />
-</p>
+<h1 align="center">iola</h1>
+
 
 ### Demo
 
-![](asset/demo.gif)
+![](demo/demo.gif)
