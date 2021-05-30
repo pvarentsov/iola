@@ -40,7 +40,7 @@ export class WebSocketClient implements ISocketClient {
       }))
 
       this.client.on('close', (code: number, reason: string) => this.events.next({
-        type: SocketEventType.Error,
+        type: SocketEventType.Closed,
         date: new Date(),
         message: {code, reason},
       }))

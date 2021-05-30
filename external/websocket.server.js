@@ -11,15 +11,20 @@ wss.on('connection', ws => {
     } catch (error) {}
 
     ws.send(JSON.stringify({
-      event: 'reply',
-      data: parseData
+      event: 'handshake',
+      data: 'Hi, Iola!'
     }))
   })
 
-  setInterval(() => {
+  const sendInterval = setInterval(() => {
     ws.send(JSON.stringify({
       event: 'ping',
       data: '🏓'
     }))
   }, 2_000)
+
+  setTimeout(() => {
+    clearInterval(sendInterval)
+    ws.close(undefined, 'Server close the connection')
+  }, 10_000)
 })

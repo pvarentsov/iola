@@ -29,8 +29,8 @@ import { SocketEvent, SocketEventType, SocketFactory, SocketType } from './core/
   await client.connect()
 
   client.send(JSON.stringify({
-    event: 'greeting',
-    data: 'Hello!'
+    event: 'handshake',
+    data: 'Hi, Server!',
   }))
 
   setTimeout(() => {
@@ -44,19 +44,27 @@ import { SocketEvent, SocketEventType, SocketFactory, SocketType } from './core/
 
 function parseEvent(event: SocketEvent): string {
   const eventName: Record<SocketEventType, string> = {
-    [SocketEventType.ReceivedMessage]: '📥 Received message',
-    [SocketEventType.SentMessage]: '📤 Sent message',
-    [SocketEventType.Connected]: '🔌 Client connected',
-    [SocketEventType.Error]: 'Error',
-    [SocketEventType.Closed]: 'Client closed the connection',
+    [SocketEventType.ReceivedMessage]: '📥 Message received',
+    [SocketEventType.SentMessage]: '📤 Message sent',
+    [SocketEventType.Connected]: '🔄 Connection established',
+    [SocketEventType.Error]: '❗️ Error',
+    [SocketEventType.Closed]: '🚫️ Connection closed',
   }
 
   const time = moment(event.date).format('YYYY-MM-D HH:mm:ss')
   const title = `[${time}] ${eventName[event.type]}`
 
-  const body = '  ' + MessageUtil
-    .humanize(event.message)
+  const message = event.type === SocketEventType.Connected
+    ? {type: event.message.type, address: event.message.address}
+    : event.message
+
+  let body = '  ' + MessageUtil
+    .humanize(message)
     .replace(new RegExp('\n', 'g'), '\n  ')
+
+  if (event.type === SocketEventType.Closed) {
+    body += '\n'
+  }
 
   return `${title}:\n${body}`
 }
