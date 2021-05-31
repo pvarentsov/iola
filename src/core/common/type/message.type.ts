@@ -1,3 +1,4 @@
-export type RawMessage = string | Buffer | ArrayBuffer | Buffer[] | Record<string, any>
+import { AnyObject } from './object.type'
 
-export type ParsedMessage = string | Record<string, any>
+export type RawMessage = string | Buffer | ArrayBuffer | Buffer[]
+export type UnpackedMessage = string | AnyObject

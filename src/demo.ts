@@ -29,10 +29,10 @@ export class Demo {
 
     await client.connect()
 
-    client.send(JSON.stringify({
+    client.send({
       event: 'handshake',
       data: 'Hi, Server!',
-    }))
+    })
 
     setTimeout(() => {
       client

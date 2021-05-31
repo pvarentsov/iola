@@ -30,7 +30,7 @@ export class WebSocketClient implements ISocketClient {
       this.client.on('message', message => this.events.next({
         type: SocketEventType.ReceivedMessage,
         date: new Date(),
-        message: MessageUtil.parseRawMessage(message),
+        message: MessageUtil.unpack(message),
       }))
 
       this.client.on('error', err => this.events.next({
@@ -62,12 +62,12 @@ export class WebSocketClient implements ISocketClient {
 
   send<TMessage>(message: TMessage): void {
     if (this.client && this.info.connected) {
-      this.client.send(message, err => {
+      this.client.send(MessageUtil.packToStr(message), err => {
         if (!err) {
           this.events.next({
             type: SocketEventType.SentMessage,
             date: new Date(),
-            message: MessageUtil.parseRawMessage(message),
+            message: message,
           })
         }
       })
