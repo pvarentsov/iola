@@ -16,28 +16,30 @@ export class MessageUtil {
   }
 
   static unpack(rawMessage: RawMessage): UnpackedMessage {
-    let stringified: Optional<string>
+    let asString: Optional<string>
 
     if (typeof rawMessage === 'string') {
-      stringified = rawMessage
+      asString = rawMessage
     }
     if (rawMessage instanceof Buffer) {
-      stringified = rawMessage.toString()
+      asString = rawMessage.toString()
     }
     if (rawMessage instanceof ArrayBuffer) {
-      stringified = Buffer.from(rawMessage).toString()
+      asString = Buffer.from(rawMessage).toString()
     }
     if (Array.isArray(rawMessage)) {
-      stringified = Buffer.concat(rawMessage).toString()
+      asString = Buffer.concat(rawMessage).toString()
     }
 
-    let unpacked = stringified || JSON.stringify(rawMessage)
+    let result = typeof asString === 'string'
+      ? asString
+      : JSON.stringify(rawMessage)
 
     try {
-      unpacked = JSON.parse(unpacked)
+      result = JSON.parse(result)
     } catch (error) {}
 
-    return unpacked
+    return result
   }
 
   static humanize(message: UnpackedMessage): string {

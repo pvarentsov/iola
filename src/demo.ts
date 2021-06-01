@@ -35,8 +35,8 @@ export class Demo {
     })
 
     setTimeout(() => {
-      client
-        .getEvents()
+      client.store
+        .events$()
         .subscribe(event => console.log(`\n${this.parseEvent(event)}`))
     }, 1000)
   }

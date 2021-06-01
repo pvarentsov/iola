@@ -1,9 +1,15 @@
-import { Observable, of } from 'rxjs'
-import { SocketType } from '../contract/socket.enum'
-import { ISocketClient } from '../contract/socket.interface'
-import { SocketEvent, SocketInfo } from '../contract/socket.type'
+import { ISocketClient, ISocketStore } from '../contract/socket.interface'
+import { SocketInfo } from '../contract/socket.type'
 
 export class SocketIOClient implements ISocketClient {
+  get info(): SocketInfo {
+    return {} as SocketInfo
+  }
+
+  get store(): ISocketStore {
+    return {} as ISocketStore
+  }
+
   async connect(): Promise<void> {
     return undefined
   }
@@ -11,17 +17,5 @@ export class SocketIOClient implements ISocketClient {
   send<TMessage>(message: TMessage): void {
     console.log(message)
     return undefined
-  }
-
-  getEvents(): Observable<SocketEvent> {
-    return of({} as SocketEvent)
-  }
-
-  getInfo(): SocketInfo {
-    return {
-      type: SocketType.SocketIO,
-      address: '',
-      connected: false,
-    }
   }
 }
