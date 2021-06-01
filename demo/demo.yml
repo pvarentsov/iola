@@ -1,0 +1,151 @@
+# The configurations that used for the recording, feel free to edit them
+config:
+
+  # Specify a command to be executed
+  # like `/bin/bash -l`, `ls`, or any other commands
+  # the default is bash for Linux
+  # or powershell.exe for Windows
+  command: bash -l
+  
+  # Specify the current working directory path
+  # the default is the current working directory path
+  cwd: /home/pvarentsov/Development/github.com/pvarentsov/iola
+  
+  # Export additional ENV variables
+  env:
+    recording: true
+  
+  # Explicitly set the number of columns
+  # or use `auto` to take the current
+  # number of columns of your shell
+  cols: 60
+  
+  # Explicitly set the number of rows
+  # or use `auto` to take the current
+  # number of rows of your shell
+  rows: 30
+  
+  # Amount of times to repeat GIF
+  # If value is -1, play once
+  # If value is 0, loop indefinitely
+  # If value is a positive number, loop n times
+  repeat: 0
+  
+  # Quality
+  # 1 - 100
+  quality: 100
+  
+  # Delay between frames in ms
+  # If the value is `auto` use the actual recording delays
+  frameDelay: auto
+  
+  # Maximum delay between frames in ms
+  # Ignored if the `frameDelay` isn't set to `auto`
+  # Set to `auto` to prevent limiting the max idle time
+  maxIdleTime: 2000
+  
+  # The surrounding frame box
+  # The `type` can be null, window, floating, or solid`
+  # To hide the title use the value null
+  # Don't forget to add a backgroundColor style with a null as type
+  frameBox:
+    type: floating
+    title: Iola
+    style:
+      border: 0px black solid
+      # boxShadow: none
+      # margin: 0px
+  
+  # Add a watermark image to the rendered gif
+  # You need to specify an absolute path for
+  # the image on your machine or a URL, and you can also
+  # add your own CSS styles
+  watermark:
+    imagePath: null
+    style:
+      position: absolute
+      right: 15px
+      bottom: 15px
+      width: 100px
+      opacity: 0.9
+  
+  # Cursor style can be one of
+  # `block`, `underline`, or `bar`
+  cursorStyle: underline
+  
+  # Font family
+  # You can use any font that is installed on your machine
+  # in CSS-like syntax
+  fontFamily: "Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif"
+  
+  # The size of the font
+  fontSize: 12
+  
+  # The height of lines
+  lineHeight: 1
+  
+  # The spacing between letters
+  letterSpacing: 0
+  
+  # Theme
+  theme:
+    background: "transparent"
+    foreground: "#afafaf"
+    cursor: "#c7c7c7"
+    black: "#232628"
+    red: "#fc4384"
+    green: "#b3e33b"
+    yellow: "#ffa727"
+    blue: "#75dff2"
+    magenta: "#ae89fe"
+    cyan: "#708387"
+    white: "#d5d5d0"
+    brightBlack: "#626566"
+    brightRed: "#ff7fac"
+    brightGreen: "#c8ed71"
+    brightYellow: "#ebdf86"
+    brightBlue: "#75dff2"
+    brightMagenta: "#ae89fe"
+    brightCyan: "#b1c6ca"
+    brightWhite: "#f9f9f4"
+  
+# Records, feel free to edit them
+records:
+  - delay: 100
+    content: "\a\e[01;32miola\e[00m \e[94m\e[01m›\e[00m "
+  - delay: 100
+    content: .
+  - delay: 100
+    content: /
+  - delay: 100
+    content: i
+  - delay: 100
+    content: o
+  - delay: 100
+    content: l
+  - delay: 100
+    content: a
+  - delay: 100
+    content: "\r\n"
+  - delay: 102
+    content: "\r\n\e[?25l\e[36m?\e[39m \e[1mSelect socket type\e[22m \e[90m›\e[39m \e[90m- Use arrow-keys. Return to submit.\e[39m\r\n\e[36m❯\e[39m   \e[36m\e[4mWebSocket\e[39m\e[24m\e[90m\e[39m\r\n    SocketIO\e[90m\e[39m\r\n    Tcp\e[90m\e[39m\r\n    Unix\e[90m\e[39m\r\n"
+  - delay: 1849
+    content: "\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G\e[32m✔\e[39m \e[1mSelect socket type\e[22m \e[90m›\e[39m WebSocket\r\n\e[?25h"
+  - delay: 1018
+    content: "\r\n[2021-06-1 21:34:02] \U0001F504  Connection established:\r\n  { type: \e[32m'WebSocket'\e[39m, address: \e[32m'ws://localhost:8080'\e[39m }\r\n"
+  - delay: 1500
+    content: "\r\n[2021-06-1 21:34:03] \U0001F4E4  Message sent:\r\n  { event: \e[32m'handshake'\e[39m, data: \e[32m'Hi, Server!'\e[39m }\r\n"
+  - delay: 1500
+    content: "\r\n[2021-06-1 21:34:04] \U0001F4E5  Message received:\r\n  { event: \e[32m'handshake'\e[39m, data: \e[32m'Hi, Iola!'\e[39m }\r\n"
+  - delay: 994
+    content: "\r\n[2021-06-1 21:34:06] \U0001F4E5  Message received:\r\n  { event: \e[32m'ping'\e[39m, data: \e[32m'\U0001F3D3 '\e[39m }\r\n"
+  - delay: 2003
+    content: "\r\n[2021-06-1 21:34:08] \U0001F4E5  Message received:\r\n  { event: \e[32m'ping'\e[39m, data: \e[32m'\U0001F3D3 '\e[39m }\r\n"
+  - delay: 2002
+    content: "\r\n[2021-06-1 21:34:10] \U0001F4E5  Message received:\r\n  { event: \e[32m'ping'\e[39m, data: \e[32m'\U0001F3D3 '\e[39m }\r\n"
+  - delay: 2002
+    content: "\r\n[2021-06-1 21:34:12] \U0001F4E5  Message received:\r\n  { event: \e[32m'ping'\e[39m, data: \e[32m'\U0001F3D3 '\e[39m }\r\n"
+  - delay: 1997
+    content: "\r\n[2021-06-1 21:34:14] \U0001F6AB️  Connection closed:\r\n  { code: \e[33m1005\e[39m, reason: \e[32m''\e[39m }\r\n\r\n\e]0;pvarentsov@skynet: ~/Development/github.com/pvarentsov/iola\a\e[01;32miola\e[00m \e[94m\e[01m›\e[00m "
+  - delay: 2002
+    content: "\r\n[2021-06-1 21:34:16] \U0001F4E5  Message received:\r\n  { event: \e[32m'ping'\e[39m, data: \e[32m'\U0001F3D3 '\e[39m }\r\n"
