@@ -2,14 +2,14 @@ import { SocketIOClient } from '../client/socketio.client'
 import { TcpSocketClient } from '../client/tcp-socket.client'
 import { UnixSocketClient } from '../client/unix-socket.client'
 import { WebSocketClient } from '../client/websocket.client'
-import { SocketStore } from '../store/socket.store'
+import { EventStore } from '../store/event.store'
 import { SocketType } from './socket.enum'
-import { ISocketClient, ISocketStore } from './socket.interface'
+import { ISocketClient, ISocketEventStore } from './socket.interface'
 import { SocketConnection } from './socket.type'
 
 export class SocketFactory {
   static createClient(options: SocketConnection): ISocketClient {
-    const store: ISocketStore = new SocketStore()
+    const store: ISocketEventStore = new EventStore()
 
     const factory: Record<SocketType, () => ISocketClient> = {
       [SocketType.SocketIO]: () => new SocketIOClient(),

@@ -3,16 +3,16 @@ import { mapTo, tap, timeout } from 'rxjs/operators'
 import * as WebSocket from 'ws'
 import { MessageUtil } from '../../common'
 import { SocketEventType } from '../contract/socket.enum'
-import { ISocketClient, ISocketStore } from '../contract/socket.interface'
+import { ISocketClient, ISocketEventStore } from '../contract/socket.interface'
 import { SocketConnection, SocketInfo } from '../contract/socket.type'
 
 export class WebSocketClient implements ISocketClient {
   private readonly _info: SocketInfo
-  private readonly _store: ISocketStore
+  private readonly _store: ISocketEventStore
 
   private _client?: WebSocket
 
-  constructor(options: SocketConnection, store: ISocketStore) {
+  constructor(options: SocketConnection, store: ISocketEventStore) {
     this._info = {
       type: options.type,
       address: options.address,
@@ -26,7 +26,7 @@ export class WebSocketClient implements ISocketClient {
     return {...this._info}
   }
 
-  get store(): ISocketStore {
+  get store(): ISocketEventStore {
     return this._store
   }
 
@@ -34,19 +34,19 @@ export class WebSocketClient implements ISocketClient {
     if (!this._info.connected) {
       this._client = new WebSocket(this._info.address)
 
-      this._client.on('message', message => this._store.addEvent({
+      this._client.on('message', message => this._store.add({
         type: SocketEventType.ReceivedMessage,
         date: new Date(),
         message: MessageUtil.unpack(message),
       }))
 
-      this._client.on('error', err => this._store.addEvent({
+      this._client.on('error', err => this._store.add({
         type: SocketEventType.Error,
         date: new Date(),
         message: err.message,
       }))
 
-      this._client.on('close', (code: number, reason: string) => this._store.addEvent({
+      this._client.on('close', (code: number, reason: string) => this._store.add({
         type: SocketEventType.Closed,
         date: new Date(),
         message: {code, reason},
@@ -55,7 +55,7 @@ export class WebSocketClient implements ISocketClient {
       const openStream = fromEvent(this._client, 'open').pipe(
         timeout(3000),
         tap(() => this._info.connected = true),
-        tap(() => this._store.addEvent({
+        tap(() => this._store.add({
           type: SocketEventType.Connected,
           date: new Date(),
           message: this._info,
@@ -71,7 +71,7 @@ export class WebSocketClient implements ISocketClient {
     if (this._client && this._info.connected) {
       this._client.send(MessageUtil.packToStr(message), err => {
         if (!err) {
-          this._store.addEvent({
+          this._store.add({
             type: SocketEventType.SentMessage,
             date: new Date(),
             message: message,

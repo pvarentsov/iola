@@ -12,6 +12,7 @@ export type SocketInfo = {
 }
 
 export type SocketEvent<TMessage = any> = {
+  id?: number
   type: SocketEventType,
   date: Date,
   message: TMessage,

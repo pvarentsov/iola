@@ -1,5 +1,6 @@
 import prompts = require('prompts')
 import * as moment from 'moment'
+import * as chalk from 'chalk'
 import { EnumUtil, MessageUtil } from './core/common'
 import { SocketEvent, SocketEventType, SocketFactory, SocketType } from './core/socket'
 
@@ -36,12 +37,12 @@ export class Demo {
 
     setTimeout(() => {
       client.store
-        .events$()
+        .listen()
         .subscribe(event => console.log(`\n${this.parseEvent(event)}`))
     }, 1000)
   }
 
-  private static parseEvent(event: SocketEvent): string {
+  private static parseEvent(event: Required<SocketEvent>): string {
     const eventName: Record<SocketEventType, string> = {
       [SocketEventType.ReceivedMessage]: '📥 Message received',
       [SocketEventType.SentMessage]: '📤 Message sent',
@@ -50,8 +51,9 @@ export class Demo {
       [SocketEventType.Closed]: '🚫️ Connection closed',
     }
 
-    const time = moment(event.date).format('YYYY-MM-D HH:mm:ss')
-    const title = `[${time}] ${eventName[event.type]}`
+    const id = chalk.bold(`#${event.id.toString().padStart(5, '0')}`)
+    const date = moment(event.date).format('YYYY-MM-D HH:mm:ss')
+    const title = `${id} [${date}] ${eventName[event.type]}`
 
     const message = event.type === SocketEventType.Connected
       ? {type: event.message.type, address: event.message.address}

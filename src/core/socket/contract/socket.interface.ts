@@ -4,14 +4,14 @@ import { SocketEvent, SocketInfo } from './socket.type'
 
 export interface ISocketClient {
   readonly info: SocketInfo
-  readonly store: ISocketStore
+  readonly store: ISocketEventStore
 
   connect(): Promise<void>
   send<TMessage>(message: TMessage): void
 }
 
-export interface ISocketStore {
-  events(by?: {type?: SocketEventType}): SocketEvent[]
-  events$(): Observable<SocketEvent>
-  addEvent(event: SocketEvent): void
+export interface ISocketEventStore {
+  list(by?: {type?: SocketEventType}): Required<SocketEvent>[]
+  listen(): Observable<Required<SocketEvent>>
+  add(event: SocketEvent): void
 }

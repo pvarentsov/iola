@@ -1,4 +1,4 @@
-import { ISocketClient, ISocketStore } from '../contract/socket.interface'
+import { ISocketClient, ISocketEventStore } from '../contract/socket.interface'
 import { SocketInfo } from '../contract/socket.type'
 
 export class TcpSocketClient implements ISocketClient {
@@ -6,8 +6,8 @@ export class TcpSocketClient implements ISocketClient {
     return {} as SocketInfo
   }
 
-  get store(): ISocketStore {
-    return {} as ISocketStore
+  get store(): ISocketEventStore {
+    return {} as ISocketEventStore
   }
 
   async connect(): Promise<void> {
