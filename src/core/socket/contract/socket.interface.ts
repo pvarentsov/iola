@@ -11,7 +11,7 @@ export interface ISocketClient {
 }
 
 export interface ISocketEventStore {
-  list(by?: {type?: SocketEventType}): Required<SocketEvent>[]
+  list(by?: {types?: SocketEventType[]}): Required<SocketEvent>[]
   listen(): Observable<Required<SocketEvent>>
   add(event: SocketEvent): void
 }

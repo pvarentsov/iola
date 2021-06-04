@@ -1,6 +1,7 @@
 import prompts = require('prompts')
-import * as moment from 'moment'
 import * as chalk from 'chalk'
+import * as moment from 'moment'
+import { HttpServer } from './app/http'
 import { EnumUtil, MessageUtil } from './core/common'
 import { SocketEvent, SocketEventType, SocketFactory, SocketType } from './core/socket'
 
@@ -28,7 +29,10 @@ export class Demo {
       address: 'ws://localhost:8080',
     })
 
+    const api = new HttpServer(client)
+
     await client.connect()
+    await api.listen(3000)
 
     client.send({
       event: 'handshake',

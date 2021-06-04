@@ -14,11 +14,11 @@ export class EventStore implements ISocketEventStore {
     this._events$.subscribe()
   }
 
-  list(by?: {type?: SocketEventType}): Required<SocketEvent>[] {
+  list(by?: {types?: SocketEventType[]}): Required<SocketEvent>[] {
     let result = this._events
 
-    if (by?.type) {
-      result = result.filter(item => item.type === by.type)
+    if (by?.types) {
+      result = result.filter(item => by.types!.includes(item.type))
     }
 
     return result
