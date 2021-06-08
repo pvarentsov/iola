@@ -1,17 +1,14 @@
 import prompts = require('prompts')
 import * as chalk from 'chalk'
 import * as moment from 'moment'
-import { HttpServer } from './app/http'
-import { EnumUtil, MessageUtil } from './core/common'
-import { SocketEvent, SocketEventType, SocketFactory, SocketType } from './core/socket'
+import { EnumUtil, MessageUtil } from '../../../core/common'
+import { ISocketClient, SocketEvent, SocketEventType, SocketType } from '../../../core/socket'
 
-export class Demo {
-  static async start(): Promise<void> {
+export class Cli {
+  static async getSocketType(): Promise<SocketType> {
     const socketTypes = EnumUtil.values(SocketType)
 
-    console.log('')
-
-    const response = await prompts({
+    const input = await prompts({
       name: 'type',
       type: 'select',
       message: 'Select socket type',
@@ -19,26 +16,22 @@ export class Demo {
         title: type,
         value: type,
       })),
-      validate: value => socketTypes.includes(value)
-        ? true
-        : `Available types: ${socketTypes}`
     })
 
-    const client = SocketFactory.createClient({
-      type: response.type,
-      address: 'ws://localhost:8080',
+    return input.type
+  }
+
+  static async getAddress(): Promise<string> {
+    const input = await prompts({
+      name: 'address',
+      type: 'text',
+      message: 'Enter socket address',
     })
 
-    const api = new HttpServer(client)
+    return input.address
+  }
 
-    await client.connect()
-    await api.listen(3000)
-
-    client.send({
-      event: 'handshake',
-      data: 'Hi, Server!',
-    })
-
+  static printSocketEvents(client: ISocketClient): void {
     setTimeout(() => {
       client.store
         .listen()
@@ -74,4 +67,3 @@ export class Demo {
     return `${title}:\n${body}`
   }
 }
-
