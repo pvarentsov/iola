@@ -3,6 +3,8 @@ import { Cli } from './app/cli/contract/cli'
 import { SocketFactory } from './core/socket'
 
 (async (): Promise<void> => {
+  Cli.printEmptyLine()
+
   const socketType = await Cli.getSocketType()
   const address = await Cli.getAddress()
 

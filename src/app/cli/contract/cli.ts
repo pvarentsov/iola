@@ -31,6 +31,10 @@ export class Cli {
     return input.address
   }
 
+  static printEmptyLine(): void {
+    console.log()
+  }
+
   static printSocketEvents(client: ISocketClient): void {
     setTimeout(() => {
       client.store
