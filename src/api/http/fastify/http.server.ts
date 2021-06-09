@@ -1,8 +1,8 @@
 import { FastifyInstance } from 'fastify'
 import { ISocketClient } from '../../../core/socket'
-import { IApiRouter, IApiServer } from '../contract/api.interface'
+import { IApiRouter, IApiServer } from '../contract/http.interface'
 
-export class ApiServer implements IApiServer {
+export class HttpServer implements IApiServer {
   private readonly adapter: FastifyInstance
   private readonly router: IApiRouter
   private readonly client: ISocketClient

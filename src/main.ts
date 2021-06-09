@@ -1,5 +1,5 @@
-import { ApiFactory } from './app/api'
-import { Cli } from './app/cli/contract/cli'
+import { Cli } from './api/cli'
+import { HttpFactory } from './api/http'
 import { SocketFactory } from './core/socket'
 
 (async (): Promise<void> => {
@@ -13,7 +13,7 @@ import { SocketFactory } from './core/socket'
     address: address,
   })
 
-  const server = ApiFactory.createServer(client)
+  const server = HttpFactory.createServer(client)
 
   await client.connect()
   await server.listen(3000)
