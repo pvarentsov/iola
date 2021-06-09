@@ -1,13 +1,13 @@
 import { FastifyInstance } from 'fastify'
 import { ISocketClient } from '../../../core/socket'
-import { IApiRouter, IApiServer } from '../contract/http.interface'
+import { IHttpRouter, IHttpServer } from '../contract/http.interface'
 
-export class HttpServer implements IApiServer {
+export class HttpServer implements IHttpServer {
   private readonly adapter: FastifyInstance
-  private readonly router: IApiRouter
+  private readonly router: IHttpRouter
   private readonly client: ISocketClient
 
-  constructor(adapter: FastifyInstance, router: IApiRouter, client: ISocketClient) {
+  constructor(adapter: FastifyInstance, router: IHttpRouter, client: ISocketClient) {
     this.adapter = adapter
     this.router = router
     this.client = client

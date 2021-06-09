@@ -1,7 +1,7 @@
-export interface IApiServer {
+export interface IHttpServer {
   listen(port: number): Promise<void>
 }
 
-export interface IApiRouter {
+export interface IHttpRouter {
   init(): Promise<void>
 }

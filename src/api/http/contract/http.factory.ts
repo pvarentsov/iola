@@ -2,10 +2,10 @@ import Fastify from 'fastify'
 import { ISocketClient } from '../../../core/socket'
 import { HttpRouter } from '../fastify/http.router'
 import { HttpServer } from '../fastify/http.server'
-import { IApiServer } from './http.interface'
+import { IHttpServer } from './http.interface'
 
 export class HttpFactory {
-  static createServer(client: ISocketClient): IApiServer {
+  static createServer(client: ISocketClient): IHttpServer {
     const adapter = Fastify({})
 
     const router = new HttpRouter(adapter, client)
