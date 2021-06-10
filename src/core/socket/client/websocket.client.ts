@@ -1,7 +1,7 @@
 import { firstValueFrom, fromEvent } from 'rxjs'
 import { mapTo, tap, timeout } from 'rxjs/operators'
 import * as WebSocket from 'ws'
-import { MessageFormat, MessageUtil } from '../../common'
+import { AnyObject, MessageFormat, MessageUtil } from '../../common'
 import { SocketEventType } from '../contract/socket.enum'
 import { ISocketClient, ISocketEventStore } from '../contract/socket.interface'
 import { SocketConnection, SocketInfo } from '../contract/socket.type'
@@ -68,15 +68,23 @@ export class WebSocketClient implements ISocketClient {
   }
 
   send<TMessage>(message: TMessage, format: MessageFormat): void {
-    const info = MessageUtil.pack(message, format)
+    const packed = MessageUtil.pack(message, format)
+    const eventInfo: AnyObject = {...packed}
+
+    if (format === MessageFormat.ByteArray) {
+      eventInfo.data = Array.from(packed.data as Buffer)
+    }
+    if (format === MessageFormat.JSON && typeof message === 'object') {
+      eventInfo.data = message
+    }
 
     if (this._client && this._info.connected) {
-      this._client.send(info.message, err => {
+      this._client.send(packed.data, err => {
         if (!err) {
           this._store.add({
             type: SocketEventType.SentMessage,
             date: new Date(),
-            message: info,
+            message: eventInfo,
           })
         }
       })

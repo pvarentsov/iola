@@ -8,7 +8,7 @@ export interface ISocketClient {
   readonly store: ISocketEventStore
 
   connect(): Promise<void>
-  send<TMessage>(message: TMessage, format: MessageFormat): void
+  send<TMessage>(message: TMessage, format: MessageFormat, event?: string): void
 }
 
 export interface ISocketEventStore {

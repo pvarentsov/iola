@@ -6,21 +6,19 @@ export class MessageUtil {
   static pack<TMessage>(message: TMessage, format: MessageFormat): PackedMessageInfo {
     const info: PackedMessageInfo = {
       format: format,
-      message: ''
+      data: ''
     }
 
     if (format === MessageFormat.ByteArray) {
-      info.message = Buffer
-        .from(info.message as any)
-
+      info.data = Buffer.from(message as any)
       return info
     }
 
     if (typeof message === 'string') {
-      info.message = message
+      info.data = message
     }
     else {
-      info.message = JSON.stringify(message) + ''
+      info.data = JSON.stringify(message) + ''
     }
 
     return info

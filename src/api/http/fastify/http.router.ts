@@ -1,6 +1,7 @@
 import Ajv from 'ajv'
 import { FastifyInstance } from 'fastify'
 import { FastifyValidationResult } from 'fastify/types/schema'
+import { MessageFormat } from '../../../core/common'
 import { ISocketClient, SocketEventType } from '../../../core/socket'
 import { IHttpRouter } from '../contract/http.interface'
 import {
@@ -8,6 +9,8 @@ import {
   GetMessageListRouteOptions,
   GetMessageRequest,
   GetMessageRouteOptions,
+  SendMessageRequest,
+  SendMessageRouteOptions,
 } from './http.schema'
 
 export class HttpRouter implements IHttpRouter {
@@ -28,6 +31,7 @@ export class HttpRouter implements IHttpRouter {
   async init(): Promise<void> {
     this.getMessage()
     this.getMessages()
+    this.sendMessages()
 
     this.adapter.setValidatorCompiler(data => this
       .validator
@@ -47,10 +51,10 @@ export class HttpRouter implements IHttpRouter {
 
       if (message) {
         reply.send(message)
+        return
       }
-      else {
-        reply.status(404).send({})
-      }
+
+      reply.status(404).send({})
     })
   }
 
@@ -70,6 +74,34 @@ export class HttpRouter implements IHttpRouter {
         .list({types})
 
       reply.send(messages)
+    })
+  }
+
+  private sendMessages(): void {
+    this.adapter.post<SendMessageRequest>('/messages', SendMessageRouteOptions, (request, reply) => {
+      const {data, format, event} = request.body
+
+      if (format === MessageFormat.ByteArray) {
+        const isByteArray = Array.isArray(data) && data.every(v => typeof v === 'number')
+
+        if (!isByteArray) {
+          reply.status(400).send({
+            statusCode: 400,
+            message: 'Bad Request',
+            error: 'data must be an integer array'
+          })
+
+          return
+        }
+      }
+
+      this.client.send(
+        data,
+        format,
+        event,
+      )
+
+      reply.send({})
     })
   }
 }

@@ -6,10 +6,10 @@ export type UnpackedMessage = string | AnyObject | AnyObject[] | Uint8Array
 
 export type UnpackedMessageInfo = {
   format: MessageFormat
-  message: UnpackedMessage
+  data: UnpackedMessage
 }
 
 export type PackedMessageInfo = {
   format: MessageFormat
-  message: PackedMessage
+  data: PackedMessage
 }
