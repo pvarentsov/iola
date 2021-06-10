@@ -52,7 +52,7 @@ export class Cli {
       [SocketEventType.Closed]: '🚫️ Connection closed',
     }
 
-    const id = chalk.bold(`#${event.id.toString().padStart(5, '0')}`)
+    const id = chalk.bold(event.id.toString().padStart(5, '0'))
     const date = moment(event.date).format('YYYY-MM-D HH:mm:ss')
     const title = `${id} [${date}] ${eventName[event.type]}`
 
