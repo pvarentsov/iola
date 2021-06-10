@@ -17,7 +17,7 @@ export class EventStore implements ISocketEventStore {
   list(by?: {types?: SocketEventType[]}): Required<SocketEvent>[] {
     let result = this._events
 
-    if (by?.types) {
+    if (by?.types && by.types.length > 0) {
       result = result.filter(item => by.types!.includes(item.type))
     }
 
