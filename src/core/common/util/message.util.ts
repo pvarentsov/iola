@@ -1,54 +1,66 @@
 import { inspect } from 'util'
-import { Optional } from '../type/common.type'
-import { RawMessage, UnpackedMessage } from '../type/message.type'
+import { MessageFormat } from '../enum/message.enum'
+import { PackedMessage, PackedMessageInfo, UnpackedMessage } from '../type/message.type'
 
 export class MessageUtil {
-  static packToStr<TMessage>(message: TMessage): string {
+  static pack<TMessage>(message: TMessage, format: MessageFormat): PackedMessageInfo {
+    const info: PackedMessageInfo = {
+      format: format,
+      message: ''
+    }
+
+    if (format === MessageFormat.ByteArray) {
+      info.message = Buffer
+        .from(info.message as any)
+
+      return info
+    }
+
     if (typeof message === 'string') {
-      return message
+      info.message = message
+    }
+    else {
+      info.message = JSON.stringify(message) + ''
     }
 
-    return JSON.stringify(message) || message + ''
+    return info
   }
 
-  static packToBuffer(message: string): Buffer {
-    return Buffer.from(message)
-  }
-
-  static unpack(rawMessage: RawMessage): UnpackedMessage {
-    let asString: Optional<string>
-
-    if (typeof rawMessage === 'string') {
-      asString = rawMessage
-    }
-    if (rawMessage instanceof Buffer) {
-      asString = rawMessage.toString()
-    }
-    if (rawMessage instanceof ArrayBuffer) {
-      asString = Buffer.from(rawMessage).toString()
-    }
-    if (Array.isArray(rawMessage)) {
-      asString = Buffer.concat(rawMessage).toString()
+  static unpack(message: PackedMessage): UnpackedMessage {
+    const info: UnpackedMessage = {
+      format: MessageFormat.String,
+      message: ''
     }
 
-    let result = typeof asString === 'string'
-      ? asString
-      : JSON.stringify(rawMessage)
+    if (typeof message === 'string') {
+      if (message.includes('{') || message.includes('[')) {
+        try {
+          info.message = JSON.parse(message)
+          info.format = MessageFormat.JSON
+        } catch (error) {}
+      }
+      else {
+        info.message = message
+        info.format = MessageFormat.String
+      }
+    }
+    else {
+      info.message = Array.from(new Uint8Array(message as Buffer))
+      info.format = MessageFormat.ByteArray
+    }
 
-    try {
-      result = JSON.parse(result)
-    } catch (error) {}
-
-    return result
+    return info
   }
 
   static humanize(message: UnpackedMessage): string {
     if (typeof message === 'string') {
       return message
     }
+
     return inspect(message, {
       colors: true,
       compact: true,
+      depth: null,
     })
   }
 }

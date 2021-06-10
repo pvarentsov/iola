@@ -1,12 +1,12 @@
 import { Cli } from './api/cli'
 import { HttpFactory } from './api/http'
-import { SocketFactory } from './core/socket'
+import { SocketFactory, SocketType } from './core/socket'
 
 (async (): Promise<void> => {
   Cli.printEmptyLine()
 
-  const socketType = await Cli.getSocketType()
-  const address = await Cli.getAddress()
+  const socketType = SocketType.WebSocket // await Cli.getSocketType()
+  const address = 'ws://localhost:8080' // await Cli.getAddress()
 
   const client = SocketFactory.createClient({
     type: socketType,
