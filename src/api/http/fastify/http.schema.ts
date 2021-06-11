@@ -14,12 +14,12 @@ export const Message = S
   .prop('date', S.string())
   .prop('message', S.object()
     .prop('format', S.enum(EnumUtil.values(MessageFormat)))
-    .prop('message', S.oneOf([
+    .prop('data', S.oneOf([
       S.string(),
       S.number(),
       S.boolean(),
       S.array().additionalItems(true),
-      S.object().additionalProperties(true)
+      S.object().additionalProperties(true),
     ]))
   )
 
