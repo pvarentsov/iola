@@ -1,8 +1,8 @@
 import prompts = require('prompts')
+import { EnumUtil, MessageUtil } from '@iola/core/common'
+import { ISocketClient, SocketEvent, SocketEventType, SocketType } from '@iola/core/socket'
 import * as chalk from 'chalk'
 import * as moment from 'moment'
-import { EnumUtil, MessageUtil } from '../../../core/common'
-import { ISocketClient, SocketEvent, SocketEventType, SocketType } from '../../../core/socket'
 
 export class Cli {
   static async getSocketType(): Promise<SocketType> {

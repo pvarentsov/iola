@@ -1,5 +1,4 @@
-import { ISocketClient, ISocketEventStore } from '../contract/socket.interface'
-import { SocketInfo } from '../contract/socket.type'
+import { ISocketClient, ISocketEventStore, SocketInfo } from '@iola/core/socket'
 
 export class TcpSocketClient implements ISocketClient {
   get info(): SocketInfo {

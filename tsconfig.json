@@ -11,18 +11,27 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2017",
+    "target": "ES2020",
     "sourceMap": true,
     "outDir": "./dist",
+    "rootDirs": [
+      "./src"
+    ],
     "baseUrl": "./",
     "incremental": true,
+    "paths": {
+      "@iola/core/*": ["src/core/*"],
+      "@iola/core": ["src/core"],
+      "@iola/api/*": ["src/api/*"],
+      "@iola/api": ["src/api"]
+    },
     "types": [
       "reflect-metadata",
       "jest",
       "node"
     ],
     "lib": [
-      "ES2017"
+      "ES2020"
     ]
   },
   "include": ["./src", "./test"]

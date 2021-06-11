@@ -1,4 +1,4 @@
-import { SocketEventType, SocketType } from './socket.enum'
+import { SocketEventType, SocketType } from '@iola/core/socket'
 
 export type SocketConnection = {
   type: SocketType,

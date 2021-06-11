@@ -1,5 +1,4 @@
-import { MessageFormat } from '../enum/message.enum'
-import { AnyObject } from './object.type'
+import { AnyObject, MessageFormat } from '@iola/core/common'
 
 export type PackedMessage = string | Buffer | ArrayBuffer | Buffer[]
 export type UnpackedMessage = string | AnyObject | AnyObject[] | Uint8Array

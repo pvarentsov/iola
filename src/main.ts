@@ -1,6 +1,8 @@
-import { Cli } from './api/cli'
-import { HttpFactory } from './api/http'
-import { SocketFactory, SocketType } from './core/socket'
+import 'module-alias/register'
+
+import { Cli } from '@iola/api/cli'
+import { HttpFactory } from '@iola/api/http'
+import { SocketFactory, SocketType } from '@iola/core/socket'
 
 (async (): Promise<void> => {
   Cli.printEmptyLine()

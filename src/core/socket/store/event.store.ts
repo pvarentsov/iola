@@ -1,7 +1,5 @@
+import { ISocketEventStore, SocketEvent, SocketEventType } from '@iola/core/socket'
 import { Observable, ReplaySubject, Subject } from 'rxjs'
-import { SocketEventType } from '../contract/socket.enum'
-import { ISocketEventStore } from '../contract/socket.interface'
-import { SocketEvent } from '../contract/socket.type'
 
 export class EventStore implements ISocketEventStore {
   private readonly _events: Required<SocketEvent>[]

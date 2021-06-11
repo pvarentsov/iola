@@ -1,6 +1,6 @@
+import { IHttpRouter, IHttpServer } from '@iola/api/http'
+import { ISocketClient } from '@iola/core/socket'
 import { FastifyInstance } from 'fastify'
-import { ISocketClient } from '../../../core/socket'
-import { IHttpRouter, IHttpServer } from '../contract/http.interface'
 
 export class HttpServer implements IHttpServer {
   private readonly adapter: FastifyInstance

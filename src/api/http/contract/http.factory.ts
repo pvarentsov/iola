@@ -1,8 +1,8 @@
+import { IHttpServer } from '@iola/api/http'
+import { HttpRouter } from '@iola/api/http/fastify/http.router'
+import { HttpServer } from '@iola/api/http/fastify/http.server'
+import { ISocketClient } from '@iola/core/socket'
 import Fastify from 'fastify'
-import { ISocketClient } from '../../../core/socket'
-import { HttpRouter } from '../fastify/http.router'
-import { HttpServer } from '../fastify/http.server'
-import { IHttpServer } from './http.interface'
 
 export class HttpFactory {
   static createServer(client: ISocketClient): IHttpServer {

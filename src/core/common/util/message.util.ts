@@ -1,6 +1,5 @@
+import { MessageFormat, PackedMessage, PackedMessageInfo, UnpackedMessage } from '@iola/core/common'
 import { inspect } from 'util'
-import { MessageFormat } from '../enum/message.enum'
-import { PackedMessage, PackedMessageInfo, UnpackedMessage } from '../type/message.type'
 
 export class MessageUtil {
   static packToString<TMessage>(message: TMessage): PackedMessageInfo {

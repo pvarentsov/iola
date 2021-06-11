@@ -1,8 +1,8 @@
-export * from './enum/message.enum'
+export * from '@iola/core/common/enum/message.enum'
 
-export * from './type/common.type'
-export * from './type/message.type'
-export * from './type/object.type'
+export * from '@iola/core/common/type/common.type'
+export * from '@iola/core/common/type/message.type'
+export * from '@iola/core/common/type/object.type'
 
-export * from './util/enum.util'
-export * from './util/message.util'
+export * from '@iola/core/common/util/enum.util'
+export * from '@iola/core/common/util/message.util'
