@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs'
-import { MessageFormat } from '../../common'
 import { SocketEventType } from './socket.enum'
 import { SocketEvent, SocketInfo } from './socket.type'
 
@@ -8,7 +7,8 @@ export interface ISocketClient {
   readonly store: ISocketEventStore
 
   connect(): Promise<void>
-  send<TMessage>(message: TMessage, format: MessageFormat, event?: string): void
+  sendData<TData>(data: TData, event?: string): void
+  sendBytes(bytes: number[], event?: string): void
 }
 
 export interface ISocketEventStore {

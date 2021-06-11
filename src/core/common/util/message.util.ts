@@ -3,22 +3,23 @@ import { MessageFormat } from '../enum/message.enum'
 import { PackedMessage, PackedMessageInfo, UnpackedMessage } from '../type/message.type'
 
 export class MessageUtil {
-  static pack<TMessage>(message: TMessage, format: MessageFormat): PackedMessageInfo {
+  static packToString<TMessage>(message: TMessage): PackedMessageInfo {
     const info: PackedMessageInfo = {
-      format: format,
-      data: ''
+      format: MessageFormat.String,
+      data: JSON.stringify(message) + ''
     }
 
-    if (format === MessageFormat.ByteArray) {
-      info.data = Buffer.from(message as any)
-      return info
+    if (typeof message === 'object' && message !== null) {
+      info.format = MessageFormat.JSON
     }
 
-    if (typeof message === 'string') {
-      info.data = message
-    }
-    else {
-      info.data = JSON.stringify(message) + ''
+    return info
+  }
+
+  static packToBuffer(message: string | number[]): PackedMessageInfo {
+    const info: PackedMessageInfo = {
+      format: MessageFormat.ByteArray,
+      data: Buffer.from(message)
     }
 
     return info

@@ -14,8 +14,13 @@ export class SocketIOClient implements ISocketClient {
     return undefined
   }
 
-  send<TMessage>(message: TMessage): void {
-    console.log(message)
+  sendData<TData>(data: TData): void {
+    console.log(data)
+    return undefined
+  }
+
+  sendBytes(bytes: number[]): void {
+    console.log(bytes)
     return undefined
   }
 }

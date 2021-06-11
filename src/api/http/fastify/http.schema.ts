@@ -38,17 +38,22 @@ export const GetMessageList = S
     S.array().items(S.enum(EnumUtil.values(SocketEventType))),
   ]))
 
-export const SendMessage = S
-  .object()
-  .prop('format', S.enum(EnumUtil.values(MessageFormat)).required())
-  .prop('event', S.string().description('Used only for SocketIO client. Ignored for other client types'))
-  .prop('data', S.oneOf([
-    S.string(),
-    S.number(),
-    S.boolean(),
-    S.array(),
-    S.object(),
-  ]).required())
+export const SendMessage = S.oneOf([
+  S.object()
+    .prop('event', S.string().description('Used only for SocketIO client. Ignored for other client types'))
+    .prop('data', S.oneOf([
+      S.string(),
+      S.number(),
+      S.boolean(),
+      S.array(),
+      S.object(),
+      S.null(),
+    ]).required()),
+
+  S.object()
+    .prop('event', S.string().description('Used only for SocketIO client. Ignored for other client types'))
+    .prop('bytes', S.array().items(S.number().minimum(0).maximum(255)).required())
+])
 
 // Route options
 
@@ -95,9 +100,15 @@ export interface GetMessageListRequest extends RequestGenericInterface {
 }
 
 export interface SendMessageRequest extends RequestGenericInterface {
-  Body: {
-    format: MessageFormat,
-    data: any,
-    event?: string,
-  }
+  Body: SendMessageBodyWithData | SendMessageBodyWithBytes
+}
+
+export interface SendMessageBodyWithData {
+  data: any,
+  event?: string,
+}
+
+export interface SendMessageBodyWithBytes {
+  bytes: number[],
+  event?: string,
 }

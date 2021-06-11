@@ -1,7 +1,7 @@
 import { firstValueFrom, fromEvent } from 'rxjs'
 import { mapTo, tap, timeout } from 'rxjs/operators'
 import * as WebSocket from 'ws'
-import { AnyObject, MessageFormat, MessageUtil } from '../../common'
+import { AnyObject, MessageUtil } from '../../common'
 import { SocketEventType } from '../contract/socket.enum'
 import { ISocketClient, ISocketEventStore } from '../contract/socket.interface'
 import { SocketConnection, SocketInfo } from '../contract/socket.type'
@@ -67,27 +67,41 @@ export class WebSocketClient implements ISocketClient {
     }
   }
 
-  send<TMessage>(message: TMessage, format: MessageFormat): void {
-    const packed = MessageUtil.pack(message, format)
-    const eventInfo: AnyObject = {...packed}
-
-    if (format === MessageFormat.ByteArray) {
-      eventInfo.data = Array.from(packed.data as Buffer)
-    }
-    if (format === MessageFormat.JSON && typeof message === 'object') {
-      eventInfo.data = message
+  sendData<TData>(data: TData): void {
+    const packed = MessageUtil.packToString(data)
+    const eventMessage: AnyObject = {
+      format: packed.format,
+      data: packed.data
     }
 
-    if (this._client && this._info.connected) {
-      this._client.send(packed.data, err => {
-        if (!err) {
-          this._store.add({
-            type: SocketEventType.SentMessage,
-            date: new Date(),
-            message: eventInfo,
-          })
+    if (typeof data === 'object' && data !== null) {
+      eventMessage.data = data
+    }
+
+    this.send(packed.data, eventMessage)
+  }
+
+  sendBytes(bytes: number[]): void {
+    const packed = MessageUtil.packToBuffer(bytes)
+    const eventMessage = {
+      format: packed.format,
+      data: bytes
+    }
+
+    this.send(packed.data, eventMessage)
+  }
+
+  private send<TData, TMessage>(data: TData, eventMessage: TMessage): void {
+    this._client && this._info.connected && this._client.send(data, err => {
+      if (!err) {
+        const event = {
+          type: SocketEventType.SentMessage,
+          date: new Date(),
+          message: eventMessage,
         }
-      })
-    }
+
+        this._store.add(event)
+      }
+    })
   }
 }
