@@ -5,20 +5,26 @@ import { HttpFactory } from '@iola/api/http'
 import { SocketFactory, SocketType } from '@iola/core/socket'
 
 (async (): Promise<void> => {
-  Cli.printEmptyLine()
+  try {
+    Cli.printEmptyLine()
 
-  const socketType = SocketType.WebSocket // await Cli.getSocketType()
-  const address = 'ws://localhost:8080' // await Cli.getAddress()
+    const socketType = SocketType.WebSocket // await Cli.getSocketType()
+    const address = 'ws://localhost:8080' // await Cli.getAddress()
 
-  const client = SocketFactory.createClient({
-    type: socketType,
-    address: address,
-  })
+    const client = SocketFactory.createClient({
+      type: socketType,
+      address: address,
+    })
 
-  const server = HttpFactory.createServer(client)
+    const server = HttpFactory.createServer(client)
 
-  await client.connect()
-  await server.listen(3000)
+    await client.connect()
+    await server.listen(3000)
 
-  Cli.printSocketEvents(client)
+    Cli.printSocketEvents(client)
+  }
+  catch (error) {
+    console.error(error.message)
+    process.exit(1)
+  }
 })()
