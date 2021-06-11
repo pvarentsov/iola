@@ -1,8 +1,9 @@
-import { EnumUtil } from '@iola/core/common'
-import { SocketEventType } from '@iola/core/socket'
 import { RequestGenericInterface } from 'fastify'
 import { RouteShorthandOptions } from 'fastify/types/route'
 import S from 'fluent-json-schema'
+
+import { EnumUtil } from '@iola/core/common'
+import { SocketEventType } from '@iola/core/socket'
 
 // Schemas
 

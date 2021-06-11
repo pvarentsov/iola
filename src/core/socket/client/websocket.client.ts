@@ -1,8 +1,9 @@
-import { AnyObject, MessageUtil } from '@iola/core/common'
-import { ISocketClient, ISocketEventStore, SocketConnection, SocketEventType, SocketInfo } from '@iola/core/socket'
 import { firstValueFrom, fromEvent } from 'rxjs'
 import { mapTo, tap, timeout } from 'rxjs/operators'
 import * as WebSocket from 'ws'
+
+import { AnyObject, MessageUtil } from '@iola/core/common'
+import { ISocketClient, ISocketEventStore, SocketConnection, SocketEventType, SocketInfo } from '@iola/core/socket'
 
 export class WebSocketClient implements ISocketClient {
   private readonly _info: SocketInfo

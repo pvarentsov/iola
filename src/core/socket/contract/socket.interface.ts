@@ -1,5 +1,5 @@
-import { SocketEvent, SocketEventType, SocketInfo } from '@iola/core/socket'
 import { Observable } from 'rxjs'
+import { SocketEvent, SocketEventType, SocketInfo } from '@iola/core/socket'
 
 export interface ISocketClient {
   readonly info: SocketInfo

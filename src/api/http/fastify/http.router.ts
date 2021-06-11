@@ -1,3 +1,7 @@
+import Ajv from 'ajv'
+import { FastifyInstance } from 'fastify'
+import { FastifyValidationResult } from 'fastify/types/schema'
+
 import { IHttpRouter } from '@iola/api/http'
 import {
   GetMessageListRequest,
@@ -10,9 +14,6 @@ import {
   SendMessageRouteOptions,
 } from '@iola/api/http/fastify/http.schema'
 import { ISocketClient, SocketEventType } from '@iola/core/socket'
-import Ajv from 'ajv'
-import { FastifyInstance } from 'fastify'
-import { FastifyValidationResult } from 'fastify/types/schema'
 
 export class HttpRouter implements IHttpRouter {
   private readonly adapter: FastifyInstance

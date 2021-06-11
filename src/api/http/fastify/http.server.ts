@@ -1,6 +1,7 @@
+import { FastifyInstance } from 'fastify'
+
 import { IHttpRouter, IHttpServer } from '@iola/api/http'
 import { ISocketClient } from '@iola/core/socket'
-import { FastifyInstance } from 'fastify'
 
 export class HttpServer implements IHttpServer {
   private readonly adapter: FastifyInstance
