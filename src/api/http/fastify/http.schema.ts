@@ -13,6 +13,7 @@ export const Message = S
   .prop('type', S.enum([SocketEventType.ReceivedMessage, SocketEventType.SentMessage]))
   .prop('date', S.string())
   .prop('message', S.oneOf([
+    S.null(),
     S.string(),
     S.number(),
     S.boolean(),
