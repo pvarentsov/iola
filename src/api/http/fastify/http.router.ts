@@ -33,7 +33,7 @@ export class HttpRouter implements IHttpRouter {
   async init(): Promise<void> {
     this.getMessage()
     this.getMessages()
-    this.sendMessages()
+    this.sendMessage()
 
     this.adapter.setValidatorCompiler(data => this
       .validator
@@ -79,12 +79,22 @@ export class HttpRouter implements IHttpRouter {
     })
   }
 
-  private sendMessages(): void {
+  private sendMessage(): void {
     this.adapter.post<SendMessageRequest>('/messages', SendMessageRouteOptions, (request, reply) => {
       const body = request.body
 
       const data = (body as SendMessageBodyWithData).data
       const bytes = (body as SendMessageBodyWithBytes).bytes
+
+      if (data !== undefined && bytes !== undefined) {
+        reply.status(400).send({
+          statusCode: 400,
+          error: 'Bad Request',
+          message: 'body must match exactly one schema in oneOf'
+        })
+
+        return
+      }
 
       if (data !== undefined) {
         this.client.sendData(data)
