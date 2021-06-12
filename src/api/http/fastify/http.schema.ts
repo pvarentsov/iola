@@ -17,7 +17,7 @@ export const Message = S
     S.string(),
     S.number(),
     S.boolean(),
-    S.array().additionalItems(true),
+    S.array().items(S.raw({})).additionalItems(true),
     S.object().additionalProperties(true),
   ]).raw({
     nullable: true
@@ -42,7 +42,7 @@ export const SendMessage = S.oneOf([
       S.string(),
       S.number(),
       S.boolean(),
-      S.array(),
+      S.array().items(S.raw({})),
       S.object(),
     ]).required()),
 
