@@ -17,7 +17,7 @@ export class CliInteractive implements ICliInteractive {
 
     console.log()
     console.log(`${chalk.bold('API server:')} ${address}`)
-    console.log(`${chalk.bold('API docs  :')} ${address}/docs.`)
+    console.log(`${chalk.bold('API docs  :')} ${address}/docs`)
   }
 
   async listenClient(client: ISocketClient): Promise<void> {

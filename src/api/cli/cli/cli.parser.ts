@@ -35,10 +35,10 @@ export class CliParser implements ICliParser {
       exit = true
       console.log('error: required option \'-sa, --socket-address <address>\' not specified')
     }
-    if (!EnumUtil.values(SocketType).includes(args.socketType)) {
+    if (args.socketType !== undefined && !EnumUtil.values(SocketType).includes(args.socketType)) {
       exit = true
       const values = this.join(EnumUtil.values(SocketType))
-      console.log(`error: option '-sa, --socket-address <address>' must be one of the following values: ${values}`)
+      console.log(`error: option '-st, --socket-type <type>' must be one of the following values: ${values}`)
     }
     if (isNaN(apiPort)) {
       exit = true
