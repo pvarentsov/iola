@@ -1,5 +1,6 @@
 import Ajv from 'ajv'
 import { FastifyInstance } from 'fastify'
+import swagger from 'fastify-swagger'
 import { FastifyValidationResult } from 'fastify/types/schema'
 
 import { IHttpRouter } from '@iola/api/http'
@@ -27,18 +28,39 @@ export class HttpRouter implements IHttpRouter {
     this.validator = new Ajv({
       strict: true,
       allErrors: true,
+      coerceTypes: 'array',
     })
   }
 
   async init(): Promise<void> {
-    this.getMessage()
-    this.getMessages()
-    this.sendMessage()
+    this.adapter.register(swagger, {
+      exposeRoute: true,
+      routePrefix: '/docs',
+      openapi: {
+        info: {
+          title: 'iola',
+          description: 'Rest API for iola socket client',
+          version: '1.0.0'
+        }
+      }
+    })
 
     this.adapter.setValidatorCompiler(data => this
       .validator
       .compile(data.schema) as FastifyValidationResult
     )
+
+    this.getMessage()
+    this.getMessages()
+    this.sendMessage()
+
+    this.adapter.ready(err => {
+      if (err) {
+        throw err
+      }
+
+      this.adapter.swagger()
+    })
   }
 
   private getMessage(): void {

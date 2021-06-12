@@ -11,16 +11,17 @@ export const Message = S
   .object()
   .title('Message')
   .prop('id', S.number())
-  .prop('type', S.enum([SocketEventType.ReceivedMessage, SocketEventType.SentMessage]))
+  .prop('type', S.string().enum([SocketEventType.ReceivedMessage, SocketEventType.SentMessage]))
   .prop('date', S.string())
-  .prop('message', S.oneOf([
-    S.null(),
+  .prop('message', S.anyOf([
     S.string(),
     S.number(),
     S.boolean(),
     S.array().additionalItems(true),
     S.object().additionalProperties(true),
-  ]))
+  ]).raw({
+    nullable: true
+  }))
 
 export const MessageList = S
   .array()
@@ -32,21 +33,17 @@ export const GetMessage = S
 
 export const GetMessageList = S
   .object()
-  .prop('type', S.oneOf([
-    S.enum(EnumUtil.values(SocketEventType)),
-    S.array().items(S.enum(EnumUtil.values(SocketEventType))),
-  ]))
+  .prop('type', S.array().items(S.string().enum(EnumUtil.values(SocketEventType))))
 
 export const SendMessage = S.oneOf([
   S.object()
     .prop('event', S.string().description('Used only for SocketIO client. Ignored for other client types'))
-    .prop('data', S.oneOf([
+    .prop('data', S.anyOf([
       S.string(),
       S.number(),
       S.boolean(),
       S.array(),
       S.object(),
-      S.null(),
     ]).required()),
 
   S.object()
@@ -61,7 +58,6 @@ export const GetMessageRouteOptions: RouteShorthandOptions = {
     params: GetMessage,
     response: {
       200: Message,
-      404: S.object(),
     },
   }
 }

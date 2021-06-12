@@ -54,6 +54,7 @@
     "chalk": "4.1.1",
     "commander": "7.2.0",
     "fastify": "3.17.0",
+    "fastify-swagger": "4.7.0",
     "fluent-json-schema": "3.0.0",
     "module-alias": "2.2.2",
     "moment": "2.29.1",
