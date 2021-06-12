@@ -3,8 +3,7 @@ import { IHttpServer } from '@iola/api/http'
 import { ISocketClient } from '@iola/core/socket'
 
 export interface ICliInteractive {
-  listenServer(server: IHttpServer): Promise<void>
-  listenClient(client: ISocketClient): Promise<void>
+  listen(server: IHttpServer, client: ISocketClient): Promise<void>
 }
 
 export interface ICliParser {

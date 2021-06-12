@@ -15,11 +15,12 @@ import { SocketFactory } from '@iola/core/socket'
       address: config.socketAddress,
     })
 
-    const cliInteractive = CliFactory.createInteractive(config)
-    const server = HttpFactory.createServer(client)
+    const server = HttpFactory
+      .createServer(client)
 
-    await cliInteractive.listenServer(server)
-    await cliInteractive.listenClient(client)
+    await CliFactory
+      .createInteractive(config)
+      .listen(server, client)
   }
   catch (error) {
     console.error(error.message)

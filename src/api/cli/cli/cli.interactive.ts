@@ -1,9 +1,9 @@
-import { IHttpServer } from '@iola/api/http'
 import * as chalk from 'chalk'
 import * as moment from 'moment'
 import { EOL } from 'os'
 
 import { CliConfig, ICliInteractive } from '@iola/api/cli'
+import { IHttpServer } from '@iola/api/http'
 import { MessageUtil } from '@iola/core/common'
 import { ISocketClient, SocketEvent, SocketEventType } from '@iola/core/socket'
 
@@ -12,16 +12,15 @@ export class CliInteractive implements ICliInteractive {
     private readonly config: CliConfig
   ) {}
 
-  async listenServer(server: IHttpServer): Promise<void> {
-    const address = await server.listen(this.config.apiHost, this.config.apiPort)
+  async listen(server: IHttpServer, client: ISocketClient): Promise<void> {
+    await client.connect()
+
+    const address = await server
+      .listen(this.config.apiHost, this.config.apiPort)
 
     console.log()
     console.log(`${chalk.bold('API server:')} ${address}`)
     console.log(`${chalk.bold('API docs  :')} ${address}/docs`)
-  }
-
-  async listenClient(client: ISocketClient): Promise<void> {
-    await client.connect()
 
     setTimeout(() => {
       client.store
