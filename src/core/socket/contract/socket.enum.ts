@@ -1,8 +1,8 @@
 export enum SocketType {
-  WebSocket = 'WebSocket',
-  SocketIO = 'SocketIO',
-  Tcp = 'Tcp',
-  Unix = 'Unix',
+  WebSocket = 'websocket',
+  SocketIO = 'socketio',
+  Tcp = 'tcp',
+  Unix = 'unix',
 }
 
 export enum SocketEventType {

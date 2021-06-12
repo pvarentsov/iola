@@ -14,8 +14,13 @@ export class HttpServer implements IHttpServer {
     this.client = client
   }
 
-  async listen(port: number): Promise<void> {
-    await this.router.init()
-    await this.adapter.listen({port})
+  async listen(host: string, port: number): Promise<string> {
+    await this
+      .router
+      .init()
+
+    return this
+      .adapter
+      .listen({host, port})
   }
 }

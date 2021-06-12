@@ -1,5 +1,5 @@
 export interface IHttpServer {
-  listen(port: number): Promise<void>
+  listen(host: string, port: number): Promise<string>
 }
 
 export interface IHttpRouter {

@@ -1,27 +1,25 @@
 import 'module-alias/register'
 
-import { Cli } from '@iola/api/cli'
+import { CliFactory } from '@iola/api/cli'
 import { HttpFactory } from '@iola/api/http'
-import { SocketFactory, SocketType } from '@iola/core/socket'
+import { SocketFactory } from '@iola/core/socket'
 
 (async (): Promise<void> => {
   try {
-    Cli.printEmptyLine()
-
-    const socketType = SocketType.WebSocket // await Cli.getSocketType()
-    const address = 'ws://localhost:8080' // await Cli.getAddress()
+    const config = CliFactory
+      .createParser()
+      .parse()
 
     const client = SocketFactory.createClient({
-      type: socketType,
-      address: address,
+      type: config.socketType,
+      address: config.socketAddress,
     })
 
+    const cliInteractive = CliFactory.createInteractive(config)
     const server = HttpFactory.createServer(client)
 
-    await client.connect()
-    await server.listen(3000)
-
-    Cli.printSocketEvents(client)
+    await cliInteractive.listenServer(server)
+    await cliInteractive.listenClient(client)
   }
   catch (error) {
     console.error(error.message)
