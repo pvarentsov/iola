@@ -1,4 +1,4 @@
-import 'module-alias/register'
+#!/usr/bin/env node
 
 import { CliFactory } from '@iola/api/cli'
 import { HttpFactory } from '@iola/api/http'

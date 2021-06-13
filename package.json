@@ -1,14 +1,17 @@
 {
   "name": "iola",
   "version": "0.0.0",
-  "description": "",
+  "description": "Socket client with REST API",
+  "files": [
+    "dist/**/*"
+  ],
   "main": "dist/index.js",
+  "bin": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc && npm run copy && npm --prefix ./dist install",
-    "copy": "cpy 'package*.json' dist",
+    "build": "tsc && tsc-alias",
+    "build:release": "tsc -p tsconfig.release.json && tsc-alias -p tsconfig.release.json",
     "start": "ts-node ./src/main.ts",
-    "typedoc": "typedoc src/index.ts && touch docs/.nojekyll",
     "test": "jest --config jest.json --runInBand",
     "test:cov": "jest --config jest.json --runInBand --coverage",
     "lib:check": "ncu",
@@ -22,6 +25,11 @@
     "url": "git+https://github.com/pvarentsov/iola.git"
   },
   "keywords": [
+    "socket-client",
+    "websocket",
+    "tcp",
+    "socket.io",
+    "unix-socket",
     "in-progress"
   ],
   "author": "Pavel Varentsov <varentsovpavel@gmail.com>",
@@ -46,25 +54,21 @@
     "supertest": "6.1.3",
     "ts-jest": "27.0.1",
     "ts-node": "10.0.0",
+    "tsc-alias": "1.3.2",
     "typedoc": "0.20.36",
     "typescript": "4.3.2"
   },
   "dependencies": {
     "ajv": "8.6.0",
     "chalk": "4.1.1",
-    "commander": "^7.2.0",
+    "commander": "7.2.0",
     "fastify": "3.17.0",
     "fastify-swagger": "4.7.0",
     "fluent-json-schema": "3.0.0",
-    "module-alias": "2.2.2",
     "moment": "2.29.1",
     "prompts": "2.4.1",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.1.0",
     "ws": "7.4.6"
-  },
-  "_moduleAliases": {
-    "@iola/core": "core",
-    "@iola/api": "api"
   }
 }
