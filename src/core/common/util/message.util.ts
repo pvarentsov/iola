@@ -1,4 +1,10 @@
-import { MessageFormat, PackedMessage, PackedMessageInfo, UnpackedMessage } from '@iola/core/common'
+import {
+  MessageFormat,
+  PackedMessage,
+  PackedMessageInfo,
+  UnpackedMessage,
+  UnpackedMessageInfo,
+} from '@iola/core/common'
 import { inspect } from 'util'
 
 export class MessageUtil {
@@ -23,26 +29,26 @@ export class MessageUtil {
     return info
   }
 
-  static unpack(message: PackedMessage): UnpackedMessage {
-    const info: UnpackedMessage = {
+  static unpack(message: PackedMessage): UnpackedMessageInfo {
+    const info: UnpackedMessageInfo = {
       format: MessageFormat.String,
-      message: ''
+      data: ''
     }
 
     if (typeof message === 'string') {
       if (message.includes('{') || message.includes('[')) {
         try {
-          info.message = JSON.parse(message)
+          info.data = JSON.parse(message)
           info.format = MessageFormat.JSON
         } catch (error) {}
       }
       else {
-        info.message = message
+        info.data = message
         info.format = MessageFormat.String
       }
     }
     else {
-      info.message = Array.from(new Uint8Array(message as Buffer))
+      info.data = Array.from(new Uint8Array(message as Buffer))
       info.format = MessageFormat.ByteArray
     }
 
