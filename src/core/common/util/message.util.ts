@@ -1,18 +1,17 @@
-import { inspect } from 'util'
 import { MessageFormat, PackedMessage, PackedMessageInfo, UnpackedMessage } from '@iola/core/common'
+import { inspect } from 'util'
 
 export class MessageUtil {
   static packToString<TMessage>(message: TMessage): PackedMessageInfo {
-    const info: PackedMessageInfo = {
-      format: MessageFormat.String,
-      data: JSON.stringify(message) + ''
-    }
+    const data = typeof message === 'string'
+      ? message
+      : JSON.stringify(message) + ''
 
-    if (typeof message === 'object' && message !== null) {
-      info.format = MessageFormat.JSON
-    }
+    const format = typeof message === 'object' && message !== null
+      ? MessageFormat.JSON
+      : MessageFormat.String
 
-    return info
+    return {format, data}
   }
 
   static packToBuffer(message: string | number[]): PackedMessageInfo {
