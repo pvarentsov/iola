@@ -31,6 +31,8 @@ export class WebSocketClient implements ISocketClient {
 
   async connect(): Promise<void> {
     if (!this._info.connected) {
+      this.close()
+
       this._client = new WebSocket(this._info.address)
 
       this._client.on('message', message => this._store.add({
@@ -45,24 +47,36 @@ export class WebSocketClient implements ISocketClient {
         message: err.message,
       }))
 
-      this._client.on('close', (code: number, reason: string) => this._store.add({
-        type: SocketEventType.Closed,
-        date: new Date(),
-        message: {code, reason},
-      }))
-
-      const openStream = fromEvent(this._client, 'open').pipe(
-        RxJSUtil.timeout(3000, `connection to ${this.info.address} is timed out`),
-        tap(() => this._info.connected = true),
-        tap(() => this._store.add({
-          type: SocketEventType.Connected,
+      this._client.on('close', (code: number, reason: string) => {
+        this._store.add({
+          type: SocketEventType.Closed,
           date: new Date(),
-          message: this._info,
-        })),
-        mapTo(undefined),
-      )
+          message: {code, reason},
+        })
 
-      return firstValueFrom<void>(openStream)
+        this.close()
+      })
+
+      try {
+        const openStream = fromEvent(this._client, 'open').pipe(
+          RxJSUtil.timeout(3000, `connection to ${this.info.address} is timed out`),
+          tap(() => this._info.connected = true),
+          tap(() => this._store.add({
+            type: SocketEventType.Connected,
+            date: new Date(),
+            message: this._info,
+          })),
+          mapTo(undefined),
+        )
+
+        await firstValueFrom(openStream)
+
+        this._info.connected = true
+      }
+      catch (error) {
+        this.close()
+        throw error
+      }
     }
   }
 
@@ -90,7 +104,18 @@ export class WebSocketClient implements ISocketClient {
     this.send(packed.data, eventMessage)
   }
 
+  private close(): void {
+    this._client?.removeAllListeners()
+
+    this._client = undefined
+    this._info.connected = false
+  }
+
   private send<TData, TMessage>(data: TData, eventMessage: TMessage): void {
+    if (!this._info.connected) {
+      throw new Error(`client is not connected to ${this.info.address}`)
+    }
+
     this._client && this._info.connected && this._client.send(data, err => {
       if (!err) {
         const event = {
