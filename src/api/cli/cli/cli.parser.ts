@@ -1,13 +1,16 @@
 import { program } from 'commander'
 
 import { CliConfig, ICliParser } from '@iola/api/cli'
-import { EnumUtil } from '@iola/core/common'
 import { SocketType } from '@iola/core/socket'
 
 export class CliParser implements ICliParser {
+  private readonly supportedSocketTypes: SocketType[] = [
+    SocketType.WebSocket
+  ]
+
   parse(): CliConfig {
     const socketTypeChoicesOption = this
-      .choices(EnumUtil.values(SocketType), 'types')
+      .choices(this.supportedSocketTypes, 'types')
 
     program.option('-st, --socket-type <type>', `* set socket type (${socketTypeChoicesOption})`)
     program.option('-sa, --socket-address <address>', '* set socket address')
@@ -35,9 +38,9 @@ export class CliParser implements ICliParser {
       exit = true
       console.error('error: required option \'-sa, --socket-address <address>\' not specified')
     }
-    if (args.socketType !== undefined && !EnumUtil.values(SocketType).includes(args.socketType)) {
+    if (args.socketType !== undefined && !this.supportedSocketTypes.includes(args.socketType)) {
       exit = true
-      const values = this.join(EnumUtil.values(SocketType))
+      const values = this.join(this.supportedSocketTypes)
       console.error(`error: option '-st, --socket-type <type>' must be one of the following values: ${values}`)
     }
     if (isNaN(apiPort)) {
