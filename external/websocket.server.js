@@ -10,23 +10,8 @@ wss.on('connection', ws => {
 
   setTimeout(() => {
     ws.send(JSON.stringify({
-      event: 'handshake',
+      event: 'greeting',
       data: 'Hi, Iola!'
     }))
   }, 2_000)
-
-  setTimeout(() => {
-    ws.send(JSON.stringify({
-      event: 'ping',
-      data: '🏓'
-    }))
-  }, 2_000)
-
-  setTimeout(() => {
-    ws.send(Buffer.from('Hello!'))
-  }, 4_000)
-
-  setTimeout(() => {
-    ws.send(42)
-  }, 6_000)
 })

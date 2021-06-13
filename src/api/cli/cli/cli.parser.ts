@@ -1,4 +1,6 @@
+import * as chalk from 'chalk'
 import { program } from 'commander'
+import { EOL } from 'os'
 
 import { CliConfig, ICliParser } from '@iola/api/cli'
 import { SocketType } from '@iola/core/socket'
@@ -12,13 +14,22 @@ export class CliParser implements ICliParser {
     const socketTypeChoicesOption = this
       .choices(this.supportedSocketTypes, 'types')
 
+    const description =
+      `${chalk.bold('Iola')} is a socket client with rest api.`
+
+    const examples = `Examples:${EOL}` +
+      '  iola --socket-type websocket --socket-address ws://localhost:8080'
+
     program.option('-st, --socket-type <type>', `* set socket type (${socketTypeChoicesOption})`)
     program.option('-sa, --socket-address <address>', '* set socket address')
     program.option('-ap, --api-port <port>', '  set api port', '3000')
     program.option('-ah, --api-host <host>', '  set api host', 'localhost')
     program.option('-ne, --no-emoji', '  disable emoji')
-    program.version('0.0.1', '-v, --version', '  show version')
-    program.helpOption('-h, --help', '  show help')
+    program.version('0.0.1', '-v, --version', '  print version')
+    program.helpOption('-h, --help', '  print help')
+
+    program.addHelpText('beforeAll', EOL + description + EOL)
+    program.addHelpText('afterAll', EOL + examples + EOL)
 
     program.parse()
 
