@@ -1,8 +1,8 @@
-import { firstValueFrom, fromEvent, of } from 'rxjs'
-import { catchError, map, mapTo, tap, timeout } from 'rxjs/operators'
+import { firstValueFrom, fromEvent } from 'rxjs'
+import { mapTo, tap } from 'rxjs/operators'
 import * as WebSocket from 'ws'
 
-import { AnyObject, MessageUtil } from '@iola/core/common'
+import { AnyObject, MessageUtil, RxJSUtil } from '@iola/core/common'
 import { ISocketClient, ISocketEventStore, SocketConnection, SocketEventType, SocketInfo } from '@iola/core/socket'
 
 export class WebSocketClient implements ISocketClient {
@@ -52,9 +52,7 @@ export class WebSocketClient implements ISocketClient {
       }))
 
       const openStream = fromEvent(this._client, 'open').pipe(
-        timeout(3000),
-        catchError(error => of({error: error.message})),
-        map<any, AnyObject>(result => this.warpError(result)),
+        RxJSUtil.timeout(3000, `connection to ${this.info.address} is timed out`),
         tap(() => this._info.connected = true),
         tap(() => this._store.add({
           type: SocketEventType.Connected,
@@ -104,16 +102,5 @@ export class WebSocketClient implements ISocketClient {
         this._store.add(event)
       }
     })
-  }
-
-  private warpError(result: AnyObject): AnyObject {
-    if (result.error) {
-      if (result.error === 'Timeout has occurred') {
-        throw new Error(`connection to ${this.info.address} is timed out`)
-      }
-      throw new Error(result.error)
-    }
-
-    return result
   }
 }
