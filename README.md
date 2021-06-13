@@ -7,7 +7,7 @@
 ### Usage
 
 ```shell
-$ iola -h
+$ iola --help
 
 Iola is a socket client with rest api.
 
