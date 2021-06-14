@@ -1,12 +1,15 @@
 # iola - a socket client with rest api
 
+[![License: MIT](https://img.shields.io/github/license/pvarentsov/iola)](https://github.com/pvarentsov/iola/blob/main/LICENSE)
+[![NPM Version](https://img.shields.io/npm/v/iola.svg)](https://www.npmjs.com/package/iola)
+
 ![demo](./demo/demo.png)
 
-### Installation
+## Installation
 ```bash
 $ npm install -g iola
 ```
-### Usage
+## Usage
 
 <pre>
 $ iola -h
@@ -34,3 +37,16 @@ Example:
   iola --socket-type websocket --socket-address ws://localhost:8080
 
 </pre>
+
+## Roadmap
+
+-[ ] Detailed documentation
+-[ ] Implement clients
+     - [ ] SocketIO
+     - [ ] Tcp
+     - [ ] Unix-socket
+-[ ] Add application's binaries for all popular platforms
+
+## License
+
+This project is licensed under the [MIT License](https://github.com/pvarentsov/iola/blob/main/LICENSE).
