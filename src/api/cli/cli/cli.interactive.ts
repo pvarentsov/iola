@@ -48,7 +48,7 @@ export class CliInteractive implements ICliInteractive {
 
     let body = '  ' + MessageUtil
       .humanize(message)
-      .replace(new RegExp(EOL, 'g'), `${EOL} `)
+      .replace(new RegExp(EOL, 'g'), `${EOL}  `)
 
     if (event.type === SocketEventType.Closed) {
       body += EOL
