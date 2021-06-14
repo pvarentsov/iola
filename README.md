@@ -7,7 +7,16 @@
 
 ## Description
 
-**`iola`** - a socket client with rest api.
+**`iola`** - a socket client with rest api. 
+
+This project is currently in an active development phase. Roadmap:
+- [ ] Detailed documentation
+- [ ] Implement clients
+  - [x] WebSocket
+  - [ ] SocketIO
+  - [ ] Tcp
+  - [ ] Unix-socket
+- [ ] Add application's binaries for all popular platforms
 
 
 ## Installation
@@ -42,15 +51,6 @@ Example:
   iola --socket-type websocket --socket-address ws://localhost:8080
 
 </pre>
-
-## Roadmap
-
-- [ ] Detailed documentation
-- [ ] Implement clients
-  - [ ] SocketIO
-  - [ ] Tcp
-  - [ ] Unix-socket
-- [ ] Add application's binaries for all popular platforms
 
 ## License
 
