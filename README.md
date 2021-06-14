@@ -13,15 +13,15 @@ $ npm install -g iola
 <pre>
 $ iola -h
 
-iola - a socket client with rest api
+<b>iola</b> - a socket client with rest api
 
 Usage: iola [options]
 
 Options:
-  -st, --socket-type <type>        * set socket type (types: "websocket")
-  -sa, --socket-address <address>  * set socket address
-  -ap, --api-port <port>             set api port (default: "3000")
-  -ah, --api-host <host>             set api host (default: "localhost")
+  -st, --socket-type &lt;type>        * set socket type (types: "websocket")
+  -sa, --socket-address &lt;address>  * set socket address
+  -ap, --api-port &lt;port>             set api port (default: "3000")
+  -ah, --api-host &lt;host>             set api host (default: "localhost")
   -ne, --no-emoji                    disable emoji
   -v, --version                      print version
   -h, --help                         print help
