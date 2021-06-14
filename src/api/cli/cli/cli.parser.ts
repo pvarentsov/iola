@@ -31,7 +31,7 @@ export class CliParser implements ICliParser {
     program.option('-ap, --api-port <port>', '  set api port', '3000')
     program.option('-ah, --api-host <host>', '  set api host', 'localhost')
     program.option('-ne, --no-emoji', '  disable emoji')
-    program.version('0.0.1', '-v, --version', '  print version')
+    program.version('0.0.1-0', '-v, --version', '  print version')
     program.helpOption('-h, --help', '  print help')
 
     program.addHelpText('beforeAll', EOL + description + EOL)
