@@ -1,5 +1,9 @@
-<h1 align="center">iola</h1>
+# iola - a socket client with rest api
 
+### Installation
+```bash
+$ npm install -g iola
+```
 
 ### Demo
 ![demo](./demo/demo.png)

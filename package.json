@@ -1,16 +1,16 @@
 {
   "name": "iola",
   "version": "0.0.0",
-  "description": "Socket client with REST API",
+  "description": "iola - a socket client with rest api",
   "files": [
     "dist/**/*"
   ],
   "main": "dist/index.js",
   "bin": "dist/index.js",
-  "typings": "dist/index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc && tsc-alias",
     "build:release": "rimraf dist && tsc -p tsconfig.release.json && tsc-alias -p tsconfig.release.json",
+    "release": "npm run build:release && npm publish",
     "start": "ts-node ./src/main.ts",
     "test": "jest --config jest.json --runInBand",
     "test:cov": "jest --config jest.json --runInBand --coverage",

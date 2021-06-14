@@ -1,0 +1,33 @@
+name: NPM Publish
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: .
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Disabling shallow clone is recommended
+          # for improving relevancy of reporting
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install libs
+        run: npm install
+
+      - name: NPM Release
+        run: npm run release
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

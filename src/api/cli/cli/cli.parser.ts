@@ -15,7 +15,7 @@ export class CliParser implements ICliParser {
       .choices(this.supportedSocketTypes, 'types')
 
     const description =
-      `${chalk.bold('Iola')} is a socket client with rest api.`
+      `${chalk.bold('iola')} - a socket client with rest api`
 
     const examples = `Examples:${EOL}` +
       '  iola --socket-type websocket --socket-address ws://localhost:8080'
