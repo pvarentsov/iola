@@ -40,12 +40,12 @@ Example:
 
 ## Roadmap
 
--[ ] Detailed documentation
--[ ] Implement clients
-     - [ ] SocketIO
-     - [ ] Tcp
-     - [ ] Unix-socket
--[ ] Add application's binaries for all popular platforms
+- [ ] Detailed documentation
+- [ ] Implement clients
+  - [ ] SocketIO
+  - [ ] Tcp
+  - [ ] Unix-socket
+- [ ] Add application's binaries for all popular platforms
 
 ## License
 
