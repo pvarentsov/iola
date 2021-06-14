@@ -17,8 +17,14 @@ export class CliParser implements ICliParser {
     const description =
       `${chalk.bold('iola')} - a socket client with rest api`
 
-    const examples = `Examples:${EOL}` +
+    const examples = `Example:${EOL}` +
       '  iola --socket-type websocket --socket-address ws://localhost:8080'
+
+    const api = `API:${EOL}` +
+      `  GET  /messages                     get message list${EOL}` +
+      `  GET  /messages/{id}                get message by id${EOL}` +
+      `  POST /messages                     send message ${EOL}` +
+      '  GET  /docs                         get api documentation'
 
     program.option('-st, --socket-type <type>', `* set socket type (${socketTypeChoicesOption})`)
     program.option('-sa, --socket-address <address>', '* set socket address')
@@ -29,6 +35,7 @@ export class CliParser implements ICliParser {
     program.helpOption('-h, --help', '  print help')
 
     program.addHelpText('beforeAll', EOL + description + EOL)
+    program.addHelpText('afterAll', EOL + api)
     program.addHelpText('afterAll', EOL + examples + EOL)
 
     program.parse()

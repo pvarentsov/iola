@@ -10,10 +10,10 @@ $ npm install -g iola
 
 ### Usage
 
-```shell
-$ iola --help
+<pre>
+$ iola -h
 
-Iola is a socket client with rest api.
+iola - a socket client with rest api
 
 Usage: iola [options]
 
@@ -26,7 +26,13 @@ Options:
   -v, --version                      print version
   -h, --help                         print help
 
-Examples:
+API:
+  GET  /messages                     get message list
+  GET  /messages/{id}                get message by id
+  POST /messages                     send message 
+  GET  /docs                         get api documentation
+
+Example:
   iola --socket-type websocket --socket-address ws://localhost:8080
 
-```
+</pre>
