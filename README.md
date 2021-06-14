@@ -1,13 +1,11 @@
 # iola - a socket client with rest api
 
+![demo](./demo/demo.png)
+
 ### Installation
 ```bash
 $ npm install -g iola
 ```
-
-### Demo
-![demo](./demo/demo.png)
-
 ### Usage
 
 <pre>

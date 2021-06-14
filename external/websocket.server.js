@@ -5,13 +5,11 @@ const wss = new WebSocket.Server({ port: 8080 })
 
 wss.on('connection', ws => {
   ws.on('message', data => {
-    console.log(data.toString())
+    const message = data.toString()
+    console.log(message)
   })
 
   setTimeout(() => {
-    ws.send(JSON.stringify({
-      event: 'greeting',
-      data: 'Hi, Iola!'
-    }))
+    ws.send('Hi, Iola!')
   }, 2_000)
 })
