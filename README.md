@@ -3,7 +3,9 @@
 [![License: MIT](https://img.shields.io/github/license/pvarentsov/iola)](https://github.com/pvarentsov/iola/blob/main/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/iola.svg)](https://www.npmjs.com/package/iola)
 
-![demo](./demo/demo.png)
+<p align="center"> 
+  <img src="./demo/demo.png">
+</p>
 
 ## Description
 
