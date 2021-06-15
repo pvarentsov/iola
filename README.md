@@ -3,15 +3,22 @@
 [![License: MIT](https://img.shields.io/github/license/pvarentsov/iola)](https://github.com/pvarentsov/iola/blob/main/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/iola.svg)](https://www.npmjs.com/package/iola)
 
+## Description
+
+**iola** - a socket client with rest api. It helps to work with socket servers using your favorite rest client.
+
+**Features:**
+
+1. Read messages via rest api
+2. Send messages via rest api
+3. Log all socket events in console
+
 <p align="center"> 
   <img src="./demo/demo.png">
 </p>
 
-## Description
 
-**`iola`** - a socket client with rest api. 
-
-This project is currently in an active development phase. Roadmap:
+**Roadmap**:
 - [ ] Detailed documentation
 - [ ] Implement clients
   - [x] WebSocket
