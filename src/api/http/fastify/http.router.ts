@@ -66,8 +66,7 @@ export class HttpRouter implements IHttpRouter {
 
   private getMessage(): void {
     this.adapter.get<GetMessageRequest>('/messages/:id', GetMessageRouteOptions, (request, reply) => {
-      const parsedId = request.params.id.replace(new RegExp('#', 'g'), '')
-      const id = Number(parsedId)
+      const id = Number(request.params.id)
 
       const message = this.client
         .store
@@ -79,7 +78,11 @@ export class HttpRouter implements IHttpRouter {
         return
       }
 
-      reply.status(404).send({})
+      reply.status(404).send({
+        statusCode: 404,
+        error: 'Not Found',
+        message: `message with id ${id} not found`
+      })
     })
   }
 

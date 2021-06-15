@@ -7,9 +7,14 @@ import { SocketEventType } from '@iola/core/socket'
 
 // Schemas
 
+const Error = S
+  .object()
+  .prop('statusCode', S.number())
+  .prop('error', S.string())
+  .prop('message', S.string())
+
 export const Message = S
   .object()
-  .title('Message')
   .prop('id', S.number())
   .prop('type', S.string().enum([SocketEventType.ReceivedMessage, SocketEventType.SentMessage]))
   .prop('date', S.string())
@@ -55,27 +60,38 @@ export const SendMessage = S.oneOf([
 
 export const GetMessageRouteOptions: RouteShorthandOptions = {
   schema: {
+    description: 'Get message list',
     params: GetMessage,
     response: {
       200: Message,
+      400: Error,
+      404: Error,
+      505: Error,
     },
   }
 }
 
 export const GetMessageListRouteOptions: RouteShorthandOptions = {
   schema: {
+    description: 'Get message by id',
     querystring: GetMessageList,
     response: {
       200: MessageList,
+      400: Error,
+      505: Error,
     },
   }
 }
 
 export const SendMessageRouteOptions: RouteShorthandOptions = {
   schema: {
+    description: 'Send message',
     body: SendMessage,
     response: {
-      200: S.object().prop('messageId', S.number())
+      200: S.object().prop('messageId', S.number()),
+      400: Error,
+      404: Error,
+      505: Error,
     },
   }
 }
