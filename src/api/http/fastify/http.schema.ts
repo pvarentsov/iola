@@ -61,12 +61,13 @@ export const SendMessage = S.oneOf([
 export const GetMessageRouteOptions: RouteShorthandOptions = {
   schema: {
     description: 'Get message list',
+    tags: ['Message'],
     params: GetMessage,
     response: {
       200: Message,
       400: Error,
       404: Error,
-      505: Error,
+      500: Error,
     },
   }
 }
@@ -74,11 +75,12 @@ export const GetMessageRouteOptions: RouteShorthandOptions = {
 export const GetMessageListRouteOptions: RouteShorthandOptions = {
   schema: {
     description: 'Get message by id',
+    tags: ['Message'],
     querystring: GetMessageList,
     response: {
       200: MessageList,
       400: Error,
-      505: Error,
+      500: Error,
     },
   }
 }
@@ -86,12 +88,12 @@ export const GetMessageListRouteOptions: RouteShorthandOptions = {
 export const SendMessageRouteOptions: RouteShorthandOptions = {
   schema: {
     description: 'Send message',
+    tags: ['Message'],
     body: SendMessage,
     response: {
       200: S.object().prop('messageId', S.number()),
       400: Error,
-      404: Error,
-      505: Error,
+      500: Error,
     },
   }
 }
