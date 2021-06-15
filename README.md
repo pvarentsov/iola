@@ -13,7 +13,9 @@
 2. Send messages via rest api
 3. Log all socket events in console
 
-   <br>![](./demo/demo.png)
+<p align="center"> 
+  <img src="./demo/demo.png">
+</p>
 
 **Roadmap**:
 - [ ] Detailed documentation
