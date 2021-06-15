@@ -1,3 +1,4 @@
+import { AnyObject } from '@iola/core/common'
 import Ajv from 'ajv'
 import { FastifyInstance } from 'fastify'
 import swagger from 'fastify-swagger'
@@ -102,7 +103,7 @@ export class HttpRouter implements IHttpRouter {
   }
 
   private sendMessage(): void {
-    this.adapter.post<SendMessageRequest>('/messages', SendMessageRouteOptions, (request, reply) => {
+    this.adapter.post<SendMessageRequest>('/messages', SendMessageRouteOptions, async (request, reply) => {
       const body = request.body
 
       const data = (body as SendMessageBodyWithData).data
@@ -118,14 +119,16 @@ export class HttpRouter implements IHttpRouter {
         return
       }
 
+      let response: AnyObject = {}
+
       if (data !== undefined) {
-        this.client.sendData(data)
+        response = await this.client.sendData(data)
       }
       if (bytes !== undefined) {
-        this.client.sendBytes(bytes)
+        response = await this.client.sendBytes(bytes)
       }
 
-      reply.send({})
+      reply.send(response)
     })
   }
 }

@@ -26,10 +26,12 @@ export class EventStore implements ISocketEventStore {
     return this._events$
   }
 
-  add(event: SocketEvent): void {
+  add(event: SocketEvent): number {
     const id = this._events.length + 1
 
     this._events.push({id, ...event})
     this._events$.next({id, ...event})
+
+    return id
   }
 }

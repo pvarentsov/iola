@@ -3,7 +3,14 @@ import { mapTo, tap } from 'rxjs/operators'
 import * as WebSocket from 'ws'
 
 import { AnyObject, MessageUtil, RxJSUtil } from '@iola/core/common'
-import { ISocketClient, ISocketEventStore, SocketConnection, SocketEventType, SocketInfo } from '@iola/core/socket'
+import {
+  ISocketClient,
+  ISocketEventStore,
+  SocketConnection,
+  SocketEventType,
+  SocketInfo,
+  SocketSendReply,
+} from '@iola/core/socket'
 
 export class WebSocketClient implements ISocketClient {
   private readonly _info: SocketInfo
@@ -80,7 +87,7 @@ export class WebSocketClient implements ISocketClient {
     }
   }
 
-  sendData<TData>(data: TData): void {
+  sendData<TData>(data: TData): Promise<SocketSendReply> {
     const packed = MessageUtil.packToString(data)
     const eventMessage: AnyObject = {
       format: packed.format,
@@ -91,17 +98,17 @@ export class WebSocketClient implements ISocketClient {
       eventMessage.data = data
     }
 
-    this.send(packed.data, eventMessage)
+    return this.send(packed.data, eventMessage)
   }
 
-  sendBytes(bytes: number[]): void {
+  sendBytes(bytes: number[]): Promise<SocketSendReply> {
     const packed = MessageUtil.packToBuffer(bytes)
     const eventMessage = {
       format: packed.format,
       data: bytes
     }
 
-    this.send(packed.data, eventMessage)
+    return this.send(packed.data, eventMessage)
   }
 
   private close(): void {
@@ -111,21 +118,27 @@ export class WebSocketClient implements ISocketClient {
     this._info.connected = false
   }
 
-  private send<TData, TMessage>(data: TData, eventMessage: TMessage): void {
-    if (!this._info.connected) {
+  private send<TData, TMessage>(data: TData, eventMessage: TMessage): Promise<SocketSendReply> {
+    if (!this._client || !this._info.connected) {
       throw new Error(`client is not connected to ${this.info.address}`)
     }
 
-    this._client && this._info.connected && this._client.send(data, err => {
-      if (!err) {
-        const event = {
-          type: SocketEventType.SentMessage,
-          date: new Date(),
-          message: eventMessage,
+    return new Promise<SocketSendReply>((resolve, reject) => {
+      this._client!.send(data, err => {
+        if (!err) {
+          const event = {
+            type: SocketEventType.SentMessage,
+            date: new Date(),
+            message: eventMessage,
+          }
+
+          const messageId = this._store.add(event)
+
+          resolve({messageId})
         }
 
-        this._store.add(event)
-      }
+        reject(err)
+      })
     })
   }
 }

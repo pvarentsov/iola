@@ -17,3 +17,8 @@ export type SocketEvent<TMessage = any> = {
   date: Date,
   message: TMessage,
 }
+
+export type SocketSendReply<TReply = any> = {
+  messageId: number,
+  reply?: TReply
+}

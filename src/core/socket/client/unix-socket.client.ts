@@ -1,4 +1,4 @@
-import { ISocketClient, ISocketEventStore, SocketInfo } from '@iola/core/socket'
+import { ISocketClient, ISocketEventStore, SocketInfo, SocketSendReply } from '@iola/core/socket'
 
 export class UnixSocketClient implements ISocketClient {
   get info(): SocketInfo {
@@ -13,13 +13,13 @@ export class UnixSocketClient implements ISocketClient {
     return undefined
   }
 
-  sendData<TData>(data: TData): void {
+  async sendData<TData>(data: TData): Promise<SocketSendReply> {
     console.log(data)
-    return undefined
+    return {messageId: 0}
   }
 
-  sendBytes(bytes: number[]): void {
+  async sendBytes(bytes: number[]): Promise<SocketSendReply> {
     console.log(bytes)
-    return undefined
+    return {messageId: 0}
   }
 }

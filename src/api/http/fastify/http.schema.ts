@@ -75,7 +75,7 @@ export const SendMessageRouteOptions: RouteShorthandOptions = {
   schema: {
     body: SendMessage,
     response: {
-      200: S.object(),
+      200: S.object().prop('messageId', S.number())
     },
   }
 }
