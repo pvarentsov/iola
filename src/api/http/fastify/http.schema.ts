@@ -60,7 +60,7 @@ export const SendMessage = S.oneOf([
 
 export const GetMessageRouteOptions: RouteShorthandOptions = {
   schema: {
-    description: 'Get message list',
+    description: 'Get message by id',
     tags: ['Message'],
     params: GetMessage,
     response: {
@@ -74,7 +74,7 @@ export const GetMessageRouteOptions: RouteShorthandOptions = {
 
 export const GetMessageListRouteOptions: RouteShorthandOptions = {
   schema: {
-    description: 'Get message by id',
+    description: 'Get message list',
     tags: ['Message'],
     querystring: GetMessageList,
     response: {
