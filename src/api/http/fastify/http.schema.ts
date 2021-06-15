@@ -42,7 +42,8 @@ export const GetMessageList = S
 
 export const SendMessage = S.oneOf([
   S.object()
-    .prop('event', S.string().description('Used only for SocketIO client. Ignored for other client types'))
+    .description('Send any data (string, number, boolean, array, object, null).')
+    .prop('event', S.string().description('Used only for SocketIO client.'))
     .prop('data', S.anyOf([
       S.string(),
       S.number(),
@@ -52,8 +53,14 @@ export const SendMessage = S.oneOf([
     ]).required()),
 
   S.object()
-    .prop('event', S.string().description('Used only for SocketIO client. Ignored for other client types'))
-    .prop('bytes', S.array().items(S.number().minimum(0).maximum(255)).required())
+    .description('Send binary data as byte array (octets).')
+    .prop('event', S
+      .string()
+      .description('Used only for SocketIO client.'))
+    .prop('bytes', S
+      .array()
+      .items(S.number().minimum(0).maximum(255))
+      .required())
 ])
 
 // Route options
