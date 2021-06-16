@@ -63,7 +63,9 @@ export class MessageUtil {
     return inspect(message, {
       colors: true,
       compact: true,
-      depth: null,
+      maxArrayLength: 16,
+      maxStringLength: 50,
+      depth: 2,
     })
   }
 }
