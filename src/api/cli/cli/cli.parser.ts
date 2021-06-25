@@ -24,7 +24,7 @@ export class CliParser implements ICliParser {
       '  GET  /docs                     Get api documentation'
 
     program
-      .version('0.0.3', '--version', 'Display version')
+      .version('0.0.4', '--version', 'Display version')
       .helpOption('--help', 'Display help')
       .addHelpText('before', EOL + description + EOL)
       .addHelpText('after', EOL + api + EOL)
