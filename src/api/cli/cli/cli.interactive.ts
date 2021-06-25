@@ -21,11 +21,12 @@ export class CliInteractive implements ICliInteractive {
     console.log()
     console.log(`${chalk.bold('API server:')} ${address}`)
     console.log(`${chalk.bold('API docs  :')} ${address}/docs`)
+    console.log()
 
     setTimeout(() => {
       client.store
         .listen()
-        .subscribe(event => console.log(`${EOL}${this.parseEvent(event)}`))
+        .subscribe(event => console.log(this.parseEvent(event)))
     }, 1000)
   }
 
@@ -46,13 +47,11 @@ export class CliInteractive implements ICliInteractive {
       ? {type: event.message.type, address: event.message.address}
       : event.message
 
-    let body = '  ' + MessageUtil
+    const humanizedMessage = MessageUtil
       .humanize(message)
       .replace(new RegExp(EOL, 'g'), `${EOL}  `)
 
-    if (event.type === SocketEventType.Closed) {
-      body += EOL
-    }
+    const body = '  ' + humanizedMessage + EOL
 
     return `${title}:${EOL}${body}`
   }
