@@ -75,13 +75,13 @@ config:
   # Font family
   # You can use any font that is installed on your machine
   # in CSS-like syntax
-  fontFamily: "Monaco, Lucida Console, Ubuntu Mono, Monospace"
+  fontFamily: 'Hack, "Noto Color Emoji"'
   
   # The size of the font
-  fontSize: 14
+  fontSize: 16
   
   # The height of lines
-  lineHeight: 1.2
+  lineHeight: 1
   
   # The spacing between letters
   letterSpacing: 0
