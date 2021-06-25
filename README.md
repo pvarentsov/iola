@@ -7,15 +7,13 @@
 
 **iola** - a socket client with rest api. It helps to work with socket servers using your favorite rest client.
 
+![](./demo/iola-demo.gif)
+
 **Features:**
 
 1. Read messages via rest api
 2. Send messages via rest api
 3. Log all socket events in console
-
-<p align="center"> 
-  <img src="./demo/iola-demo.gif">
-</p>
 
 **Roadmap**:
 - [ ] Detailed documentation
