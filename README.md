@@ -32,30 +32,25 @@ $ npm install -g iola
 ## Usage
 
 <pre>
-$ iola -h
+$ iola --help
 
 <b>iola</b> - a socket client with rest api
 
-Usage: iola [options]
+Usage: iola [options] [command]
 
 Options:
-  -st, --socket-type &lt;type>        * set socket type (types: "websocket")
-  -sa, --socket-address &lt;address>  * set socket address
-  -ap, --api-port &lt;port>             set api port (default: "3000")
-  -ah, --api-host &lt;host>             set api host (default: "localhost")
-  -ne, --no-emoji                    disable emoji
-  -v, --version                      print version
-  -h, --help                         print help
+  --version                      Display version
+  --help                         Display help
+
+Commands:
+  websocket [options] &lt;address>  Run websocket client
+  help [command]                 Display help for command
 
 API:
-  GET  /messages                     get message list
-  GET  /messages/{id}                get message by id
-  POST /messages                     send message 
-  GET  /docs                         get api documentation
-
-Example:
-  iola --socket-type websocket --socket-address ws://localhost:8080
-
+  GET  /messages                 Get message list
+  GET  /messages/{id}            Get message by id
+  POST /messages                 Send message 
+  GET  /docs                     Get api documentation
 </pre>
 
 ## License

@@ -26,8 +26,8 @@ export class CliParser implements ICliParser {
     program
       .version('0.0.3', '--version', 'Display version')
       .helpOption('--help', 'Display help')
-      .addHelpText('before', description + EOL)
-      .addHelpText('after', EOL + api)
+      .addHelpText('before', EOL + description + EOL)
+      .addHelpText('after', EOL + api + EOL)
       .addHelpCommand('help [command]', 'Display help for command')
 
     program
