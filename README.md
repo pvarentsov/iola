@@ -14,7 +14,7 @@
 3. Log all socket events in console
 
 <p align="center"> 
-  <img src="./demo/demo.png">
+  <img src="./demo/iola-demo.gif">
 </p>
 
 **Roadmap**:

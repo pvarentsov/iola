@@ -18,6 +18,7 @@
     "lib:upgrade": "ncu -u && npm install",
     "lint": "eslint 'src/**/*.ts'",
     "lint:fix": "eslint --fix 'src/**/*.ts'",
+    "demo": "terminalizer render ./demo/iola-demo.yml -o ./demo/iola-demo.gif",
     "server:websocket": "node ./external/websocket.server.js"
   },
   "repository": {
