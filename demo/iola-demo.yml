@@ -52,7 +52,7 @@ config:
     type: floating
     title: null
     style:
-      boxShadow: none
+      boxShadow: 0px 0px 0px 2px black
       margin: 0px
 
   # Add a watermark image to the rendered gif
