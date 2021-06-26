@@ -58,10 +58,10 @@ API:
 ### WebSocket
 
 <details>
-  <summary>
-    Usage
-  </summary>
-  <pre>
+<summary>
+Usage
+</summary>
+<pre>
 $ iola help websocket
 
 Usage: iola websocket [options] &lt;address>
@@ -69,7 +69,7 @@ Usage: iola websocket [options] &lt;address>
 Run websocket client
 
 Options:
-  -ap, --api-port &lt;port>          Set api port (default: "3000")
+  -ap, --api-port <port>          Set api port (default: "3000")
   -ah, --api-host &lt;host>          Set api host (default: "127.0.0.1")
   -rt, --reply-timeout &lt;timeout>  Set reply timeout in ms (default: "2000")
   -ne, --no-emoji                 Disable emoji
@@ -78,7 +78,6 @@ Options:
 Examples:
   iola websocket ws://127.0.0.1:8080
   iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
-
 </pre>
 </details>
 
