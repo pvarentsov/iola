@@ -12,3 +12,8 @@ export type PackedMessageInfo = {
   format: MessageFormat
   data: PackedMessage
 }
+
+export type MessageRequestIdInfo = {
+  key: string
+  value: any
+}

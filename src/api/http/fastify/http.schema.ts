@@ -63,6 +63,11 @@ export const SendMessage = S.oneOf([
       .required())
 ])
 
+export const SendMessageResponse = S
+  .object()
+  .prop('messageId', S.number())
+  .prop('reply', S.object().additionalProperties(true).raw({nullable: true}))
+
 // Route options
 
 export const GetMessageRouteOptions: RouteShorthandOptions = {
@@ -98,7 +103,7 @@ export const SendMessageRouteOptions: RouteShorthandOptions = {
     tags: ['Message'],
     body: SendMessage,
     response: {
-      200: S.object().prop('messageId', S.number()),
+      200: SendMessageResponse,
       400: Error,
       500: Error,
     },

@@ -1,11 +1,13 @@
+import { inspect } from 'util'
+
 import {
-  MessageFormat,
+  MessageFormat, MessageRequestIdInfo,
+  Optional,
   PackedMessage,
   PackedMessageInfo,
   UnpackedMessage,
   UnpackedMessageInfo,
 } from '@iola/core/common'
-import { inspect } from 'util'
 
 export class MessageUtil {
   static packToString<TMessage>(message: TMessage): PackedMessageInfo {
@@ -67,5 +69,30 @@ export class MessageUtil {
       maxStringLength: 50,
       depth: 2,
     })
+  }
+
+  static findRequestId(message: any): Optional<MessageRequestIdInfo> {
+    const requestIdKeys = [
+      'requestid',
+      'request_id',
+      'reqid',
+      'req_id',
+      'traceid',
+      'trace_id',
+    ]
+
+    let requestIdKey: Optional<string>
+
+    if (typeof message === 'object' && message !== null && !Array.isArray(message)) {
+      Object.keys(message).forEach(key => {
+        if (requestIdKeys.includes(key.toLowerCase())) {
+          requestIdKey = key
+        }
+      })
+    }
+
+    return requestIdKey
+      ? {key: requestIdKey, value: message[requestIdKey]}
+      : undefined
   }
 }

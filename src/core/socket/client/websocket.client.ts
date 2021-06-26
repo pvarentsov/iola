@@ -1,12 +1,13 @@
 import { firstValueFrom, fromEvent } from 'rxjs'
-import { mapTo, tap } from 'rxjs/operators'
+import { filter, map, mapTo, tap, timeout } from 'rxjs/operators'
 import * as WebSocket from 'ws'
 
-import { AnyObject, MessageUtil, RxJSUtil } from '@iola/core/common'
+import { AnyObject, MessageRequestIdInfo, MessageUtil, Optional, RxJSUtil } from '@iola/core/common'
 import {
   ISocketClient,
   ISocketEventStore,
   SocketConnection,
+  SocketEvent,
   SocketEventType,
   SocketInfo,
   SocketSendReply,
@@ -93,6 +94,8 @@ export class WebSocketClient implements ISocketClient {
   }
 
   sendData<TData>(data: TData): Promise<SocketSendReply> {
+    const requestIdInfo = MessageUtil.findRequestId(data)
+
     const packed = MessageUtil.packToString(data)
     const eventMessage: AnyObject = {
       format: packed.format,
@@ -103,7 +106,7 @@ export class WebSocketClient implements ISocketClient {
       eventMessage.data = data
     }
 
-    return this.send(packed.data, eventMessage)
+    return this.send(packed.data, eventMessage, requestIdInfo)
   }
 
   sendBytes(bytes: number[]): Promise<SocketSendReply> {
@@ -140,13 +143,21 @@ export class WebSocketClient implements ISocketClient {
     }, 5_000)
   }
 
-  private send<TData, TMessage>(data: TData, eventMessage: TMessage): Promise<SocketSendReply> {
+  private send<TData, TMessage>(
+    data: TData,
+    eventMessage: TMessage,
+    requestIdInfo?: MessageRequestIdInfo
+
+  ): Promise<SocketSendReply>
+  {
     if (!this._client || !this._info.connected) {
       throw new Error(`client is not connected to ${this.info.address}`)
     }
 
-    return new Promise<SocketSendReply>((resolve, reject) => {
-      this._client!.send(data, err => {
+    const currentDate = new Date()
+
+    return new Promise<SocketSendReply>(async (resolve, reject) => {
+      this._client!.send(data, async (err) => {
         if (!err) {
           const event = {
             type: SocketEventType.SentMessage,
@@ -155,12 +166,44 @@ export class WebSocketClient implements ISocketClient {
           }
 
           const messageId = this._store.add(event)
+          const reply = requestIdInfo
+            ? await this.awaitReply(requestIdInfo, currentDate)
+            : undefined
 
-          resolve({messageId})
+          resolve({messageId, reply})
         }
 
         reject(err)
       })
     })
+  }
+
+  private async awaitReply(requestIdInfo: MessageRequestIdInfo, awaitAfterDate: Date): Promise<Optional<AnyObject>> {
+    const isMessageDataRecord = (event: SocketEvent): boolean => {
+      return typeof event.message.data === 'object'
+        && event.message.data !== null
+        && !Array.isArray(event.message.data)
+    }
+
+    const isMessageReply = (event: SocketEvent, requestIdInfo: MessageRequestIdInfo): boolean => {
+      return event.message.data[requestIdInfo.key] === requestIdInfo.value
+    }
+
+    const eventStream$ = this._store.listen().pipe(
+      filter(event => event.type === SocketEventType.ReceivedMessage),
+      filter(event => event.date > awaitAfterDate),
+      filter(event => isMessageDataRecord(event)),
+      filter(event => isMessageReply(event, requestIdInfo)),
+      map(event => event.message.data),
+      timeout(3000),
+    )
+
+    let reply: Optional<AnyObject>
+
+    try {
+      reply = await firstValueFrom(eventStream$)
+    } catch (err) {}
+
+    return reply
   }
 }
