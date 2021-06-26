@@ -61,6 +61,7 @@ API:
   <summary>
     Usage
   </summary>
+  <br>
   <p align="center">
     <img src="./demo/websocket-demo.gif">
   </p>
