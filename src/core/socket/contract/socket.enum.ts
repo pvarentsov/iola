@@ -9,6 +9,7 @@ export enum SocketEventType {
   SentMessage = 'SentMessage',
   ReceivedMessage = 'ReceivedMessage',
   Connected = 'Connected',
+  Reconnecting = 'Reconnecting',
   Closed = 'Closed',
   Error = 'Error',
 }

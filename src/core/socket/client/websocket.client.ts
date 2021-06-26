@@ -51,17 +51,22 @@ export class WebSocketClient implements ISocketClient {
       this._client.on('error', err => this._store.add({
         type: SocketEventType.Error,
         date: new Date(),
-        message: err.message,
+        message: {
+          message: err.message
+        },
       }))
 
       this._client.on('close', (code: number, reason: string) => {
-        this._store.add({
-          type: SocketEventType.Closed,
-          date: new Date(),
-          message: {code, reason},
-        })
+        if (this._info.connected) {
+          this._store.add({
+            type: SocketEventType.Closed,
+            date: new Date(),
+            message: {code, reason},
+          })
 
-        this.close()
+          this.close()
+          this.retryConnect()
+        }
       })
 
       try {
@@ -116,6 +121,23 @@ export class WebSocketClient implements ISocketClient {
 
     this._client = undefined
     this._info.connected = false
+  }
+
+  private retryConnect(): void {
+    const retryInterval = setInterval(async () => {
+      try {
+        this._store.add({
+          type: SocketEventType.Reconnecting,
+          date: new Date(),
+          message: this._info,
+        })
+
+        await this.connect()
+
+        clearInterval(retryInterval)
+      }
+      catch (err) {}
+    }, 5_000)
   }
 
   private send<TData, TMessage>(data: TData, eventMessage: TMessage): Promise<SocketSendReply> {

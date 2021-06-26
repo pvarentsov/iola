@@ -34,8 +34,9 @@ export class CliInteractive implements ICliInteractive {
     const eventName: Record<SocketEventType, string> = {
       [SocketEventType.ReceivedMessage]: this.config.emoji ? '📥 Message received' : 'Message received',
       [SocketEventType.SentMessage]: this.config.emoji ? '📤 Message sent' : 'Message sent',
+      [SocketEventType.Reconnecting]: this.config.emoji ? '🔁 Retry connection' : 'Retry connection',
       [SocketEventType.Connected]: this.config.emoji ? '🔄 Connection established' : 'Connection established',
-      [SocketEventType.Error]: this.config.emoji ? '✖️ Error' : 'Error',
+      [SocketEventType.Error]: this.config.emoji ? '❗️ Error' : 'Error',
       [SocketEventType.Closed]: this.config.emoji ? '🚫️ Connection closed' : 'Connection closed',
     }
 
@@ -43,7 +44,7 @@ export class CliInteractive implements ICliInteractive {
     const date = moment(event.date).format('YYYY-MM-D HH:mm:ss')
     const title = `${id} [${date}] ${eventName[event.type]}`
 
-    const message = event.type === SocketEventType.Connected
+    const message = event.type === SocketEventType.Connected || event.type === SocketEventType.Reconnecting
       ? {type: event.message.type, address: event.message.address}
       : event.message
 
