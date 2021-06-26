@@ -61,7 +61,10 @@ API:
   <summary>
     Usage
   </summary>
-  <img src="./demo/websocket-demo.gif">  
+  <p align="center">
+    <img src="./demo/websocket-demo.gif">
+  </p>
+
 </details>
 
 ## License
