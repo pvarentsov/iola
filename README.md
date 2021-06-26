@@ -84,8 +84,8 @@ Examples:
 
 * ```shell
   curl --request GET \
-   --url http://localhost:3000/messages/1 \
-   --header 'Content-Type: application/json'
+    --url http://localhost:3000/messages/1 \
+    --header 'Content-Type: application/json'
   ```
 
 * ```shell
@@ -100,13 +100,13 @@ Examples:
   
   ```shell
   curl --request GET \
-  --url http://localhost:3000/messages \
-  --header 'Content-Type: application/json'
+    --url http://localhost:3000/messages \
+    --header 'Content-Type: application/json'
   ```
 * Filter: "type" (`SentMessage`,`ReceivedMessage`,`Connected`,`Reconnecting`,`Closed`,`Error`)
 
   ```shell
-    curl --request GET \
+  curl --request GET \
     --url 'http://localhost:3000/messages?type=ReceivedMessage' \
     --header 'Content-Type: application/json'
   ```
