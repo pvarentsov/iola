@@ -86,7 +86,9 @@ Examples:
 curl --request GET \
   --url http://localhost:3000/messages/1 \
   --header 'Content-Type: application/json'
-  
+```
+
+```shell
 curl --request GET \
   --url http://localhost:3000/messages/00001 \
   --header 'Content-Type: application/json'
@@ -103,11 +105,11 @@ curl --request GET \
 * Filter: "type"
   * Values: `SentMessage`,`ReceivedMessage`,`Connected`,`Reconnecting`,`Closed`,`Error`
   
-  ```shell
-    curl --request GET \
-    --url 'http://localhost:3000/messages?type=ReceivedMessage' \
-    --header 'Content-Type: application/json'
-  ```
+    ```shell
+      curl --request GET \
+      --url 'http://localhost:3000/messages?type=ReceivedMessage' \
+      --header 'Content-Type: application/json'
+    ```
 
 #### Send messages
 
@@ -128,16 +130,16 @@ curl --request GET \
     in order to await the server reply with such RequestId in the body.
   * Used only for websocket client.
   * RequestId field can be one of the following: `requestId`,`request_id`,`reqId`,`req_id`,`traceId`,`trace_id`
-  ```shell
-  curl --request POST \
-    --url http://localhost:3000/messages \
-    --header 'Content-Type: application/json' \
-    --data '{
-      	"data": {
-      	  "requestId": "ff18493d-ec93-4fec-a668-fb35a9ecbbcf",
-      	  "data": "Hello!"
-      	}
-      }'
+    ```shell
+    curl --request POST \
+      --url http://localhost:3000/messages \
+      --header 'Content-Type: application/json' \
+      --data '{
+        	"data": {
+        	  "requestId": "ff18493d-ec93-4fec-a668-fb35a9ecbbcf",
+        	  "data": "Hello!"
+        	}
+        }'
   ```
 * Any data: Text
   ```shell
