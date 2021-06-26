@@ -16,7 +16,7 @@ const Error = S
 export const Message = S
   .object()
   .prop('id', S.number())
-  .prop('type', S.string().enum([SocketEventType.ReceivedMessage, SocketEventType.SentMessage]))
+  .prop('type', S.string().enum(EnumUtil.values(SocketEventType)))
   .prop('date', S.string())
   .prop('message', S.anyOf([
     S.string(),

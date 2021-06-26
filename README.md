@@ -80,20 +80,95 @@ Examples:
 
 ### Rest API
 
-#### Enpoints
-* Get message list - `GET  /messages`
-* Get message by id -` GET  /messages/{id}`
-* Send message - `POST /messages`
-* Get Swagger documentation - `GET  /docs`
+#### Get message by id
 
-<details>
-  <summary>
-    demo
-  </summary>
-  <p align="center">
-  <img src="./demo/api-demo.mp4">
-  </p>
-</details>
+```shell
+curl --request GET \
+  --url http://localhost:3000/messages/1 \
+  --header 'Content-Type: application/json'
+  
+curl --request GET \
+  --url http://localhost:3000/messages/00001 \
+  --header 'Content-Type: application/json'
+```
+
+#### Get message list
+
+```shell
+# Without filters
+
+curl --request GET \
+  --url http://localhost:3000/messages \
+  --header 'Content-Type: application/json'
+
+# Filter: "type"
+# Values: "SentMessage","ReceivedMessage","Connected","Reconnecting","Closed","Error"
+
+curl --request GET \
+  --url 'http://localhost:3000/messages?type=ReceivedMessage' \
+  --header 'Content-Type: application/json'
+```
+
+#### Send messages
+
+```shell
+# Any data
+
+  ## Json
+  
+  curl --request POST \
+    --url http://localhost:3000/messages \
+    --header 'Content-Type: application/json' \
+    --data '{
+  	    "data": {
+  	      "event": "greeting",
+  	      "data": "Hi, Server!"
+  	    }
+      }'
+      
+  ## Json with RequestId (used only for websocket client)
+  ##   You can pass the RequestId to the request with json body
+  ##   in order to await the server reply with such RequestId in the body.
+  ##
+  ##   RequestId field can be on of following: "requestId","request_id","reqId","req_id","traceId","trace_id".
+  
+  curl --request POST \
+    --url http://localhost:3000/messages \
+    --header 'Content-Type: application/json' \
+    --data '{
+      	"data": {
+      	  "requestId": "ff18493d-ec93-4fec-a668-fb35a9ecbbcf",
+      	  "data": "Hello!"
+      	}
+      }'    
+   
+  ## Text   
+   
+  curl --request POST \
+    --url http://localhost:3000/messages \
+    --header 'Content-Type: application/json' \
+    --data '{
+  	  "data": "Hello!"
+      }'
+    
+# Binary data (uint8 array)
+
+curl --request POST \
+  --url http://localhost:3000/messages \
+  --header 'Content-Type: application/json' \
+  --data '{
+	  "bytes": [72, 101, 108, 108, 111, 33]
+    }'
+```
+#### Get swagger documentation
+
+```shell
+curl --request GET \
+  --url http://localhost:3000/docs \
+  --header 'Content-Type: text/html'
+```
+
+
 
 ## License
 
