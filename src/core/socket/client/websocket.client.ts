@@ -65,7 +65,7 @@ export class WebSocketClient implements ISocketClient {
           })
 
           this.close()
-          this.retryConnect()
+          this.retryConnection()
         }
       })
 
@@ -123,7 +123,7 @@ export class WebSocketClient implements ISocketClient {
     this._info.connected = false
   }
 
-  private retryConnect(): void {
+  private retryConnection(): void {
     const retryInterval = setInterval(async () => {
       try {
         this._store.add({
