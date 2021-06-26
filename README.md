@@ -8,7 +8,7 @@
 **iola** - a socket client with rest api. It helps to work with socket servers using your favorite rest client.
 
 <p align="center"> 
-  <img src="./demo/iola-demo.gif">
+  <img src="./demo/iola-demo.gif?r=1">
 </p>
 
 **Features:**
