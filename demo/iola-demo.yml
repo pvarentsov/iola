@@ -78,7 +78,7 @@ config:
   fontFamily: 'Hack, "Noto Color Emoji"'
   
   # The size of the font
-  fontSize: 16
+  fontSize: 14
   
   # The height of lines
   lineHeight: 1
