@@ -33,7 +33,7 @@ config:
   
   # Quality
   # 1 - 100
-  quality: 100
+  quality: 99
   
   # Delay between frames in ms
   # If the value is `auto` use the actual recording delays
