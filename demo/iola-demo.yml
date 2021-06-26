@@ -143,13 +143,9 @@ records:
   - delay: 50
     content: ' '
   - delay: 50
-    content: h
+    content: w
   - delay: 50
-    content: t
-  - delay: 50
-    content: t
-  - delay: 50
-    content: p
+    content: s
   - delay: 50
     content: ':'
   - delay: 50
@@ -189,7 +185,7 @@ records:
   - delay: 289
     content: "\r\n\e[1mAPI server:\e[22m http://127.0.0.1:3000\r\n\e[1mAPI docs  :\e[22m http://127.0.0.1:3000/docs\r\n\r\n"
   - delay: 1004
-    content: "\e[1m00001\e[22m [2021-06-26 00:31:18] \U0001F504  Connection established:\r\n  { type: \e[32m'websocket'\e[39m, address: \e[32m'http://127.0.0.1:8080'\e[39m }\r\n\r\n"
+    content: "\e[1m00001\e[22m [2021-06-26 00:31:18] \U0001F504  Connection established:\r\n  { type: \e[32m'websocket'\e[39m, address: \e[32m'ws://127.0.0.1:8080'\e[39m }\r\n\r\n"
   - delay: 2000
     content: "\e[1m00002\e[22m [2021-06-26 00:31:20] \U0001F4E5  Message received:\r\n  { format: \e[32m'string'\e[39m, data: \e[32m'Hi, Iola!'\e[39m }\r\n\r\n"
   - delay: 2000
