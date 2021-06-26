@@ -33,6 +33,8 @@ $ npm install -g iola
 ```
 ## Usage
 
+### CLI
+
 <pre>
 $ iola --help
 
@@ -55,17 +57,14 @@ API:
   GET  /docs                     Get api documentation
 </pre>
 
-### WebSocket
-
 <details>
   <summary>
-    Usage
+    websocket
   </summary>
   <br>
   <p align="center">
     <img src="./demo/websocket-demo.gif">
   </p>
-
 </details>
 
 ## License
