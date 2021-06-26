@@ -94,28 +94,25 @@ curl --request GET \
 
 #### Get message list
 
-```shell
-# Without filters
-
-curl --request GET \
+* Without filters
+  ```shell
+  curl --request GET \
   --url http://localhost:3000/messages \
   --header 'Content-Type: application/json'
-
-# Filter: "type"
-# Values: "SentMessage","ReceivedMessage","Connected","Reconnecting","Closed","Error"
-
-curl --request GET \
-  --url 'http://localhost:3000/messages?type=ReceivedMessage' \
-  --header 'Content-Type: application/json'
-```
+  ```
+* Filter: "type"
+  * Values: `SentMessage`,`ReceivedMessage`,`Connected`,`Reconnecting`,`Closed`,`Error`
+  
+  ```shell
+    curl --request GET \
+    --url 'http://localhost:3000/messages?type=ReceivedMessage' \
+    --header 'Content-Type: application/json'
+  ```
 
 #### Send messages
 
-```shell
-# Any data
-
-  ## Json
-  
+* Any data: Json
+  ```shell
   curl --request POST \
     --url http://localhost:3000/messages \
     --header 'Content-Type: application/json' \
@@ -125,13 +122,13 @@ curl --request GET \
   	      "data": "Hi, Server!"
   	    }
       }'
-      
-  ## Json with RequestId (used only for websocket client)
-  ##   You can pass the RequestId to the request with json body
-  ##   in order to await the server reply with such RequestId in the body.
-  ##
-  ##   RequestId field can be on of following: "requestId","request_id","reqId","req_id","traceId","trace_id".
-  
+  ``` 
+* Any data: Json with RequestId
+  * You can pass the RequestId to the request with json body
+    in order to await the server reply with such RequestId in the body.
+  * Used only for websocket client.
+  * RequestId field can be one of the following: `requestId`,`request_id`,`reqId`,`req_id`,`traceId`,`trace_id`
+  ```shell
   curl --request POST \
     --url http://localhost:3000/messages \
     --header 'Content-Type: application/json' \
@@ -140,26 +137,27 @@ curl --request GET \
       	  "requestId": "ff18493d-ec93-4fec-a668-fb35a9ecbbcf",
       	  "data": "Hello!"
       	}
-      }'    
-   
-  ## Text   
-   
+      }'
+  ```
+* Any data: Text
+  ```shell
   curl --request POST \
     --url http://localhost:3000/messages \
     --header 'Content-Type: application/json' \
     --data '{
-  	  "data": "Hello!"
+  	    "data": "Hello!"
       }'
-    
-# Binary data (uint8 array)
+  ```
+* Binary data (uint8 array)  
+  ```shell
+  curl --request POST \
+    --url http://localhost:3000/messages \
+    --header 'Content-Type: application/json' \
+    --data '{
+    	  "bytes": [72, 101, 108, 108, 111, 33]
+      }'
+  ```
 
-curl --request POST \
-  --url http://localhost:3000/messages \
-  --header 'Content-Type: application/json' \
-  --data '{
-	  "bytes": [72, 101, 108, 108, 111, 33]
-    }'
-```
 #### Get swagger documentation
 
 ```shell
