@@ -82,17 +82,17 @@ Examples:
 
 #### Get message by id
 
-```shell
-curl --request GET \
-  --url http://localhost:3000/messages/1 \
-  --header 'Content-Type: application/json'
-```
+* ```shell
+  curl --request GET \
+   --url http://localhost:3000/messages/1 \
+   --header 'Content-Type: application/json'
+  ```
 
-```shell
-curl --request GET \
-  --url http://localhost:3000/messages/00001 \
-  --header 'Content-Type: application/json'
-```
+* ```shell
+  curl --request GET \
+    --url http://localhost:3000/messages/00001 \
+    --header 'Content-Type: application/json'
+  ```
 
 #### Get message list
 
@@ -111,7 +111,7 @@ curl --request GET \
     --header 'Content-Type: application/json'
   ```
 
-#### Send messages
+#### Send message
 
 * Any data: Json
   ```shell
@@ -131,7 +131,8 @@ curl --request GET \
   # You can pass the RequestId to the request with json body
   # in order to await the server reply with such RequestId in the body.
   #
-  # RequestId field can be one of the following: "requestId","request_id","reqId","req_id","traceId","trace_id". 
+  # RequestId field can be one of the following: 
+  #   "requestId","request_id","reqId","req_id","traceId","trace_id". 
   
   curl --request POST \
     --url http://localhost:3000/messages \
@@ -167,11 +168,11 @@ curl --request GET \
 
 #### Get swagger documentation
 
-```shell
-curl --request GET \
-  --url http://localhost:3000/docs \
-  --header 'Content-Type: text/html'
-```
+* ```shell
+  curl --request GET \
+    --url http://localhost:3000/docs \
+    --header 'Content-Type: text/html'
+  ```
 
 
 
