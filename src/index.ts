@@ -13,6 +13,9 @@ import { SocketFactory } from '@iola/core/socket'
     const client = SocketFactory.createClient({
       type: config.socketType,
       address: config.socketAddress,
+      connectionTimeout: config.connectionTimeout,
+      reconnectionInterval: config.reconnectionInterval,
+      replyTimeout: config.replyTimeout,
     })
 
     const server = HttpFactory

@@ -6,7 +6,7 @@ import { AnyObject, MessageRequestIdInfo, MessageUtil, Optional, RxJSUtil } from
 import {
   ISocketClient,
   ISocketEventStore,
-  SocketConnection,
+  SocketOptions,
   SocketEvent,
   SocketEventType,
   SocketInfo,
@@ -16,16 +16,18 @@ import {
 export class WebSocketClient implements ISocketClient {
   private readonly _info: SocketInfo
   private readonly _store: ISocketEventStore
+  private readonly _options: SocketOptions
 
   private _client?: WebSocket
 
-  constructor(options: SocketConnection, store: ISocketEventStore) {
+  constructor(options: SocketOptions, store: ISocketEventStore) {
     this._info = {
       type: options.type,
       address: options.address,
       connected: false,
     }
 
+    this._options = options
     this._store = store
   }
 
@@ -72,7 +74,7 @@ export class WebSocketClient implements ISocketClient {
 
       try {
         const openStream = fromEvent(this._client, 'open').pipe(
-          RxJSUtil.timeout(3000, `connection to ${this.info.address} is timed out`),
+          RxJSUtil.timeout(this._options.connectionTimeout, `connection to ${this.info.address} is timed out`),
           tap(() => this._info.connected = true),
           tap(() => this._store.add({
             type: SocketEventType.Connected,
@@ -140,7 +142,7 @@ export class WebSocketClient implements ISocketClient {
         clearInterval(retryInterval)
       }
       catch (err) {}
-    }, 5_000)
+    }, this._options.reconnectionInterval)
   }
 
   private send<TData, TMessage>(
@@ -195,7 +197,7 @@ export class WebSocketClient implements ISocketClient {
       filter(event => isMessageDataRecord(event)),
       filter(event => isMessageReply(event, requestIdInfo)),
       map(event => event.message.data),
-      timeout(3000),
+      timeout(this._options.replyTimeout),
     )
 
     let reply: Optional<AnyObject>

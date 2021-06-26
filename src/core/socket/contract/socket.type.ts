@@ -1,8 +1,11 @@
 import { SocketEventType, SocketType } from '@iola/core/socket'
 
-export type SocketConnection = {
+export type SocketOptions = {
   type: SocketType,
   address: string,
+  connectionTimeout: number,
+  reconnectionInterval: number,
+  replyTimeout: number,
 }
 
 export type SocketInfo = {

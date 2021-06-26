@@ -6,4 +6,7 @@ export type CliConfig = {
   socketType: SocketType;
   socketAddress: string;
   emoji: boolean;
+  connectionTimeout: number;
+  reconnectionInterval: number;
+  replyTimeout: number;
 }
