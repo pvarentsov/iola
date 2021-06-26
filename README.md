@@ -57,7 +57,7 @@ API:
 
 ### WebSocket
 
-```shell
+```text
 $ iola help websocket
  
 Usage: iola websocket [options] <address>
