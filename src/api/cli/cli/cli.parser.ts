@@ -57,7 +57,30 @@ export class CliParser implements ICliParser {
     program.parse()
 
     if (!config) {
-      console.log('error: unknown command')
+      console.error('error: unknown command')
+      process.exit(1)
+    }
+
+    return this.validateConfig(config)
+  }
+
+  private validateConfig(config: CliConfig): CliConfig {
+    const errors: string[] = []
+
+    if (isNaN(config.apiPort) || config.apiPort >= 65536 || config.apiPort < 0) {
+      errors.push('api-port must be >= 0 and < 65536')
+    }
+    if (isNaN(config.replyTimeout) || config.replyTimeout < 1) {
+      errors.push('reply-timeout must be a positive number')
+    }
+
+    if (errors.length > 0) {
+      if (errors.length === 1) {
+        console.error(`error: ${errors[0]}`)
+        process.exit(1)
+      }
+
+      console.error(`errors:${EOL}` + errors.map(e => `  ${e}`).join(EOL))
       process.exit(1)
     }
 
