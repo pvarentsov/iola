@@ -57,7 +57,7 @@ API:
   GET  /docs                     Get api documentation
 </pre>
 
-**websocket**
+#### websocket
 
 ```text
 $ iola help websocket
@@ -146,6 +146,9 @@ Examples:
   #   - req_id
   #   - traceId
   #   - trace_id
+  #
+  # Default reply timeout - 2000ms. 
+  # To change it need to set "--reply-timeout <timeout>" cli option.
   
   curl --request POST \
     --url http://localhost:3000/messages \
