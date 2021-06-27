@@ -119,10 +119,10 @@ Examples:
     --url http://localhost:3000/messages \
     --header 'Content-Type: application/json' \
     --data '{
-  	    "data": {
-  	      "event": "greeting",
-  	      "data": "Hi, Server!"
-  	    }
+        "data": {
+          "event": "greeting",
+          "data": "Hi, Server!"
+        }
       }'
   ``` 
 * Any data: Json with RequestId (only for websocket client)
@@ -138,10 +138,10 @@ Examples:
     --url http://localhost:3000/messages \
     --header 'Content-Type: application/json' \
     --data '{
-      	"data": {
-      	  "requestId": "ff18493d-ec93-4fec-a668-fb35a9ecbbcf",
-      	  "data": "Hello!"
-      	}
+        "data": {
+          "requestId": "ff18493d-ec93-4fec-a668-fb35a9ecbbcf",
+          "data": "Hello!"
+        }
       }'
   ``` 
 
@@ -152,7 +152,7 @@ Examples:
     --url http://localhost:3000/messages \
     --header 'Content-Type: application/json' \
     --data '{
-  	    "data": "Hello!"
+        "data": "Hello!"
       }'
   ```
 * Binary data (uint8 array) 
@@ -161,8 +161,9 @@ Examples:
   curl --request POST \
     --url http://localhost:3000/messages \
     --header 'Content-Type: application/json' \
-    --data '{
-    	  "bytes": [72, 101, 108, 108, 111, 33]
+    --data '
+      {
+        "bytes": [72, 101, 108, 108, 111, 33]
       }'
   ```
 
