@@ -3,6 +3,25 @@
 [![License: MIT](https://img.shields.io/github/license/pvarentsov/iola)](https://github.com/pvarentsov/iola/blob/main/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/iola.svg)](https://www.npmjs.com/package/iola)
 
+## Table of contents
+
+<!-- toc -->
+
+- [Description](#Description)
+- [Installation](#Installation)
+- [Usage](#Usage)
+  * [CLI](#CLI)
+    * [WebSocket](#WebSocket)
+  * [Rest API](#Rest API)
+    * [Get swagger documentation](Get swagger documentation)
+    * [Get message by id](Get message by id)
+    * [Get message list](Get message list)
+    * [Send message](Send message)
+    
+- [License](#License)
+
+<!-- tocstop -->
+
 ## Description
 
 **iola** - a socket client with rest api. It helps to work with socket servers using your favorite rest client.
@@ -57,7 +76,7 @@ API:
   GET  /docs                     Get api documentation
 </pre>
 
-#### websocket
+#### WebSocket
 
 ```text
 $ iola help websocket
