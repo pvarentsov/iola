@@ -161,8 +161,7 @@ Examples:
   curl --request POST \
     --url http://localhost:3000/messages \
     --header 'Content-Type: application/json' \
-    --data '
-      {
+    --data '{
         "bytes": [72, 101, 108, 108, 111, 33]
       }'
   ```
