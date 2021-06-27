@@ -137,16 +137,62 @@ Examples:
 
 #### Send message
 
-* Any data: Json
+* Any data
   ```shell
+  # Json object
+  
   curl --request POST \
     --url http://localhost:3000/messages \
     --header 'Content-Type: application/json' \
     --data '{
         "data": {
-          "event": "greeting",
-          "data": "Hi, Server!"
+          "message": "Hello!"
         }
+      }'
+  
+  # Json array
+  
+  curl --request POST \
+    --url http://localhost:3000/messages \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "data": [{}, "42"]
+      }'  
+  
+  # String
+  
+  curl --request POST \
+    --url http://localhost:3000/messages \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "data": "42"
+      }'  
+
+  # Number
+  
+  curl --request POST \
+    --url http://localhost:3000/messages \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "data": 42
+      }'  
+  
+  # Boolean
+  
+  curl --request POST \
+    --url http://localhost:3000/messages \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "data": true
+      }'  
+  
+  # Null   
+     
+  curl --request POST \
+    --url http://localhost:3000/messages \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "data": null
       }'
   ``` 
 * Any data: Json with RequestId (only for websocket client)
@@ -172,7 +218,7 @@ Examples:
     --data '{
         "data": {
           "requestId": "ff18493d-ec93-4fec-a668-fb35a9ecbbcf",
-          "data": "Hello!"
+          "data": {}
         }
       }'
   
@@ -182,21 +228,11 @@ Examples:
     --data '{
         "data": {
           "traceId": "7a1c9088-726c-4a71-b2db-b4ba019054f7",
-          "data": "Hello!"
+          "message": "Hello!"
         }
       }'  
   ``` 
 
-* Any data: Text
-  
-  ```shell
-  curl --request POST \
-    --url http://localhost:3000/messages \
-    --header 'Content-Type: application/json' \
-    --data '{
-        "data": "Hello!"
-      }'
-  ```
 * Binary data (uint8 array) 
   
   ```shell
