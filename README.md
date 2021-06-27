@@ -6,16 +6,16 @@
 ## Table of contents
 
 <!-- toc -->
-- [Description](#Description)
-- [Installation](#Installation)
-- [Usage](#Usage)
-  * [CLI](#CLI)
-    * [WebSocket](#WebSocket)
-  * [Rest API](#Rest API)
-    * [Get swagger documentation](#Get swagger documentation)
-    * [Get message by id](#Get message by id)
-    * [Get message list](#Get message list)
-    * [Send message](#Send message)
+- [Description](#description)
+- [Installation](#installation)
+- [Usage](#usage)
+  * [CLI](#cLI)
+    * [WebSocket](#websocket)
+  * [Rest API](#rest-api)
+    * [Get swagger documentation](#get-swagger-documentation)
+    * [Get message by id](#get-message-by-id)
+    * [Get message list](#get-message-list)
+    * [Send message](#send-message)
 - [License](#License)
 <!-- tocstop -->
 
