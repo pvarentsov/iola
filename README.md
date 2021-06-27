@@ -18,7 +18,7 @@
 3. Log all socket events in console
 
 **Roadmap**:
-- [ ] Detailed documentation
+- [x] Detailed documentation
 - [ ] Implement clients
   - [x] WebSocket
   - [ ] SocketIO
