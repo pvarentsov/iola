@@ -24,9 +24,8 @@ export const Message = S
     S.boolean(),
     S.array().items(S.raw({})).additionalItems(true),
     S.object().additionalProperties(true),
-  ]).raw({
-    nullable: true
-  }))
+    S.null()
+  ]).raw({nullable: true}))
 
 export const MessageList = S
   .array()
@@ -45,9 +44,9 @@ export const SendMessage = S.oneOf([
     .description('Send any data (string, number, boolean, array, object, null).')
     .prop('event', S.string().description('Used only for SocketIO client.'))
     .prop('data', S.anyOf([
-      S.string(),
-      S.number(),
-      S.boolean(),
+      S.string().raw({nullable: true}),
+      S.number().raw({nullable: true}),
+      S.boolean().raw({nullable: true}),
       S.array().items(S.raw({})),
       S.object(),
     ]).required()),
