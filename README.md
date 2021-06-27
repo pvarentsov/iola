@@ -80,6 +80,14 @@ Examples:
 
 ### Rest API
 
+#### Get swagger documentation
+
+* ```shell
+  curl --request GET \
+    --url http://localhost:3000/docs \
+    --header 'Content-Type: text/html'
+  ```
+
 #### Get message by id
 
 * ```shell
@@ -180,17 +188,7 @@ Examples:
         "bytes": [72, 101, 108, 108, 111, 33]
       }'
   ```
-
-#### Get swagger documentation
-
-* ```shell
-  curl --request GET \
-    --url http://localhost:3000/docs \
-    --header 'Content-Type: text/html'
-  ```
-
-
-
+  
 ## License
 
 This project is licensed under the [MIT License](https://github.com/pvarentsov/iola/blob/main/LICENSE).

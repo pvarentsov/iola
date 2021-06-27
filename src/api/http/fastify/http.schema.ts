@@ -15,9 +15,9 @@ const Error = S
 
 export const Message = S
   .object()
-  .prop('id', S.number())
-  .prop('type', S.string().enum(EnumUtil.values(SocketEventType)))
-  .prop('date', S.string())
+  .prop('id', S.number().required())
+  .prop('type', S.string().enum(EnumUtil.values(SocketEventType)).required())
+  .prop('date', S.string().required())
   .prop('message', S.anyOf([
     S.string(),
     S.number(),
@@ -34,7 +34,7 @@ export const MessageList = S
 
 export const GetMessage = S
   .object()
-  .prop('id', S.string())
+  .prop('id', S.string().required())
 
 export const GetMessageList = S
   .object()
@@ -53,7 +53,7 @@ export const SendMessage = S.oneOf([
     ]).required()),
 
   S.object()
-    .description('Send binary data as byte array (octets).')
+    .description('Send binary data as uint8 array (octets).')
     .prop('event', S
       .string()
       .description('Used only for SocketIO client.'))
@@ -65,8 +65,8 @@ export const SendMessage = S.oneOf([
 
 export const SendMessageResponse = S
   .object()
-  .prop('messageId', S.number())
-  .prop('reply', S.object().additionalProperties(true).raw({nullable: true}))
+  .prop('messageId', S.number().required())
+  .prop('reply', S.object().additionalProperties(true))
 
 // Route options
 
