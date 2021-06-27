@@ -132,7 +132,12 @@ Examples:
   # in order to await the server reply with such RequestId in the body.
   #
   # RequestId field can be one of the following: 
-  #   "requestId","request_id","reqId","req_id","traceId","trace_id". 
+  #   - requestId
+  #   - request_id
+  #   - reqId
+  #   - req_id
+  #   - traceId
+  #   - trace_id
   
   curl --request POST \
     --url http://localhost:3000/messages \
@@ -143,6 +148,16 @@ Examples:
           "data": "Hello!"
         }
       }'
+  
+  curl --request POST \
+    --url http://localhost:3000/messages \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "data": {
+          "traceId": "7a1c9088-726c-4a71-b2db-b4ba019054f7",
+          "data": "Hello!"
+        }
+      }'  
   ``` 
 
 * Any data: Text
