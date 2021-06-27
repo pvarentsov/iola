@@ -193,7 +193,7 @@ export class WebSocketClient implements ISocketClient {
 
     const eventStream$ = this._store.listen().pipe(
       filter(event => event.type === SocketEventType.ReceivedMessage),
-      filter(event => event.date > awaitAfterDate),
+      filter(event => event.date >= awaitAfterDate),
       filter(event => isMessageDataRecord(event)),
       filter(event => isMessageReply(event, requestIdInfo)),
       map(event => event.message.data),
