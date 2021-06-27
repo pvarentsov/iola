@@ -19,7 +19,6 @@
     "lint": "eslint 'src/**/*.ts'",
     "lint:fix": "eslint --fix 'src/**/*.ts'",
     "demo:iola": "terminalizer render ./demo/iola-demo.yml -o ./demo/iola-demo.gif",
-    "demo:websocket": "terminalizer render ./demo/websocket-demo.yml -o ./demo/websocket-demo.gif",
     "server:websocket": "node ./external/websocket.server.js"
   },
   "repository": {
