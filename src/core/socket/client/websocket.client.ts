@@ -73,7 +73,7 @@ export class WebSocketClient implements ISocketClient {
       })
 
       try {
-        const openStream = fromEvent(this._client, 'open').pipe(
+        const open$ = fromEvent(this._client, 'open').pipe(
           RxJSUtil.timeout(this._options.connectionTimeout, `connection to ${this.info.address} is timed out`),
           tap(() => this._info.connected = true),
           tap(() => this._store.add({
@@ -84,7 +84,7 @@ export class WebSocketClient implements ISocketClient {
           mapTo(undefined),
         )
 
-        await firstValueFrom(openStream)
+        await firstValueFrom(open$)
 
         this._info.connected = true
       }
@@ -152,14 +152,17 @@ export class WebSocketClient implements ISocketClient {
 
   ): Promise<SocketSendReply>
   {
-    if (!this._client || !this._info.connected) {
-      throw new Error(`client is not connected to ${this.info.address}`)
+    const client = this._client
+    const connected = this._info.connected
+
+    if (!client || !connected) {
+      throw new Error(`error: client is not connected to ${this.info.address}`)
     }
 
     const currentDate = new Date()
 
     return new Promise<SocketSendReply>(async (resolve, reject) => {
-      this._client!.send(data, async (err) => {
+      client.send(data, async (err) => {
         if (!err) {
           const event = {
             type: SocketEventType.SentMessage,
@@ -181,21 +184,21 @@ export class WebSocketClient implements ISocketClient {
   }
 
   private async awaitReply(requestIdInfo: MessageRequestIdInfo, awaitAfterDate: Date): Promise<Optional<AnyObject>> {
-    const isMessageDataRecord = (event: SocketEvent): boolean => {
+    const isRecord = (event: SocketEvent): boolean => {
       return typeof event.message.data === 'object'
         && event.message.data !== null
         && !Array.isArray(event.message.data)
     }
 
-    const isMessageReply = (event: SocketEvent, requestIdInfo: MessageRequestIdInfo): boolean => {
+    const isReply = (event: SocketEvent, requestIdInfo: MessageRequestIdInfo): boolean => {
       return event.message.data[requestIdInfo.key] === requestIdInfo.value
     }
 
-    const eventStream$ = this._store.listen().pipe(
+    const reply$ = this._store.listen().pipe(
       filter(event => event.type === SocketEventType.ReceivedMessage),
       filter(event => event.date >= awaitAfterDate),
-      filter(event => isMessageDataRecord(event)),
-      filter(event => isMessageReply(event, requestIdInfo)),
+      filter(event => isRecord(event)),
+      filter(event => isReply(event, requestIdInfo)),
       map(event => event.message.data),
       timeout(this._options.replyTimeout),
     )
@@ -203,7 +206,7 @@ export class WebSocketClient implements ISocketClient {
     let reply: Optional<AnyObject>
 
     try {
-      reply = await firstValueFrom(eventStream$)
+      reply = await firstValueFrom(reply$)
     } catch (err) {}
 
     return reply
