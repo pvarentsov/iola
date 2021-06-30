@@ -61,12 +61,12 @@
     "typescript": "4.3.2"
   },
   "dependencies": {
-    "ajv": "8.6.0",
+    "@nestjs/common": "7.6.18",
+    "@nestjs/core": "7.6.18",
+    "@nestjs/platform-express": "7.6.18",
+    "@nestjs/swagger": "4.8.2",
     "chalk": "4.1.1",
     "commander": "7.2.0",
-    "fastify": "3.17.0",
-    "fastify-swagger": "4.7.0",
-    "fluent-json-schema": "3.0.0",
     "moment": "2.29.1",
     "prompts": "2.4.1",
     "reflect-metadata": "0.1.13",

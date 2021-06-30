@@ -1,17 +1,9 @@
-import Fastify from 'fastify'
-
 import { IHttpServer } from '@iola/api/http'
-import { HttpRouter } from '@iola/api/http/fastify/http.router'
-import { HttpServer } from '@iola/api/http/fastify/http.server'
+import { HttpServer } from '@iola/api/http/nest/http.server'
 import { ISocketClient } from '@iola/core/socket'
 
 export class HttpFactory {
   static createServer(client: ISocketClient): IHttpServer {
-    const adapter = Fastify({})
-
-    const router = new HttpRouter(adapter, client)
-    const server = new HttpServer(adapter, router, client)
-
-    return server
+    return new HttpServer(client)
   }
 }
