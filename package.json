@@ -71,6 +71,7 @@
     "prompts": "2.4.1",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.1.0",
+    "swagger-ui-express": "4.1.6",
     "ws": "7.4.6"
   }
 }

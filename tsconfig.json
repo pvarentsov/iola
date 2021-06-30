@@ -3,7 +3,7 @@
     "strict": true,
     "module": "CommonJS",
     "moduleResolution": "Node",
-    "strictPropertyInitialization": true,
+    "strictPropertyInitialization": false,
     "strictNullChecks": true,
     "noImplicitAny": true,
     "declaration": false,
