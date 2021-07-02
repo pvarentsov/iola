@@ -19,7 +19,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common'
-import { ApiBody, ApiExtraModels, ApiQuery, ApiResponse, ApiTags, refs } from '@nestjs/swagger'
+import { ApiBody, ApiExtraModels, ApiOperation, ApiQuery, ApiResponse, ApiTags, refs } from '@nestjs/swagger'
 
 @Controller()
 export class HttpController {
@@ -30,6 +30,7 @@ export class HttpController {
 
   @Get('/messages/:id')
   @ApiTags('Messages')
+  @ApiOperation({description: 'Get message by id', summary: 'Get message by id'})
   @ApiResponse({status: 200, type: Message})
   getMessage(@Param('id') id: number): any {
     const message = this.client
@@ -46,6 +47,7 @@ export class HttpController {
 
   @Get('/messages')
   @ApiTags('Messages')
+  @ApiOperation({description: 'Get message list', summary: 'Get message list'})
   @ApiQuery({type: GetMessageList})
   @ApiResponse({status: 200, type: Message, isArray: true})
   getMessageList(@Query() query: AnyObject): any {
@@ -65,6 +67,7 @@ export class HttpController {
 
   @Post('/messages')
   @ApiTags('Messages')
+  @ApiOperation({description: 'Send message', summary: 'Send message'})
   @ApiExtraModels(SendDataMessage, SendBytesMessage)
   @ApiBody({schema: {oneOf: refs(SendDataMessage, SendBytesMessage)}})
   @ApiResponse({status: 200, type: SendMessageResponse})

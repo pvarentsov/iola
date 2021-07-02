@@ -8,7 +8,7 @@ export class Message {
   @ApiProperty({enum: SocketEventType})
   type: SocketEventType
 
-  @ApiProperty({type: 'string', format: 'date'})
+  @ApiProperty({type: 'string', example: new Date()})
   date: Date
 
   @ApiProperty({type: 'object'})
@@ -21,18 +21,18 @@ export class GetMessageList {
 }
 
 export class SendDataMessage {
-  @ApiProperty({type: 'string', required: false})
+  @ApiProperty({type: 'string', required: false, description: 'Only for SocketIO'})
   event?: number
 
-  @ApiProperty({type: 'object'})
+  @ApiProperty({type: 'object', description: 'Any data'})
   data: any
 }
 
 export class SendBytesMessage {
-  @ApiProperty({type: 'string', required: false})
+  @ApiProperty({type: 'string', required: false, description: 'Only for SocketIO'})
   event?: number
 
-  @ApiProperty({type: 'number', isArray: true})
+  @ApiProperty({type: 'number', isArray: true, description: 'UInt8 Array'})
   bytes: number[]
 }
 
