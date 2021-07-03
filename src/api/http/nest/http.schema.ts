@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
-import { IsArray, IsDefined, IsIn, IsJSON, IsOptional, Max, Min, ValidateIf } from 'class-validator'
+import { IsArray, IsIn, IsOptional, Max, Min, ValidateIf } from 'class-validator'
 
 import { EnumUtil } from '@iola/core/common'
 import { SocketEventType } from '@iola/core/socket'
