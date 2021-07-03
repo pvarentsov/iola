@@ -1,13 +1,4 @@
 import {
-  GetMessageList,
-  Message,
-  SendBytesMessage,
-  SendData,
-  SendDataMessage,
-  SendMessageResponse,
-} from '@iola/api/http/nest/http.schema'
-import { ISocketClient, SocketEvent, SocketEventType, SocketSendReply } from '@iola/core/socket'
-import {
   BadRequestException,
   Body,
   Controller,
@@ -20,6 +11,16 @@ import {
 } from '@nestjs/common'
 import { ApiBody, ApiExtraModels, ApiOperation, ApiQuery, ApiResponse, ApiTags, refs } from '@nestjs/swagger'
 
+import {
+  GetMessageList,
+  Message,
+  SendBytesMessage,
+  SendData,
+  SendDataMessage,
+  SendMessageResponse,
+} from '@iola/api/http/nest/http.schema'
+import { ISocketClient, SocketEvent, SocketEventType, SocketSendReply } from '@iola/core/socket'
+
 @Controller()
 export class HttpController {
   constructor(
@@ -31,11 +32,11 @@ export class HttpController {
   @ApiTags('Messages')
   @ApiOperation({description: 'Get message by id', summary: 'Get message by id'})
   @ApiResponse({status: 200, type: Message})
-  getMessage(@Param('id') id: number): SocketEvent {
+  getMessage(@Param('id') id: string): SocketEvent {
     const message = this.client
       .store
       .list()
-      .find(m => m.id === id)
+      .find(m => m.id === Number(id))
 
     if (!message) {
       throw new NotFoundException(undefined, `message with id ${id} not found`)

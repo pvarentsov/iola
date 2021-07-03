@@ -6,6 +6,16 @@ import { SocketFactory } from '@iola/core/socket'
 
 (async (): Promise<void> => {
   try {
+    process.on('uncaughtException',  error => {
+      console.error(error.message)
+      process.exit(1)
+    })
+
+    process.on('unhandledRejection',  error => {
+      console.error(error)
+      process.exit(1)
+    })
+
     const config = CliFactory
       .createParser()
       .parse()

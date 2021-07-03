@@ -1,8 +1,9 @@
-import { EnumUtil } from '@iola/core/common'
-import { SocketEventType } from '@iola/core/socket'
 import { ApiProperty } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
-import { IsArray, IsDefined, IsIn, IsOptional, IsString, Max, Min, ValidateIf } from 'class-validator'
+import { IsArray, IsDefined, IsIn, IsOptional, Max, Min, ValidateIf } from 'class-validator'
+
+import { EnumUtil } from '@iola/core/common'
+import { SocketEventType } from '@iola/core/socket'
 
 export class Message {
   @ApiProperty({type: 'number'})

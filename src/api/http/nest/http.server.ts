@@ -1,9 +1,11 @@
-import { IHttpServer } from '@iola/api/http'
-import { HttpModule } from '@iola/api/http/nest/http.module'
-import { ISocketClient } from '@iola/core/socket'
 import { INestApplication, ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+
+import { IHttpServer } from '@iola/api/http'
+import { HttpLogger } from '@iola/api/http/nest/http.logger'
+import { HttpModule } from '@iola/api/http/nest/http.module'
+import { ISocketClient } from '@iola/core/socket'
 
 export class HttpServer implements IHttpServer {
   constructor(private readonly client: ISocketClient) {}
@@ -16,12 +18,15 @@ export class HttpServer implements IHttpServer {
   }
 
   private async init(): Promise<INestApplication> {
-    const app = await NestFactory
-      .create(HttpModule.forRoot(this.client))
+    const app = await NestFactory.create(HttpModule.forRoot(this.client), {
+      logger:new HttpLogger()
+    })
 
     app.useGlobalPipes(new ValidationPipe({
       transform: true,
     }))
+
+    app.enableCors()
 
     const swaggerConfig = new DocumentBuilder()
       .setTitle('iola')
