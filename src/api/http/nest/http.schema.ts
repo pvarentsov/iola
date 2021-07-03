@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
-import { IsArray, IsDefined, IsIn, IsOptional, Max, Min, ValidateIf } from 'class-validator'
+import { IsArray, IsDefined, IsIn, IsJSON, IsOptional, Max, Min, ValidateIf } from 'class-validator'
 
 import { EnumUtil } from '@iola/core/common'
 import { SocketEventType } from '@iola/core/socket'
@@ -30,7 +30,6 @@ export class GetMessageList {
 export class SendData {
   @ApiProperty({type: 'object', description: 'Any data'})
   @ValidateIf(object => object.bytes === undefined)
-  @IsDefined()
   data: any
 
   @ApiProperty({type: 'number', isArray: true, description: 'UInt8 Array'})
