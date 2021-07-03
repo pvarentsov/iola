@@ -2,12 +2,11 @@ import {
   GetMessageList,
   Message,
   SendBytesMessage,
+  SendData,
   SendDataMessage,
   SendMessageResponse,
 } from '@iola/api/http/nest/http.schema'
-
-import { AnyObject } from '@iola/core/common'
-import { ISocketClient, SocketEventType } from '@iola/core/socket'
+import { ISocketClient, SocketEvent, SocketEventType, SocketSendReply } from '@iola/core/socket'
 import {
   BadRequestException,
   Body,
@@ -32,7 +31,7 @@ export class HttpController {
   @ApiTags('Messages')
   @ApiOperation({description: 'Get message by id', summary: 'Get message by id'})
   @ApiResponse({status: 200, type: Message})
-  getMessage(@Param('id') id: number): any {
+  getMessage(@Param('id') id: number): SocketEvent {
     const message = this.client
       .store
       .list()
@@ -50,7 +49,7 @@ export class HttpController {
   @ApiOperation({description: 'Get message list', summary: 'Get message list'})
   @ApiQuery({type: GetMessageList})
   @ApiResponse({status: 200, type: Message, isArray: true})
-  getMessageList(@Query() query: AnyObject): any {
+  getMessageList(@Query() query: GetMessageList): SocketEvent[] {
     const types: SocketEventType[] = []
 
     if (typeof query.type === 'string') {
@@ -71,7 +70,7 @@ export class HttpController {
   @ApiExtraModels(SendDataMessage, SendBytesMessage)
   @ApiBody({schema: {oneOf: refs(SendDataMessage, SendBytesMessage)}})
   @ApiResponse({status: 200, type: SendMessageResponse})
-  sendMessage(@Body() body: AnyObject): any {
+  sendMessage(@Body() body: SendData): Promise<SocketSendReply> {
     const data = body.data
     const bytes = body.bytes
 
@@ -82,8 +81,7 @@ export class HttpController {
     if (data !== undefined) {
       return this.client.sendData(data)
     }
-    if (bytes !== undefined) {
-      return this.client.sendBytes(bytes)
-    }
+
+    return this.client.sendBytes(bytes)
   }
 }

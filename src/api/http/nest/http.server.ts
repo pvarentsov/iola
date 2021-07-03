@@ -1,7 +1,7 @@
 import { IHttpServer } from '@iola/api/http'
 import { HttpModule } from '@iola/api/http/nest/http.module'
 import { ISocketClient } from '@iola/core/socket'
-import { INestApplication } from '@nestjs/common'
+import { INestApplication, ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
@@ -18,6 +18,10 @@ export class HttpServer implements IHttpServer {
   private async init(): Promise<INestApplication> {
     const app = await NestFactory
       .create(HttpModule.forRoot(this.client))
+
+    app.useGlobalPipes(new ValidationPipe({
+      transform: true,
+    }))
 
     const swaggerConfig = new DocumentBuilder()
       .setTitle('iola')

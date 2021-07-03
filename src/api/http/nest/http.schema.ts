@@ -1,5 +1,8 @@
+import { EnumUtil } from '@iola/core/common'
 import { SocketEventType } from '@iola/core/socket'
 import { ApiProperty } from '@nestjs/swagger'
+import { Transform } from 'class-transformer'
+import { IsArray, IsDefined, IsIn, IsOptional, IsString, Max, Min, ValidateIf } from 'class-validator'
 
 export class Message {
   @ApiProperty({type: 'number'})
@@ -17,21 +20,32 @@ export class Message {
 
 export class GetMessageList {
   @ApiProperty({enum: SocketEventType, isArray: true, required: false})
+  @IsOptional()
+  @IsIn(EnumUtil.values(SocketEventType), {each: true})
+  @Transform(p => Array.isArray(p.value) ? p.value : [p.value])
   type?: SocketEventType
 }
 
-export class SendDataMessage {
-  @ApiProperty({type: 'string', required: false, description: 'Only for SocketIO'})
-  event?: number
+export class SendData {
+  @ApiProperty({type: 'object', description: 'Any data'})
+  @ValidateIf(object => object.bytes === undefined)
+  @IsDefined()
+  data: any
 
+  @ApiProperty({type: 'number', isArray: true, description: 'UInt8 Array'})
+  @ValidateIf(object => object.data === undefined)
+  @IsArray()
+  @Min(0, {each: true})
+  @Max(255, {each: true})
+  bytes: number[]
+}
+
+export class SendDataMessage {
   @ApiProperty({type: 'object', description: 'Any data'})
   data: any
 }
 
 export class SendBytesMessage {
-  @ApiProperty({type: 'string', required: false, description: 'Only for SocketIO'})
-  event?: number
-
   @ApiProperty({type: 'number', isArray: true, description: 'UInt8 Array'})
   bytes: number[]
 }
