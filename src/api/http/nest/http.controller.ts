@@ -19,7 +19,7 @@ import {
   SendDataMessage,
   SendMessageResponse,
 } from '@iola/api/http/nest/http.schema'
-import { ISocketClient, SocketEvent, SocketEventType, SocketSendReply } from '@iola/core/socket'
+import { ISocketClient, SocketEvent, SocketSendReply } from '@iola/core/socket'
 
 @Controller()
 export class HttpController {
@@ -51,18 +51,9 @@ export class HttpController {
   @ApiQuery({type: GetMessageList})
   @ApiResponse({status: 200, type: Message, isArray: true})
   getMessageList(@Query() query: GetMessageList): SocketEvent[] {
-    const types: SocketEventType[] = []
-
-    if (typeof query.type === 'string') {
-      types.push(query.type as SocketEventType)
-    }
-    if (Array.isArray(query.type)) {
-      types.push(...query.type)
-    }
-
     return this.client
       .store
-      .list({types})
+      .list({types: query.type})
   }
 
   @Post('/messages')

@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
 import { IsArray, IsIn, IsOptional, Max, Min, ValidateIf } from 'class-validator'
 
+import { toArray } from '@iola/api/http/nest/http.transformer'
 import { EnumUtil } from '@iola/core/common'
 import { SocketEventType } from '@iola/core/socket'
 
@@ -23,8 +24,8 @@ export class GetMessageList {
   @ApiProperty({enum: SocketEventType, isArray: true, required: false})
   @IsOptional()
   @IsIn(EnumUtil.values(SocketEventType), {each: true})
-  @Transform(p => Array.isArray(p.value) ? p.value : [p.value])
-  type?: SocketEventType
+  @Transform(toArray)
+  type: SocketEventType[]
 }
 
 export class SendData {
