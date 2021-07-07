@@ -118,7 +118,7 @@ Examples:
 
 
 <details>
-  <summary>Send any message</summary>
+  <summary>Send any data</summary>
   <p align="center">
     <br>
     <img src="./docs/send-any-data.png">
@@ -126,7 +126,7 @@ Examples:
 </details>
 
 <details>
-  <summary>Binary data (UInt8 Array)</summary>
+  <summary>Send binary data (UInt8 Array)</summary>
   <p align="center">
     <br>
     <img src="./docs/send-bytes.png">
