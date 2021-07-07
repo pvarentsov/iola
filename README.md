@@ -104,30 +104,37 @@ Examples:
 
 #### Get message
 
-<p align="center">
-  <img src="./docs/get-message.png">
-</p>
+<details>
+  <p align="center">
+    <img src="./docs/get-message.png">
+  </p>
+</details>
 
 #### Get message list
 
-<p align="center">
-  <img src="./docs/get-message-list.png">
-</p>
+<details>
+  <p align="center">
+    <img src="./docs/get-message-list.png">
+  </p>
+</details>
 
 #### Send message
 
 
 * Any data
-  
-  <p align="center">
-    <img src="./docs/send-any-data.png">
-  </p> 
+  <details>
+    <p align="center">
+      <img src="./docs/send-any-data.png">
+    </p>
+  </details>
 
 * Binary data (uint8 array) 
 
+  <details>
   <p align="center">
     <img src="./docs/send-bytes.png">
-  </p> 
+  </p>
+  </details>
   
 ## License
 
