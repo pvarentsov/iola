@@ -61,7 +61,7 @@ export class HttpController {
   @ApiOperation({description: 'Send message', summary: 'Send message'})
   @ApiExtraModels(SendDataMessage, SendBytesMessage)
   @ApiBody({schema: {oneOf: refs(SendDataMessage, SendBytesMessage)}})
-  @ApiResponse({status: 200, type: SendMessageResponse})
+  @ApiResponse({status: 201, type: SendMessageResponse})
   sendMessage(@Body() body: SendData): Promise<SocketSendReply> {
     const data = body.data
     const bytes = body.bytes
