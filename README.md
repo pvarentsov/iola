@@ -96,13 +96,11 @@ Examples:
 
 ### Rest API
 
-#### Get swagger documentation
+#### Swagger
 
-* ```shell
-  curl --request GET \
-    --url http://localhost:3000/docs \
-    --header 'Content-Type: text/html'
-  ```
+<p align="center">
+  <img src="./docs/openapi.png">
+</p>
 
 #### Get message by id
 
