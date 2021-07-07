@@ -3,19 +3,21 @@
 [![License: MIT](https://img.shields.io/github/license/pvarentsov/iola)](https://github.com/pvarentsov/iola/blob/main/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/iola.svg)](https://www.npmjs.com/package/iola)
 
-## Table of contents
+<details>
+  <summary><b>Table of contents</b> (click to open)</summary>
+  <!-- MarkdownTOC -->
+  - [Description](#description)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    * [CLI](#cLI)
+      * [WebSocket](#websocket)
+    * [Rest API](#rest-api)
+      * [Swagger](#swagger)
+      * [Server reply](#server-reply)
+  - [License](#License)
+  <!-- /MarkdownTOC -->
+</details>
 
-<!-- toc -->
-- [Description](#description)
-- [Installation](#installation)
-- [Usage](#usage)
-  * [CLI](#cLI)
-    * [WebSocket](#websocket)
-  * [Rest API](#rest-api)
-    * [Swagger](#swagger)
-    * [Server reply](#server-reply)
-- [License](#License)
-<!-- tocstop -->
 
 ## Description
 
