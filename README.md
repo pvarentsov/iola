@@ -12,10 +12,11 @@
   * [CLI](#cLI)
     * [WebSocket](#websocket)
   * [Rest API](#rest-api)
-    * [Get swagger documentation](#get-swagger-documentation)
-    * [Get message by id](#get-message-by-id)
+    * [Swagger](#swagger)
+    * [Get message](#get-message)
     * [Get message list](#get-message-list)
     * [Send message](#send-message)
+    * [Server reply](#server-reply)
 - [License](#License)
 <!-- tocstop -->
 
