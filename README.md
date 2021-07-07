@@ -105,6 +105,7 @@ Examples:
 #### Get message
 
 <details>
+  <summary>screen</summary>
   <p align="center">
     <img src="./docs/get-message.png">
   </p>
@@ -113,6 +114,7 @@ Examples:
 #### Get message list
 
 <details>
+  <summary>screen</summary>
   <p align="center">
     <img src="./docs/get-message-list.png">
   </p>
@@ -120,9 +122,9 @@ Examples:
 
 #### Send message
 
-
 * Any data
   <details>
+    <summary>screen</summary>
     <p align="center">
       <img src="./docs/send-any-data.png">
     </p>
@@ -131,10 +133,33 @@ Examples:
 * Binary data (uint8 array) 
 
   <details>
-  <p align="center">
-    <img src="./docs/send-bytes.png">
-  </p>
+    <summary>screen</summary>
+    <p align="center">
+      <img src="./docs/send-bytes.png">
+    </p>
   </details>
+
+#### Get server reply on message sending
+
+* WebSocket
+
+  * You can pass the RequestId to the request with json body
+    in order to await the server reply with such RequestId in the body.
+    
+  * RequestId field can be one of the following:
+     - `requestId`
+     - `request_id`
+     - `reqId`
+     - `req_id`
+     - `traceId`
+     - `trace_id`
+  
+  * <details>
+      <summary>screen</summary>
+      <p align="center">
+        <img src="./docs/send-data-with-requsetid.png">
+      </p>
+    </details>
   
 ## License
 
