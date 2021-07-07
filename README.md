@@ -106,7 +106,7 @@ Examples:
 #### Get message
 
 <details>
-  <summary>screen</summary>
+  <summary>details</summary>
   <p align="center">
     <br>
     <img src="./docs/get-message.png">
@@ -116,7 +116,7 @@ Examples:
 #### Get message list
 
 <details>
-  <summary>screen</summary>
+  <summary>details</summary>
   <p align="center">
     <br>
     <img src="./docs/get-message-list.png">
@@ -127,17 +127,17 @@ Examples:
 
 * Any data
   <details>
-    <summary>screen</summary>
+    <summary>details</summary>
     <p align="center">
       <br>
       <img src="./docs/send-any-data.png">
     </p>
   </details>
 
-* Binary data (uint8 array) 
+* Binary data (UInt8 Array) 
 
   <details>
-    <summary>screen</summary>
+    <summary>details</summary>
     <p align="center">
       <br>
       <img src="./docs/send-bytes.png">
@@ -160,7 +160,7 @@ Examples:
      - `trace_id`
   
   * <details>
-      <summary>screen</summary>
+      <summary>details</summary>
       <p align="center">
         <br>
         <img src="./docs/send-data-with-requsetid.png">
