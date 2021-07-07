@@ -6,7 +6,7 @@ import { toArray } from '@iola/api/http/nest/http.transformer'
 import { EnumUtil } from '@iola/core/common'
 import { SocketEventType } from '@iola/core/socket'
 
-export class Message {
+export class MessageModel {
   @ApiProperty({type: 'number'})
   id: number
 
@@ -20,7 +20,18 @@ export class Message {
   message: any
 }
 
-export class GetMessageList {
+export class ErrorModel {
+  @ApiProperty({type: 'number'})
+  statusCode: number
+
+  @ApiProperty({type: 'object'})
+  message: any
+
+  @ApiProperty({type: 'string'})
+  error: string
+}
+
+export class GetMessageListQuery {
   @ApiProperty({enum: SocketEventType, isArray: true, required: false})
   @IsOptional()
   @IsIn(EnumUtil.values(SocketEventType), {each: true})
@@ -28,7 +39,7 @@ export class GetMessageList {
   type: SocketEventType[]
 }
 
-export class SendData {
+export class SendDataBody {
   @ApiProperty({type: 'object', description: 'Any data'})
   @ValidateIf(object => object.bytes === undefined)
   data: any
@@ -41,12 +52,12 @@ export class SendData {
   bytes: number[]
 }
 
-export class SendDataMessage {
+export class SendDataMessageBody {
   @ApiProperty({type: 'object', description: 'Any data'})
   data: any
 }
 
-export class SendBytesMessage {
+export class SendBytesMessageBody {
   @ApiProperty({type: 'number', isArray: true, description: 'UInt8 Array'})
   bytes: number[]
 }

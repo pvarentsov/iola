@@ -9,14 +9,24 @@ import {
   Post,
   Query,
 } from '@nestjs/common'
-import { ApiBody, ApiExtraModels, ApiOperation, ApiQuery, ApiResponse, ApiTags, refs } from '@nestjs/swagger'
+import {
+  ApiBadRequestResponse,
+  ApiBody, ApiCreatedResponse,
+  ApiExtraModels, ApiInternalServerErrorResponse, ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+  refs,
+} from '@nestjs/swagger'
 
 import {
-  GetMessageList,
-  Message,
-  SendBytesMessage,
-  SendData,
-  SendDataMessage,
+  ErrorModel,
+  GetMessageListQuery,
+  MessageModel,
+  SendBytesMessageBody,
+  SendDataBody,
+  SendDataMessageBody,
   SendMessageResponse,
 } from '@iola/api/http/nest/http.schema'
 import { ISocketClient, SocketEvent, SocketSendReply } from '@iola/core/socket'
@@ -31,7 +41,10 @@ export class HttpController {
   @Get('/messages/:id')
   @ApiTags('Messages')
   @ApiOperation({description: 'Get message by id', summary: 'Get message by id'})
-  @ApiResponse({status: 200, type: Message})
+  @ApiOkResponse({type: MessageModel})
+  @ApiBadRequestResponse({type: ErrorModel})
+  @ApiNotFoundResponse({type: ErrorModel})
+  @ApiInternalServerErrorResponse({type: ErrorModel})
   getMessage(@Param('id') id: string): SocketEvent {
     const message = this.client
       .store
@@ -39,7 +52,7 @@ export class HttpController {
       .find(m => m.id === Number(id))
 
     if (!message) {
-      throw new NotFoundException(undefined, `message with id ${id} not found`)
+      throw new NotFoundException(`message with id ${id} not found`, 'Not Found')
     }
 
     return message
@@ -48,9 +61,12 @@ export class HttpController {
   @Get('/messages')
   @ApiTags('Messages')
   @ApiOperation({description: 'Get message list', summary: 'Get message list'})
-  @ApiQuery({type: GetMessageList})
-  @ApiResponse({status: 200, type: Message, isArray: true})
-  getMessageList(@Query() query: GetMessageList): SocketEvent[] {
+  @ApiQuery({type: GetMessageListQuery})
+  @ApiOkResponse({type: MessageModel, isArray: true})
+  @ApiBadRequestResponse({type: ErrorModel})
+  @ApiNotFoundResponse({type: ErrorModel})
+  @ApiInternalServerErrorResponse({type: ErrorModel})
+  getMessageList(@Query() query: GetMessageListQuery): SocketEvent[] {
     return this.client
       .store
       .list({types: query.type})
@@ -59,15 +75,18 @@ export class HttpController {
   @Post('/messages')
   @ApiTags('Messages')
   @ApiOperation({description: 'Send message', summary: 'Send message'})
-  @ApiExtraModels(SendDataMessage, SendBytesMessage)
-  @ApiBody({schema: {oneOf: refs(SendDataMessage, SendBytesMessage)}})
-  @ApiResponse({status: 201, type: SendMessageResponse})
-  sendMessage(@Body() body: SendData): Promise<SocketSendReply> {
+  @ApiExtraModels(SendDataMessageBody, SendBytesMessageBody)
+  @ApiBody({schema: {oneOf: refs(SendDataMessageBody, SendBytesMessageBody)}})
+  @ApiCreatedResponse({type: SendMessageResponse})
+  @ApiBadRequestResponse({type: ErrorModel})
+  @ApiNotFoundResponse({type: ErrorModel})
+  @ApiInternalServerErrorResponse({type: ErrorModel})
+  sendMessage(@Body() body: SendDataBody): Promise<SocketSendReply> {
     const data = body.data
     const bytes = body.bytes
 
     if (data !== undefined && bytes !== undefined) {
-      throw new BadRequestException(undefined, 'body must match exactly one schema in oneOf')
+      throw new BadRequestException('body must match exactly one schema in oneOf', 'Bad Request')
     }
 
     if (data !== undefined) {
