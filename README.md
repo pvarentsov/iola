@@ -155,14 +155,14 @@ Examples:
     <img src="./docs/send-data-with-requsetid.png">
   </p>
   <p>RequestId field can be one of the following:
-    <ol>
-      <li>requestId</li>
-      <li>request_id</li>
-      <li>reqId</li>
-      <li>req_id</li>
-      <li>traceId</li>
-      <li>trace_id</li>
-    </ol>
+    <ul>
+      <li><code>requestId</code></li>
+      <li><code>request_id</code></li>
+      <li><code>reqId</code></li>
+      <li><code>req_id</code></li>
+      <li><code>traceId</code></li>
+      <li><code>trace_id</code></li>
+    </ul>
   </p>
 </details>
 
