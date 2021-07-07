@@ -4,7 +4,7 @@
 [![NPM Version](https://img.shields.io/npm/v/iola.svg)](https://www.npmjs.com/package/iola)
 
 <details>
-  <summary><b>Table of contents</b> (click to open)</summary>
+  <summary><h2>Table of contents</h2> (click to open)</summary>
   <br>
   <ul>
     <li><a href="https://github.com/pvarentsov/iola#description">Description</a></li>
