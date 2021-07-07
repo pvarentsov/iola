@@ -107,6 +107,7 @@ Examples:
 <details>
   <summary>screen</summary>
   <p align="center">
+    <br>
     <img src="./docs/get-message.png">
   </p>
 </details>
@@ -116,6 +117,7 @@ Examples:
 <details>
   <summary>screen</summary>
   <p align="center">
+    <br>
     <img src="./docs/get-message-list.png">
   </p>
 </details>
@@ -126,6 +128,7 @@ Examples:
   <details>
     <summary>screen</summary>
     <p align="center">
+      <br>
       <img src="./docs/send-any-data.png">
     </p>
   </details>
@@ -135,6 +138,7 @@ Examples:
   <details>
     <summary>screen</summary>
     <p align="center">
+      <br>
       <img src="./docs/send-bytes.png">
     </p>
   </details>
@@ -157,6 +161,7 @@ Examples:
   * <details>
       <summary>screen</summary>
       <p align="center">
+        <br>
         <img src="./docs/send-data-with-requsetid.png">
       </p>
     </details>
