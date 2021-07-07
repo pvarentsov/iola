@@ -102,145 +102,32 @@ Examples:
   <img src="./docs/swagger.png">
 </p>
 
-#### Get message by id
+#### Get message
 
-* ```shell
-  curl --request GET \
-    --url http://localhost:3000/messages/1 \
-    --header 'Content-Type: application/json'
-  ```
-
-* ```shell
-  curl --request GET \
-    --url http://localhost:3000/messages/00001 \
-    --header 'Content-Type: application/json'
-  ```
+<p align="center">
+  <img src="./docs/get-message.png">
+</p>
 
 #### Get message list
 
-* Without filters
-  
-  ```shell
-  curl --request GET \
-    --url http://localhost:3000/messages \
-    --header 'Content-Type: application/json'
-  ```
-* Filter: "type" (`SentMessage`,`ReceivedMessage`,`Connected`,`Reconnecting`,`Closed`,`Error`)
-
-  ```shell
-  curl --request GET \
-    --url 'http://localhost:3000/messages?type=ReceivedMessage' \
-    --header 'Content-Type: application/json'
-  ```
+<p align="center">
+  <img src="./docs/get-message-list.png">
+</p>
 
 #### Send message
 
+
 * Any data
-  ```shell
-  # Json object
   
-  curl --request POST \
-    --url http://localhost:3000/messages \
-    --header 'Content-Type: application/json' \
-    --data '{
-        "data": {
-          "message": "Hello!"
-        }
-      }'
-  
-  # Json array
-  
-  curl --request POST \
-    --url http://localhost:3000/messages \
-    --header 'Content-Type: application/json' \
-    --data '{
-        "data": [{}, "42"]
-      }'  
-  
-  # String
-  
-  curl --request POST \
-    --url http://localhost:3000/messages \
-    --header 'Content-Type: application/json' \
-    --data '{
-        "data": "42"
-      }'  
-
-  # Number
-  
-  curl --request POST \
-    --url http://localhost:3000/messages \
-    --header 'Content-Type: application/json' \
-    --data '{
-        "data": 42
-      }'  
-  
-  # Boolean
-  
-  curl --request POST \
-    --url http://localhost:3000/messages \
-    --header 'Content-Type: application/json' \
-    --data '{
-        "data": true
-      }'  
-  
-  # Null   
-     
-  curl --request POST \
-    --url http://localhost:3000/messages \
-    --header 'Content-Type: application/json' \
-    --data '{
-        "data": null
-      }'
-  ``` 
-* Any data: Json with RequestId (only for websocket client)
-
-  ```shell
-  # You can pass the RequestId to the request with json body
-  # in order to await the server reply with such RequestId in the body.
-  #
-  # RequestId field can be one of the following: 
-  #   - requestId
-  #   - request_id
-  #   - reqId
-  #   - req_id
-  #   - traceId
-  #   - trace_id
-  #
-  # Default reply timeout - 2000ms. 
-  # To change it need to set "--reply-timeout <timeout>" cli option.
-  
-  curl --request POST \
-    --url http://localhost:3000/messages \
-    --header 'Content-Type: application/json' \
-    --data '{
-        "data": {
-          "requestId": "ff18493d-ec93-4fec-a668-fb35a9ecbbcf",
-          "data": {}
-        }
-      }'
-  
-  curl --request POST \
-    --url http://localhost:3000/messages \
-    --header 'Content-Type: application/json' \
-    --data '{
-        "data": {
-          "traceId": "7a1c9088-726c-4a71-b2db-b4ba019054f7",
-          "message": "Hello!"
-        }
-      }'  
-  ``` 
+  <p align="center">
+    <img src="./docs/send-any-data.png">
+  </p> 
 
 * Binary data (uint8 array) 
-  
-  ```shell
-  curl --request POST \
-    --url http://localhost:3000/messages \
-    --header 'Content-Type: application/json' \
-    --data '{
-        "bytes": [72, 101, 108, 108, 111, 33]
-      }'
-  ```
+
+  <p align="center">
+    <img src="./docs/send-bytes.png">
+  </p> 
   
 ## License
 
