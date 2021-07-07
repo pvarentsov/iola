@@ -137,8 +137,13 @@ Examples:
 
 <details>
   <summary>Websocket</summary>
+  <br>
   <p>You can pass the RequestId to the request with json data
      in order to await the server reply with such RequestId in the reply data.
+  </p>
+  <p align="center">
+    <br>
+    <img src="./docs/send-data-with-requsetid.png">
   </p>
   <p>RequestId field can be one of the following:
     <ol>
@@ -149,11 +154,6 @@ Examples:
       <li>traceId</li>
       <li>trace_id</li>
     </ol>
-  </p>
-    
-  <p align="center">
-    <br>
-    <img src="./docs/send-data-with-requsetid.png">
   </p>
 </details>
 
