@@ -143,12 +143,12 @@ Examples:
     </p>
   </details>
 
-#### Get server reply on message sending
+#### Server reply
 
 * WebSocket
 
-  * You can pass the RequestId to the request with json body
-    in order to await the server reply with such RequestId in the body.
+  * You can pass the RequestId to the request with json data
+    in order to await the server reply with such RequestId in the reply data.
     
   * RequestId field can be one of the following:
      - `requestId`
