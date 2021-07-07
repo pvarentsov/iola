@@ -5,17 +5,23 @@
 
 <details>
   <summary><b>Table of contents</b> (click to open)</summary>
-  <!-- MarkdownTOC -->
-  - [Description](#description)
-  - [Installation](#installation)
-  - [Usage](#usage)
-    * [CLI](#cLI)
-      * [WebSocket](#websocket)
-    * [Rest API](#rest-api)
-      * [Swagger](#swagger)
-      * [Server reply](#server-reply)
-  - [License](#License)
-  <!-- /MarkdownTOC -->
+  <ul>
+    <li><a href="https://github.com/pvarentsov/iola#description">Description</a></li>
+    <li><a href="https://github.com/pvarentsov/iola#installation">Installation</a></li>
+    <li><a href="https://github.com/pvarentsov/iola#usage">Usage</a></li>
+    <ul>
+      <li><a href="https://github.com/pvarentsov/iola#cli">CLI</a></li>
+        <ul>
+          <li><a href="https://github.com/pvarentsov/iola#websocket">WebSocket</a></li>
+        </ul>
+      <li><a href="https://github.com/pvarentsov/iola#rest-api">Rest API</a></li>
+        <ul>
+          <li><a href="https://github.com/pvarentsov/iola#swagger">Swagger</a></li>
+          <li><a href="https://github.com/pvarentsov/iola#server-reply">Server reply</a></li>
+        </ul>
+    </ul>
+    <li><a href="https://github.com/pvarentsov/iola#license">License</a></li>
+  </ul>
 </details>
 
 
