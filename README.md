@@ -99,7 +99,7 @@ Examples:
 #### Swagger
 
 <p align="center">
-  <img src="./docs/openapi.png">
+  <img src="./docs/swagger.png">
 </p>
 
 #### Get message by id
