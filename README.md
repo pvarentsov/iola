@@ -110,7 +110,7 @@ Examples:
 </p>
 
 <details>
-  <summary>Get message</summary>
+  <summary>get message</summary>
   <p align="center">
     <br>
     <img src="./docs/get-message.png">
@@ -118,7 +118,7 @@ Examples:
 </details>
 
 <details>
-  <summary>Get message list</summary>
+  <summary>get message list</summary>
   <p align="center">
     <br>
     <img src="./docs/get-message-list.png">
@@ -127,7 +127,7 @@ Examples:
 
 
 <details>
-  <summary>Send any data</summary>
+  <summary>send any data</summary>
   <p align="center">
     <br>
     <img src="./docs/send-any-data.png">
@@ -135,7 +135,7 @@ Examples:
 </details>
 
 <details>
-  <summary>Send binary data (UInt8 Array)</summary>
+  <summary>send binary data (uint8 array)</summary>
   <p align="center">
     <br>
     <img src="./docs/send-bytes.png">
@@ -145,7 +145,7 @@ Examples:
 #### Server reply
 
 <details>
-  <summary>Websocket</summary>
+  <summary>websocket</summary>
   <br>
   <p>You can pass the RequestId to the request with json data
      in order to await the server reply with such RequestId in the reply data.
