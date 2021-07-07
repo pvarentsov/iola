@@ -13,9 +13,6 @@
     * [WebSocket](#websocket)
   * [Rest API](#rest-api)
     * [Swagger](#swagger)
-    * [Get message](#get-message)
-    * [Get message list](#get-message-list)
-    * [Send message](#send-message)
     * [Server reply](#server-reply)
 - [License](#License)
 <!-- tocstop -->
@@ -103,69 +100,63 @@ Examples:
   <img src="./docs/swagger.png">
 </p>
 
-#### Get message
-
 <details>
-  <summary>details</summary>
+  <summary>Get message</summary>
   <p align="center">
     <br>
     <img src="./docs/get-message.png">
   </p>
 </details>
 
-#### Get message list
-
 <details>
-  <summary>details</summary>
+  <summary>Get message list</summary>
   <p align="center">
     <br>
     <img src="./docs/get-message-list.png">
   </p>
 </details>
 
-#### Send message
 
-* Any data
-  <details>
-    <summary>details</summary>
-    <p align="center">
-      <br>
-      <img src="./docs/send-any-data.png">
-    </p>
-  </details>
+<details>
+  <summary>Send any message</summary>
+  <p align="center">
+    <br>
+    <img src="./docs/send-any-data.png">
+  </p>
+</details>
 
-* Binary data (UInt8 Array) 
-
-  <details>
-    <summary>details</summary>
-    <p align="center">
-      <br>
-      <img src="./docs/send-bytes.png">
-    </p>
-  </details>
+<details>
+  <summary>Binary data (UInt8 Array)</summary>
+  <p align="center">
+    <br>
+    <img src="./docs/send-bytes.png">
+  </p>
+</details>
 
 #### Server reply
 
-* WebSocket
-
-  * You can pass the RequestId to the request with json data
-    in order to await the server reply with such RequestId in the reply data.
+<details>
+  <summary>Websocket</summary>
+  <p>You can pass the RequestId to the request with json data
+     in order to await the server reply with such RequestId in the reply data.
+  </p>
+  <p>RequestId field can be one of the following:
+    <ol>
+      <li>requestId</li>
+      <li>request_id</li>
+      <li>reqId</li>
+      <li>req_id</li>
+      <li>traceId</li>
+      <li>trace_id</li>
+    </ol>
+  </p>
     
-  * RequestId field can be one of the following:
-     - `requestId`
-     - `request_id`
-     - `reqId`
-     - `req_id`
-     - `traceId`
-     - `trace_id`
-  
-  * <details>
-      <summary>details</summary>
-      <p align="center">
-        <br>
-        <img src="./docs/send-data-with-requsetid.png">
-      </p>
-    </details>
+  <p align="center">
+    <br>
+    <img src="./docs/send-data-with-requsetid.png">
+  </p>
+</details>
+
   
 ## License
 
