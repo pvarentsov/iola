@@ -1,9 +1,9 @@
 import * as chalk from 'chalk'
-import { OptionValues, program } from 'commander'
+import { Option, OptionValues, program } from 'commander'
 import { EOL } from 'os'
 
 import { CliConfig, ICliParser } from '@iola/api/cli'
-import { Optional } from '@iola/core/common'
+import { BinaryEncoding, EnumUtil, Optional } from '@iola/core/common'
 import { SocketType } from '@iola/core/socket'
 
 export class CliParser implements ICliParser {
@@ -38,6 +38,9 @@ export class CliParser implements ICliParser {
       .option('-ap, --api-port <port>', 'Set api port', '3000')
       .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
       .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '2000')
+      .addOption(new Option('-be, --binary-encoding <encoding>', 'Set binary encoding')
+        .choices(EnumUtil.values(BinaryEncoding))
+      )
       .option('-ne, --no-emoji', 'Disable emoji')
       .helpOption('-h, --help', 'Display help')
       .addHelpText('before', ' ')
@@ -48,6 +51,7 @@ export class CliParser implements ICliParser {
           socketAddress: address,
           apiPort: Number(options.apiPort),
           apiHost: options.apiHost,
+          binaryEncoding: options.binaryEncoding,
           emoji: options.emoji,
           replyTimeout: Number(options.replyTimeout),
           connectionTimeout: 3000,

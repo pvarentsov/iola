@@ -1,7 +1,8 @@
 import { inspect } from 'util'
 
 import {
-  MessageFormat, MessageRequestIdInfo,
+  MessageFormat,
+  MessageRequestIdInfo,
   Optional,
   PackedMessage,
   PackedMessageInfo,
@@ -50,8 +51,8 @@ export class MessageUtil {
       }
     }
     else {
-      info.data = Array.from(new Uint8Array(message as Buffer))
       info.format = MessageFormat.ByteArray
+      info.data = Array.from(new Uint8Array(message as Buffer))
     }
 
     return info

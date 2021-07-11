@@ -7,3 +7,5 @@ export * from '@iola/core/common/type/object.type'
 export * from '@iola/core/common/util/enum.util'
 export * from '@iola/core/common/util/message.util'
 export * from '@iola/core/common/util/rxjs.util'
+
+export * from '@iola/core/common/enum/encoding.enum'

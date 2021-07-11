@@ -23,6 +23,7 @@ import { SocketFactory } from '@iola/core/socket'
     const client = SocketFactory.createClient({
       type: config.socketType,
       address: config.socketAddress,
+      binaryEncoding: config.binaryEncoding,
       connectionTimeout: config.connectionTimeout,
       reconnectionInterval: config.reconnectionInterval,
       replyTimeout: config.replyTimeout,

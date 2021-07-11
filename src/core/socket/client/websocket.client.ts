@@ -1,17 +1,16 @@
-import { firstValueFrom, fromEvent } from 'rxjs'
-import { filter, map, mapTo, tap, timeout } from 'rxjs/operators'
-import * as WebSocket from 'ws'
-
-import { AnyObject, MessageRequestIdInfo, MessageUtil, Optional, RxJSUtil } from '@iola/core/common'
+import { AnyObject, MessageFormat, MessageRequestIdInfo, MessageUtil, Optional, RxJSUtil } from '@iola/core/common'
 import {
   ISocketClient,
   ISocketEventStore,
-  SocketOptions,
   SocketEvent,
   SocketEventType,
   SocketInfo,
+  SocketOptions,
   SocketSendReply,
 } from '@iola/core/socket'
+import { firstValueFrom, fromEvent } from 'rxjs'
+import { filter, map, mapTo, tap, timeout } from 'rxjs/operators'
+import * as WebSocket from 'ws'
 
 export class WebSocketClient implements ISocketClient {
   private readonly _info: SocketInfo
@@ -45,11 +44,29 @@ export class WebSocketClient implements ISocketClient {
 
       this._client = new WebSocket(this._info.address)
 
-      this._client.on('message', message => this._store.add({
-        type: SocketEventType.ReceivedMessage,
-        date: new Date(),
-        message: MessageUtil.unpack(message),
-      }))
+      this._client.on('message', message => {
+        const unpacked = MessageUtil.unpack(message)
+        const encoding = this._options.binaryEncoding
+
+        let eventMessage: AnyObject = unpacked
+
+        if (unpacked.format === MessageFormat.ByteArray) {
+          eventMessage = {
+            format: unpacked.format,
+            size: unpacked.data.length,
+            data: unpacked.data,
+          }
+          if (encoding) {
+            eventMessage[encoding] = (Buffer.from(unpacked.data as Uint8Array)).toString(encoding)
+          }
+        }
+
+        this._store.add({
+          type: SocketEventType.ReceivedMessage,
+          date: new Date(),
+          message: eventMessage,
+        })
+      })
 
       this._client.on('error', err => this._store.add({
         type: SocketEventType.Error,
@@ -112,10 +129,17 @@ export class WebSocketClient implements ISocketClient {
   }
 
   sendBytes(bytes: number[]): Promise<SocketSendReply> {
+    const encoding = this._options.binaryEncoding
     const packed = MessageUtil.packToBuffer(bytes)
-    const eventMessage = {
+
+    const eventMessage: AnyObject = {
       format: packed.format,
+      size: bytes.length,
       data: bytes
+    }
+
+    if (encoding) {
+      eventMessage[encoding] = packed.data.toString(encoding)
     }
 
     return this.send(packed.data, eventMessage)

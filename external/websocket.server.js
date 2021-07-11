@@ -26,6 +26,7 @@ wss.on('connection', ws => {
 
   setTimeout(() => {
     ws.send('Hi, Iola!')
+    ws.send(Buffer.from('Hello'))
   }, 2_000)
 })
 
