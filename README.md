@@ -90,11 +90,12 @@ Usage: iola websocket [options] <address>
 Run websocket client
 
 Options:
-  -ap, --api-port <port>          Set api port (default: "3000")
-  -ah, --api-host <host>          Set api host (default: "127.0.0.1")
-  -rt, --reply-timeout <timeout>  Set reply timeout in ms (default: "2000")
-  -ne, --no-emoji                 Disable emoji
-  -h, --help                      Display help
+  -ap, --api-port <port>             Set api port (default: "3000")
+  -ah, --api-host <host>             Set api host (default: "127.0.0.1")
+  -rt, --reply-timeout <timeout>     Set reply timeout in ms (default: "2000")
+  -be, --binary-encoding <encoding>  Set binary encoding (choices: "ascii", "utf8", "base64", "hex")
+  -ne, --no-emoji                    Disable emoji
+  -h, --help                         Display help
 
 Examples: 
   iola websocket ws://127.0.0.1:8080 
