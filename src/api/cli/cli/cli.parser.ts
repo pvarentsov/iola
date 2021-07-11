@@ -13,6 +13,8 @@ export class CliParser implements ICliParser {
     const description =
       `${chalk.bold('iola')} - a socket client with rest api`
 
+    const binaryEncodingChoices = this.choices(EnumUtil.values(BinaryEncoding))
+
     const api = `API:${EOL}` +
       `  GET  /messages                 Get message list${EOL}` +
       `  GET  /messages/{id}            Get message by id${EOL}` +
@@ -38,9 +40,7 @@ export class CliParser implements ICliParser {
       .option('-ap, --api-port <port>', 'Set api port', '3000')
       .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
       .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '2000')
-      .addOption(new Option('-be, --binary-encoding <encoding>', 'Set binary encoding')
-        .choices(EnumUtil.values(BinaryEncoding))
-      )
+      .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
       .option('-ne, --no-emoji', 'Disable emoji')
       .helpOption('-h, --help', 'Display help')
       .addHelpText('before', ' ')
@@ -90,5 +90,9 @@ export class CliParser implements ICliParser {
     }
 
     return config
+  }
+
+  private choices(choices: string[]): string {
+    return `(${choices.join(', ')})`
   }
 }
