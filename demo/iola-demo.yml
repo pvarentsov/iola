@@ -51,9 +51,7 @@ config:
   frameBox:
     type: window
     title: null
-    style:
-      boxShadow: none
-      margin: 0px
+    style: []
 
   # Add a watermark image to the rendered gif
   # You need to specify an absolute path for
