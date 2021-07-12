@@ -23,7 +23,7 @@ config:
   # Explicitly set the number of rows
   # or use `auto` to take the current
   # number of rows of your shell
-  rows: 27
+  rows: 29
   
   # Amount of times to repeat GIF
   # If value is -1, play once
@@ -191,9 +191,9 @@ records:
   - delay: 2000
     content: "\e[1m00003\e[22m [2021-06-26 00:31:22] \U0001F4E4  Message sent:\r\n  { format: \e[32m'json'\e[39m, data: { event: \e[32m'greeting'\e[39m, data: \e[32m'Hi, Server!'\e[39m } }\r\n\r\n"
   - delay: 2000
-    content: "\e[1m00004\e[22m [2021-06-26 00:31:24] \U0001F4E4  Message sent:\r\n  { format: \e[32m'byte-array'\e[39m,\r\n    data: [ \e[33m83\e[39m, \e[33m111\e[39m, \e[33m109\e[39m, \e[33m101\e[39m, \e[33m116\e[39m, \e[33m104\e[39m, \e[33m105\e[39m, \e[33m110\e[39m, \e[33m103\e[39m, \e[33m32\e[39m, \e[33m69\e[39m, \e[33m110\e[39m, \e[33m100\e[39m, \e[33m115\e[39m ] }\r\n\r\n"
+    content: "\e[1m00004\e[22m [2021-06-26 00:31:24] \U0001F4E4  Message sent:\r\n  { format: \e[32m'byte-array'\e[39m,\r\n    size: \e[33m14\e[39m,\r\n    data: [ \e[33m83\e[39m, \e[33m111\e[39m, \e[33m109\e[39m, \e[33m101\e[39m, \e[33m116\e[39m, \e[33m104\e[39m, \e[33m105\e[39m, \e[33m110\e[39m, \e[33m103\e[39m, \e[33m32\e[39m, \e[33m69\e[39m, \e[33m110\e[39m, \e[33m100\e[39m, \e[33m115\e[39m ] }\r\n\r\n"
   - delay: 2000
-    content: "\e[1m00005\e[22m [2021-06-26 00:31:26] \U0001F4E5  Message received:\r\n  { format: \e[32m'byte-array'\e[39m,\r\n    data: [ \e[33m83\e[39m, \e[33m111\e[39m, \e[33m109\e[39m, \e[33m101\e[39m, \e[33m116\e[39m, \e[33m104\e[39m, \e[33m105\e[39m, \e[33m110\e[39m, \e[33m103\e[39m, \e[33m32\e[39m, \e[33m66\e[39m, \e[33m101\e[39m, \e[33m103\e[39m, \e[33m105\e[39m, \e[33m110\e[39m, \e[33m115\e[39m ] }\r\n\r\n"
+    content: "\e[1m00005\e[22m [2021-06-26 00:31:26] \U0001F4E5  Message received:\r\n  { format: \e[32m'byte-array'\e[39m,\r\n    size: \e[33m16\e[39m,\r\n    data: [ \e[33m83\e[39m, \e[33m111\e[39m, \e[33m109\e[39m, \e[33m101\e[39m, \e[33m116\e[39m, \e[33m104\e[39m, \e[33m105\e[39m, \e[33m110\e[39m, \e[33m103\e[39m, \e[33m32\e[39m, \e[33m66\e[39m, \e[33m101\e[39m, \e[33m103\e[39m, \e[33m105\e[39m, \e[33m110\e[39m, \e[33m115\e[39m ] }\r\n\r\n"
   - delay: 2000
     content: "\e[1m00006\e[22m [2021-06-26 00:31:28] \U0001F6AB️  Connection closed:\r\n  { code: \e[33m1006\e[39m, reason: \e[32m''\e[39m }\r\n\r\n"
   - delay: 3000
