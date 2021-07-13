@@ -120,10 +120,7 @@ API:
 
 #### WebSocket
 
-<details>
-<summary>help</summary>
 <pre>
-
 $ iola help websocket
 
 Usage: iola websocket [options] <address>
@@ -143,7 +140,6 @@ Examples:
   iola websocket ws://127.0.0.1:8080 --binary-encoding utf8
   iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
-</details>
 
 <details>
   <summary>server reply</summary>
