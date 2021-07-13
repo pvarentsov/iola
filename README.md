@@ -12,13 +12,10 @@
     <li><a href="https://github.com/pvarentsov/iola#usage">Usage</a></li>
     <ul>
       <li><a href="https://github.com/pvarentsov/iola#cli">CLI</a></li>
+      <li><a href="https://github.com/pvarentsov/iola#rest-api">Rest API</a></li>
+      <li><a href="https://github.com/pvarentsov/iola#clients">Clients</a></li>
         <ul>
           <li><a href="https://github.com/pvarentsov/iola#websocket">WebSocket</a></li>
-        </ul>
-      <li><a href="https://github.com/pvarentsov/iola#rest-api">Rest API</a></li>
-        <ul>
-          <li><a href="https://github.com/pvarentsov/iola#swagger">Swagger</a></li>
-          <li><a href="https://github.com/pvarentsov/iola#server-reply">Server reply</a></li>
         </ul>
     </ul>
     <li><a href="https://github.com/pvarentsov/iola#license">License</a></li>
@@ -80,32 +77,7 @@ API:
   GET  /docs                     Get api documentation
 </pre>
 
-#### WebSocket
-
-```text
-$ iola help websocket
- 
-Usage: iola websocket [options] <address>
-
-Run websocket client
-
-Options:
-  -ap, --api-port <port>             Set api port (default: "3000")
-  -ah, --api-host <host>             Set api host (default: "127.0.0.1")
-  -rt, --reply-timeout <timeout>     Set reply timeout in ms (default: "2000")
-  -be, --binary-encoding <encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
-  -ne, --no-emoji                    Disable emoji
-  -h, --help                         Display help
-
-Examples: 
-  iola websocket ws://127.0.0.1:8080
-  iola websocket ws://127.0.0.1:8080 --binary-encoding utf8
-  iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
-```
-
 ### Rest API
-
-#### Swagger
 
 <p align="center">
   <img src="./docs/swagger.png">
@@ -144,10 +116,36 @@ Examples:
   </p>
 </details>
 
-#### Server reply
+### Clients
+
+#### WebSocket
 
 <details>
-  <summary>websocket</summary>
+<summary>help</summary>
+<pre>
+$ iola help websocket
+
+Usage: iola websocket [options] <address>
+
+Run websocket client
+
+Options:
+-ap, --api-port &lt;port>             Set api port (default: "3000")
+-ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
+-rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (default: "2000")
+-be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
+-ne, --no-emoji                    Disable emoji
+-h, --help                         Display help
+
+Examples:
+iola websocket ws://127.0.0.1:8080
+iola websocket ws://127.0.0.1:8080 --binary-encoding utf8
+iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
+</pre>
+</details>
+
+<details>
+  <summary>server reply</summary>
   <br>
   <p>You can pass the RequestId to the request with json data
      in order to await the server reply with such RequestId in the reply data.
@@ -167,7 +165,6 @@ Examples:
     </ul>
   </p>
 </details>
-
   
 ## License
 
