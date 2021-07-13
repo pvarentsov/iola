@@ -23,6 +23,7 @@ export class CliParser implements ICliParser {
 
     const websocketExamples = `Examples: ${EOL}` +
       `  iola websocket ws://127.0.0.1:8080 ${EOL}` +
+      `  iola websocket ws://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
       '  iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji'
 
 
@@ -93,6 +94,10 @@ export class CliParser implements ICliParser {
   }
 
   private choices(choices: string[]): string {
-    return `(${choices.join(', ')})`
+    const joined = choices
+      .map(choice => `"${choice}"`)
+      .join(',')
+
+    return `(choices: ${joined})`
   }
 }
