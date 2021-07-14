@@ -125,11 +125,11 @@ All socket clients have the next options:
 <table border="0">
 <tr>
   <td nowrap><code>--api-port &lt;port&gt;</code></td>
-  <td>Set API port</td>
+  <td>Set API port.</td>
 </tr>
 <tr>
   <td nowrap><code>--api-host &lt;host&gt;</code></td>
-  <td>Set API port</td>
+  <td>Set API port.</td>
 </tr>
 <tr>
   <td nowrap><code>--binary-encoding  &lt;encoding&gt;</code></td>
@@ -142,7 +142,7 @@ All socket clients have the next options:
 </tr>
 <tr>
   <td nowrap><code>--no-emoji</code></td>
-  <td>Disable emoji in the console</td>
+  <td>Disable emoji in the console.</td>
 </tr>
 </table>
 
