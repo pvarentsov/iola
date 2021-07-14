@@ -122,6 +122,7 @@ API:
 
 
 All socket clients have the next options:
+
 <table border="0">
 <tr>
   <td nowrap><code>--api-port &lt;port&gt;</code></td>
@@ -138,6 +139,10 @@ All socket clients have the next options:
     <code>utf8</code>,
     <code>base64</code>,
     <code>hex</code>.
+    <br>
+    <img src="./docs/binary-encoding.cli.png">
+    <br>
+    <img src="./docs/binary-encoding.rest-api.png">
   </td>
 </tr>
 <tr>
