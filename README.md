@@ -143,6 +143,7 @@ Examples:
 
 <details>
   <summary>message formats</summary>
+  <br>
   <ul>
     <li><code>string</code></li>
     <li><code>json</code></li>
@@ -170,7 +171,9 @@ Examples:
       <li><code>trace_id</code></li>
     </ul>
   </p>
-  <p>Default reply timeout is 2000ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.</p> 
+  <p>
+    Default reply timeout is 2000ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
+  </p> 
 
 </details>
   
