@@ -15,6 +15,7 @@
       <li><a href="https://github.com/pvarentsov/iola#rest-api">Rest API</a></li>
       <li><a href="https://github.com/pvarentsov/iola#clients">Clients</a></li>
         <ul>
+          <li><a href="https://github.com/pvarentsov/iola#common">Common</a></li>
           <li><a href="https://github.com/pvarentsov/iola#websocket">WebSocket</a></li>
         </ul>
     </ul>
@@ -119,7 +120,6 @@ API:
 ### Clients
 
 #### Common
-
 
 All socket clients have the next options:
 
