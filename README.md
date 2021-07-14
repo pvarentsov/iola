@@ -142,6 +142,15 @@ Examples:
 </pre>
 
 <details>
+  <summary>message formats</summary>
+  <ul>
+    <li><code>string</code></li>
+    <li><code>json</code></li>
+    <li><code>byte-array</code></li>
+  </ul>
+</details>
+
+<details>
   <summary>server reply</summary>
   <br>
   <p>You can pass the RequestId to the request with json data
