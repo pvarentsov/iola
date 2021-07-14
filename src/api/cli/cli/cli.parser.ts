@@ -1,5 +1,5 @@
 import * as chalk from 'chalk'
-import { Option, OptionValues, program } from 'commander'
+import { OptionValues, program } from 'commander'
 import { EOL } from 'os'
 
 import { CliConfig, ICliParser } from '@iola/api/cli'
@@ -28,7 +28,7 @@ export class CliParser implements ICliParser {
 
 
     program
-      .version('0.1.0', '-v, --version', 'Display version')
+      .version('0.1.1', '-v, --version', 'Display version')
       .helpOption('-h, --help', 'Display help')
       .addHelpText('before', EOL + description + EOL)
       .addHelpText('after', EOL + api + EOL)
