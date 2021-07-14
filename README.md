@@ -170,6 +170,8 @@ Examples:
       <li><code>trace_id</code></li>
     </ul>
   </p>
+  <p>Default reply timeout is 2000ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.</p> 
+
 </details>
   
 ## License
