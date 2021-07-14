@@ -140,7 +140,9 @@ All socket clients have the next options:
     <code>base64</code>,
     <code>hex</code>.
     <br>
+    <br>
     <img src="./docs/binary-encoding.cli.png">
+    <br>
     <br>
     <img src="./docs/binary-encoding.rest-api.png">
   </td>
