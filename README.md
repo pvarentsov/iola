@@ -130,7 +130,7 @@ All socket clients have the next options:
 </tr>
 <tr>
   <td nowrap><code>--api-host &lt;host&gt;</code></td>
-  <td>Set API port.</td>
+  <td>Set API host.</td>
 </tr>
 <tr>
   <td nowrap><code>--binary-encoding  &lt;encoding&gt;</code></td>
