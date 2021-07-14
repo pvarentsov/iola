@@ -124,15 +124,15 @@ API:
 All socket clients have the next options:
 <table border="0">
 <tr>
-  <td><code>--api-port &lt;port&gt;</code></td>
+  <td nowrap><code>--api-port &lt;port&gt;</code></td>
   <td>Set API port</td>
 </tr>
 <tr>
-  <td><code>--api-host &lt;host&gt;</code></td>
+  <td nowrap><code>--api-host &lt;host&gt;</code></td>
   <td>Set API port</td>
 </tr>
 <tr>
-  <td><code>--binary-encoding  &lt;encoding&gt;</code></td>
+  <td nowrap><code>--binary-encoding  &lt;encoding&gt;</code></td>
   <td>Encode <code>sent</code>/<code>received</code> binary messages for more readability. Supported encodings: 
     <code>ascii</code>,
     <code>utf8</code>,
@@ -141,7 +141,7 @@ All socket clients have the next options:
   </td>
 </tr>
 <tr>
-  <td><code>--no-emoji</code></td>
+  <td nowrap><code>--no-emoji</code></td>
   <td>Disable emoji in the console</td>
 </tr>
 </table>
