@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/github/license/pvarentsov/iola)](https://github.com/pvarentsov/iola/blob/main/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/iola.svg)](https://www.npmjs.com/package/iola)
+[![NPM Downloads](https://img.shields.io/npm/dt/iola.svg)](https://www.npmjs.com/package/iola)
 
 <details>
   <summary><b>Table of contents</b> (click to open)</summary>
