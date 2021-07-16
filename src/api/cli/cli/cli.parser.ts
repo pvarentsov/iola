@@ -26,6 +26,11 @@ export class CliParser implements ICliParser {
       `  iola websocket ws://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
       '  iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji'
 
+    const socketIOExamples = `Examples: ${EOL}` +
+      `  iola socketio http://127.0.0.1:8080 ${EOL}` +
+      `  iola socketio http://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
+      '  iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji'
+
 
     program
       .version('0.1.1', '-v, --version', 'Display version')
@@ -61,16 +66,17 @@ export class CliParser implements ICliParser {
       })
 
     program
-      .command('socket.io <address>')
+      .command('socketio <address>')
       .description('Run socket.io client')
       .enablePositionalOptions(false)
       .option('-ap, --api-port <port>', 'Set api port', '3000')
       .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
+      .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '2000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
       .option('-ne, --no-emoji', 'Disable emoji')
       .helpOption('-h, --help', 'Display help')
-      // .addHelpText('before', ' ')
-      // .addHelpText('after', EOL)
+      .addHelpText('before', ' ')
+      .addHelpText('after', EOL + socketIOExamples + EOL)
       .action((address: string, options: OptionValues) => {
         config = {
           socketType: SocketType.SocketIO,
@@ -79,6 +85,7 @@ export class CliParser implements ICliParser {
           apiHost: options.apiHost,
           binaryEncoding: options.binaryEncoding,
           emoji: options.emoji,
+          replyTimeout: Number(options.replyTimeout),
           connectionTimeout: 3000,
           reconnectionInterval: 5000,
         }
@@ -100,7 +107,7 @@ export class CliParser implements ICliParser {
     if (isNaN(config.apiPort) || config.apiPort >= 65536 || config.apiPort < 0) {
       errors.push('api-port must be >= 0 and < 65536')
     }
-    if (config.replyTimeout && (isNaN(config.replyTimeout) || config.replyTimeout < 1)) {
+    if (isNaN(config.replyTimeout) || config.replyTimeout < 1) {
       errors.push('reply-timeout must be a positive number')
     }
 

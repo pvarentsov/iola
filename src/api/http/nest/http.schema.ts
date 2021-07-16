@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
-import { IsArray, IsIn, IsOptional, Max, Min, ValidateIf } from 'class-validator'
+import { IsArray, IsIn, IsOptional, IsString, Max, Min, ValidateIf } from 'class-validator'
 
 import { toArray } from '@iola/api/http/nest/http.transformer'
 import { EnumUtil } from '@iola/core/common'
@@ -50,16 +50,27 @@ export class SendDataBody {
   @Min(0, {each: true})
   @Max(255, {each: true})
   bytes: number[]
+
+  @ApiProperty({type: 'string', required: false, description: 'Only for SocketIO'})
+  @IsOptional()
+  @IsString()
+  event?: string
 }
 
 export class SendDataMessageBody {
   @ApiProperty({type: 'object', description: 'Any data'})
   data: any
+
+  @ApiProperty({type: 'string', required: false, description: 'Only for SocketIO'})
+  event?: string
 }
 
 export class SendBytesMessageBody {
   @ApiProperty({type: 'number', isArray: true, description: 'UInt8 Array'})
   bytes: number[]
+
+  @ApiProperty({type: 'string', required: false, description: 'Only for SocketIO'})
+  event?: string
 }
 
 export class SendMessageResponse {

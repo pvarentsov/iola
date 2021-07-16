@@ -1,3 +1,7 @@
+import { firstValueFrom, from, fromEvent } from 'rxjs'
+import { mapTo, tap, timeout } from 'rxjs/operators'
+import { io, Socket } from 'socket.io-client'
+
 import { AnyObject, MessageFormat, MessageUtil, RxJSUtil } from '@iola/core/common'
 import {
   ISocketClient,
@@ -7,9 +11,6 @@ import {
   SocketOptions,
   SocketSendReply,
 } from '@iola/core/socket'
-import { firstValueFrom, fromEvent } from 'rxjs'
-import { mapTo, tap } from 'rxjs/operators'
-import { io, Socket } from 'socket.io-client'
 
 export class SocketIOClient implements ISocketClient {
   private readonly _info: SocketInfo
@@ -122,14 +123,33 @@ export class SocketIOClient implements ISocketClient {
     }
   }
 
-  async sendData<TData>(data: TData): Promise<SocketSendReply> {
-    console.log(data)
-    return {messageId: 0}
+  async sendData<TData>(data: TData, event?: string): Promise<SocketSendReply> {
+    const parsed = MessageUtil.parse(data)
+    const eventMessage: AnyObject = {
+      format: parsed.format,
+      event: event || '*',
+      data: parsed.data
+    }
+
+    return this.emit(data, eventMessage.event, eventMessage)
   }
 
-  async sendBytes(bytes: number[]): Promise<SocketSendReply> {
-    console.log(bytes)
-    return {messageId: 0}
+  async sendBytes(bytes: number[], event?: string): Promise<SocketSendReply> {
+    const encoding = this._options.binaryEncoding
+    const packed = MessageUtil.packToBuffer(bytes)
+
+    const eventMessage: AnyObject = {
+      format: packed.format,
+      size: bytes.length,
+      event: event || '*',
+      data: bytes
+    }
+
+    if (encoding) {
+      eventMessage[encoding] = packed.data.toString(encoding)
+    }
+
+    return this.emit(packed.data, eventMessage.event, eventMessage)
   }
 
   private close(): void {
@@ -154,5 +174,39 @@ export class SocketIOClient implements ISocketClient {
       }
       catch (err) {}
     }, this._options.reconnectionInterval)
+  }
+
+  private async emit<TData, TMessage>(data: TData, event: string, eventMessage: TMessage): Promise<SocketSendReply> {
+    const client = this._client
+    const connected = this._info.connected
+
+    if (!client || !connected) {
+      throw new Error(`error: client is not connected to ${this.info.address}`)
+    }
+
+    const message = {
+      type: SocketEventType.SentMessage,
+      date: new Date(),
+      message: eventMessage,
+    }
+
+    let reply: SocketSendReply = {
+      messageId: this._store.add(message)
+    }
+
+    const reply$ = from(new Promise<SocketSendReply>(resolve => {
+      client.emit(event, data, (res: any) => {
+        reply.reply = res
+        resolve(reply)
+      })
+    })).pipe(
+      timeout(this._options.replyTimeout),
+    )
+
+    try {
+      reply = await firstValueFrom(reply$)
+    } catch (err) {}
+
+    return reply
   }
 }

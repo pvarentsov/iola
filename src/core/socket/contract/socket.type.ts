@@ -6,7 +6,7 @@ export type SocketOptions = {
   address: string,
   connectionTimeout: number,
   reconnectionInterval: number,
-  replyTimeout?: number,
+  replyTimeout: number,
   binaryEncoding?: BinaryEncoding,
 }
 

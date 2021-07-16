@@ -84,15 +84,16 @@ export class HttpController {
   sendMessage(@Body() body: SendDataBody): Promise<SocketSendReply> {
     const data = body.data
     const bytes = body.bytes
+    const event = body.event
 
     if (data !== undefined && bytes !== undefined) {
       throw new BadRequestException('body must match exactly one schema in oneOf', 'Bad Request')
     }
 
     if (data !== undefined) {
-      return this.client.sendData(data)
+      return this.client.sendData(data, event)
     }
 
-    return this.client.sendBytes(bytes)
+    return this.client.sendBytes(bytes, event)
   }
 }

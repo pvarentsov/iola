@@ -1,3 +1,7 @@
+import { firstValueFrom, fromEvent } from 'rxjs'
+import { filter, map, mapTo, tap, timeout } from 'rxjs/operators'
+import * as WebSocket from 'ws'
+
 import { AnyObject, MessageFormat, MessageRequestIdInfo, MessageUtil, Optional, RxJSUtil } from '@iola/core/common'
 import {
   ISocketClient,
@@ -8,9 +12,6 @@ import {
   SocketOptions,
   SocketSendReply,
 } from '@iola/core/socket'
-import { firstValueFrom, fromEvent } from 'rxjs'
-import { filter, map, mapTo, tap, timeout } from 'rxjs/operators'
-import * as WebSocket from 'ws'
 
 export class WebSocketClient implements ISocketClient {
   private readonly _info: SocketInfo
@@ -224,7 +225,7 @@ export class WebSocketClient implements ISocketClient {
       filter(event => isRecord(event)),
       filter(event => isReply(event, requestIdInfo)),
       map(event => event.message.data),
-      timeout(this._options.replyTimeout || 2000),
+      timeout(this._options.replyTimeout),
     )
 
     let reply: Optional<AnyObject>

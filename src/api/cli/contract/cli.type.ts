@@ -9,6 +9,6 @@ export type CliConfig = {
   emoji: boolean
   connectionTimeout: number
   reconnectionInterval: number
-  replyTimeout?: number
+  replyTimeout: number
   binaryEncoding?: BinaryEncoding
 }
