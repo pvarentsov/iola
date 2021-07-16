@@ -13,6 +13,11 @@ export type PackedMessageInfo = {
   data: PackedMessage
 }
 
+export type AnyMessageInfo = {
+  format: MessageFormat
+  data: any
+}
+
 export type MessageRequestIdInfo = {
   key: string
   value: any

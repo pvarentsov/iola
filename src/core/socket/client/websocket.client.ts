@@ -224,7 +224,7 @@ export class WebSocketClient implements ISocketClient {
       filter(event => isRecord(event)),
       filter(event => isReply(event, requestIdInfo)),
       map(event => event.message.data),
-      timeout(this._options.replyTimeout),
+      timeout(this._options.replyTimeout || 2000),
     )
 
     let reply: Optional<AnyObject>

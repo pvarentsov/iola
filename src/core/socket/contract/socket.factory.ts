@@ -10,7 +10,7 @@ export class SocketFactory {
     const store: ISocketEventStore = new EventStore()
 
     const factory: Record<SocketType, () => ISocketClient> = {
-      [SocketType.SocketIO]: () => new SocketIOClient(),
+      [SocketType.SocketIO]: () => new SocketIOClient(options, store),
       [SocketType.WebSocket]: () => new WebSocketClient(options, store),
       [SocketType.Tcp]: () => new TcpSocketClient(),
       [SocketType.Unix]: () => new UnixSocketClient(),

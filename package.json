@@ -19,7 +19,8 @@
     "lint": "eslint 'src/**/*.ts'",
     "lint:fix": "eslint --fix 'src/**/*.ts'",
     "demo:iola": "terminalizer render ./demo/iola-demo.yml -o ./demo/iola-demo.gif",
-    "server:websocket": "node ./external/websocket.server.js"
+    "server:websocket": "node ./external/websocket.server.js",
+    "server:socketio": "node ./external/socket.io.server.js"
   },
   "repository": {
     "type": "git",
@@ -53,6 +54,7 @@
     "jest-sonar-reporter": "2.0.0",
     "npm-check-updates": "11.5.13",
     "rimraf": "3.0.2",
+    "socket.io": "4.1.3",
     "supertest": "6.1.3",
     "ts-jest": "27.0.1",
     "ts-node": "10.0.0",
@@ -73,6 +75,7 @@
     "prompts": "2.4.1",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.1.0",
+    "socket.io-client": "4.1.3",
     "swagger-ui-express": "4.1.6",
     "ws": "7.4.6"
   }

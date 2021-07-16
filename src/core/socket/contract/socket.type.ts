@@ -1,13 +1,13 @@
-import { BinaryEncoding, Optional } from '@iola/core/common'
+import { BinaryEncoding } from '@iola/core/common'
 import { SocketEventType, SocketType } from '@iola/core/socket'
 
 export type SocketOptions = {
   type: SocketType,
   address: string,
-  binaryEncoding: Optional<BinaryEncoding>,
   connectionTimeout: number,
   reconnectionInterval: number,
-  replyTimeout: number,
+  replyTimeout?: number,
+  binaryEncoding?: BinaryEncoding,
 }
 
 export type SocketInfo = {

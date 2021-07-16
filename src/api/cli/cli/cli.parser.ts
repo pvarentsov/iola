@@ -60,6 +60,30 @@ export class CliParser implements ICliParser {
         }
       })
 
+    program
+      .command('socket.io <address>')
+      .description('Run socket.io client')
+      .enablePositionalOptions(false)
+      .option('-ap, --api-port <port>', 'Set api port', '3000')
+      .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
+      .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
+      .option('-ne, --no-emoji', 'Disable emoji')
+      .helpOption('-h, --help', 'Display help')
+      // .addHelpText('before', ' ')
+      // .addHelpText('after', EOL)
+      .action((address: string, options: OptionValues) => {
+        config = {
+          socketType: SocketType.SocketIO,
+          socketAddress: address,
+          apiPort: Number(options.apiPort),
+          apiHost: options.apiHost,
+          binaryEncoding: options.binaryEncoding,
+          emoji: options.emoji,
+          connectionTimeout: 3000,
+          reconnectionInterval: 5000,
+        }
+      })
+
     program.parse()
 
     if (!config) {
@@ -76,7 +100,7 @@ export class CliParser implements ICliParser {
     if (isNaN(config.apiPort) || config.apiPort >= 65536 || config.apiPort < 0) {
       errors.push('api-port must be >= 0 and < 65536')
     }
-    if (isNaN(config.replyTimeout) || config.replyTimeout < 1) {
+    if (config.replyTimeout && (isNaN(config.replyTimeout) || config.replyTimeout < 1)) {
       errors.push('reply-timeout must be a positive number')
     }
 

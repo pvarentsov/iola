@@ -1,6 +1,7 @@
 import { inspect } from 'util'
 
 import {
+  AnyMessageInfo,
   MessageFormat,
   MessageRequestIdInfo,
   Optional,
@@ -53,6 +54,40 @@ export class MessageUtil {
     else {
       info.format = MessageFormat.ByteArray
       info.data = Array.from(new Uint8Array(message as Buffer))
+    }
+
+    return info
+  }
+
+  static parse(message: any): AnyMessageInfo {
+    const info: AnyMessageInfo = {
+      format: MessageFormat.String,
+      data: ''
+    }
+
+    if (typeof message === 'string') {
+      info.data = message
+      info.format = MessageFormat.String
+    }
+    if (typeof message === 'number') {
+      info.data = message
+      info.format = MessageFormat.Number
+    }
+    if (typeof message === 'boolean') {
+      info.data = message
+      info.format = MessageFormat.Boolean
+    }
+    if (typeof message === 'object' && message !== null) {
+      info.data = message
+      info.format = MessageFormat.JSON
+    }
+    if (Buffer.isBuffer(message)) {
+      info.data = Array.from(new Uint8Array(message))
+      info.format = MessageFormat.ByteArray
+    }
+    if (message === null) {
+      info.data = message
+      info.format = MessageFormat.Null
     }
 
     return info
