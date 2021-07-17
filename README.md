@@ -72,18 +72,19 @@ $ iola --help
 Usage: iola [options] [command]
 
 Options:
-  --version                      Display version
-  --help                         Display help
+  --version                         Display version
+  --help                            Display help
 
 Commands:
-  websocket [options] &lt;address>  Run websocket client
-  help [command]                 Display help for command
+  websocket|ws [options] &lt;address>  Run websocket client
+  socketio|io [options] &lt;address>   Run socket.io client
+  help [command]                    Display help for command
 
 API:
-  GET  /messages                 Get message list
-  GET  /messages/{id}            Get message by id
-  POST /messages                 Send message 
-  GET  /docs                     Get api documentation
+  GET  /messages                    Get message list
+  GET  /messages/{id}               Get message by id
+  POST /messages                    Send message 
+  GET  /docs                        Get api documentation
 </pre>
 
 ### Rest API
@@ -180,6 +181,7 @@ Options:
 
 Examples:
   iola websocket ws://127.0.0.1:8080
+  iola websocket ws://127.0.0.1:8080/?token=secret
   iola websocket ws://127.0.0.1:8080 --binary-encoding utf8
   iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
@@ -216,8 +218,55 @@ Examples:
   </p>
   <p>
     Default reply timeout is 2000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
-  </p> 
+  </p>
+</details>
 
+#### SocketIO
+
+<pre>
+$ iola help socketio
+ 
+Usage: iola socketio|io [options] <address>
+
+Run socket.io client
+
+Options:
+  -ap, --api-port &lt;port>             Set api port (default: "3000")
+  -ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
+  -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (default: "2000")
+  -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
+  -ne, --no-emoji                    Disable emoji
+  -h, --help                         Display help
+
+Examples: 
+  iola socketio http://127.0.0.1:8080 
+  iola io http://127.0.0.1:8080/?token=secret 
+  iola socketio http://127.0.0.1:8080 --binary-encoding utf8 
+  iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
+</pre>
+
+<details>
+  <summary>message formats</summary>
+  <br>
+  <ul>
+    <li><code>string</code></li>
+    <li><code>number</code></li>
+    <li><code>boolean</code></li>
+    <li><code>null</code></li>
+    <li><code>json</code></li>
+    <li><code>byte-array</code></li>
+  </ul>
+</details>
+
+<details>
+  <summary>server reply</summary>
+  <br>
+  <p>
+    SocketIO support server replies by default. 
+  </p>
+  <p>
+    Default reply timeout is 2000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
+  </p>
 </details>
   
 ## License

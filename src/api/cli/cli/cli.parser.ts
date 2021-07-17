@@ -16,18 +16,20 @@ export class CliParser implements ICliParser {
     const binaryEncodingChoices = this.choices(EnumUtil.values(BinaryEncoding))
 
     const api = `API:${EOL}` +
-      `  GET  /messages                 Get message list${EOL}` +
-      `  GET  /messages/{id}            Get message by id${EOL}` +
-      `  POST /messages                 Send message ${EOL}` +
-      '  GET  /docs                     Get api documentation'
+      `  GET  /messages                    Get message list${EOL}` +
+      `  GET  /messages/{id}               Get message by id${EOL}` +
+      `  POST /messages                    Send message ${EOL}` +
+      '  GET  /docs                        Get api documentation'
 
     const websocketExamples = `Examples: ${EOL}` +
       `  iola websocket ws://127.0.0.1:8080 ${EOL}` +
+      `  iola ws ws://127.0.0.1:8080/?token=secret ${EOL}` +
       `  iola websocket ws://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
       '  iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji'
 
     const socketIOExamples = `Examples: ${EOL}` +
       `  iola socketio http://127.0.0.1:8080 ${EOL}` +
+      `  iola io http://127.0.0.1:8080/?token=secret ${EOL}` +
       `  iola socketio http://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
       '  iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji'
 
@@ -63,7 +65,7 @@ export class CliParser implements ICliParser {
           connectionTimeout: 3000,
           reconnectionInterval: 5000,
         }
-      })
+      }).alias('ws')
 
     program
       .command('socketio <address>')
@@ -89,7 +91,7 @@ export class CliParser implements ICliParser {
           connectionTimeout: 3000,
           reconnectionInterval: 5000,
         }
-      })
+      }).alias('io')
 
     program.parse()
 
