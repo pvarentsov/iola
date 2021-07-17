@@ -273,17 +273,15 @@ Examples:
 <details>
   <summary>emit event</summary>
   <br>
-  <p align="center">Emit any data
+  <p>Emit any data</p>
+  <p align="center">
     <br>
     <img src="./docs/emit-data.rest-api.png">
   </p>
-  <p align="center">Emit binary data
+  <p>Emit binary data</p>
+  <p align="center">
     <br>
     <img src="./docs/emit-bytes.rest-api.png">
-  </p>
-  <p align="center">CLI example
-    <br>
-    <img src="./docs/emit.cli.png">
   </p>
 </details>
 
@@ -295,6 +293,15 @@ Examples:
   </p>
   <p>
     Default reply timeout is 2000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
+  </p>
+</details>
+
+<details>
+  <summary>cli example</summary>
+  <br>
+  <p align="center">
+    <br>
+    <img src="./docs/emit.cli.png">
   </p>
 </details>
   
