@@ -12,9 +12,13 @@ ioServer.on('connection', socket => {
   socket.emit('object', {a: 'a', b: [null]})
   socket.emit('greeting', new Uint8Array(Buffer.from('hell')))
 
-  socket.onAny((event, data, cb) => {
-    console.log(event, data)
-    cb(42)
+  socket.on('request', (data, cb) => {
+    console.dir({event: 'request', data})
+    cb({message: 'reply on request'})
+  })
+
+  socket.on('emit', data => {
+    console.dir({event: 'emit', data})
   })
 });
 

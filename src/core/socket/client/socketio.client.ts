@@ -47,32 +47,7 @@ export class SocketIOClient implements ISocketClient {
           ? null
           : args[0]
 
-        const parsed = MessageUtil.parse(message)
-        const encoding = this._options.binaryEncoding
-
-        let eventMessage: AnyObject = {
-          format: parsed.format,
-          event: event,
-          data: parsed.data,
-        }
-
-        if (parsed.format === MessageFormat.ByteArray) {
-          eventMessage = {
-            format: parsed.format,
-            size: parsed.data.length,
-            event: event,
-            data: parsed.data,
-          }
-          if (encoding) {
-            eventMessage[encoding] = (Buffer.from(parsed.data as Uint8Array)).toString(encoding)
-          }
-        }
-
-        this._store.add({
-          type: SocketEventType.ReceivedMessage,
-          date: new Date(),
-          message: eventMessage,
-        })
+        this.receiveMessage(event, message)
       })
 
       this._client.on('connect_error', err => {
@@ -197,6 +172,7 @@ export class SocketIOClient implements ISocketClient {
     const reply$ = from(new Promise<SocketSendReply>(resolve => {
       client.emit(event, data, (res: any) => {
         reply.reply = res
+        this.receiveMessage(event, res)
         resolve(reply)
       })
     })).pipe(
@@ -208,5 +184,34 @@ export class SocketIOClient implements ISocketClient {
     } catch (err) {}
 
     return reply
+  }
+
+  private receiveMessage(event: string, message: any): void {
+    const parsed = MessageUtil.parse(message)
+    const encoding = this._options.binaryEncoding
+
+    let eventMessage: AnyObject = {
+      format: parsed.format,
+      event: event,
+      data: parsed.data,
+    }
+
+    if (parsed.format === MessageFormat.ByteArray) {
+      eventMessage = {
+        format: parsed.format,
+        size: parsed.data.length,
+        event: event,
+        data: parsed.data,
+      }
+      if (encoding) {
+        eventMessage[encoding] = (Buffer.from(parsed.data as Uint8Array)).toString(encoding)
+      }
+    }
+
+    this._store.add({
+      type: SocketEventType.ReceivedMessage,
+      date: new Date(),
+      message: eventMessage,
+    })
   }
 }
