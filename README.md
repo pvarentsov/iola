@@ -223,6 +223,8 @@ Examples:
 
 #### SocketIO
 
+**iola** relies on SocketIO v4. Please check a [version compatibility](https://socket.io/docs/v4/client-installation/#Version-compatibility).
+
 <pre>
 $ iola help socketio
  
