@@ -98,25 +98,25 @@ export class SocketIOClient implements ISocketClient {
     }
   }
 
-  async sendData<TData>(data: TData, event?: string): Promise<SocketSendReply> {
+  async sendData<TData>(data: TData, event: string = '*'): Promise<SocketSendReply> {
     const parsed = MessageUtil.parse(data)
     const eventMessage: AnyObject = {
       format: parsed.format,
-      event: event || '*',
+      event: event,
       data: parsed.data
     }
 
-    return this.emit(data, eventMessage.event, eventMessage)
+    return this.emit(data, event, eventMessage)
   }
 
-  async sendBytes(bytes: number[], event?: string): Promise<SocketSendReply> {
+  async sendBytes(bytes: number[], event: string = '*'): Promise<SocketSendReply> {
     const encoding = this._options.binaryEncoding
     const packed = MessageUtil.packToBuffer(bytes)
 
     const eventMessage: AnyObject = {
       format: packed.format,
       size: bytes.length,
-      event: event || '*',
+      event: event,
       data: bytes
     }
 
@@ -124,7 +124,7 @@ export class SocketIOClient implements ISocketClient {
       eventMessage[encoding] = packed.data.toString(encoding)
     }
 
-    return this.emit(packed.data, eventMessage.event, eventMessage)
+    return this.emit(packed.data, event, eventMessage)
   }
 
   private close(): void {
@@ -170,11 +170,13 @@ export class SocketIOClient implements ISocketClient {
     }
 
     const reply$ = from(new Promise<SocketSendReply>(resolve => {
-      client.emit(event, data, (res: any) => {
+      const resolveCb = (res: any): void => {
         reply.reply = res
         this.receiveMessage(event, res)
         resolve(reply)
-      })
+      }
+
+      client.emit(event, data, resolveCb)
     })).pipe(
       timeout(this._options.replyTimeout),
     )
