@@ -2,7 +2,11 @@ const http = require('http')
 const io = require('socket.io')
 
 const httpServer = http.createServer()
-const ioServer = new io.Server(httpServer, {})
+const ioServer = new io.Server(httpServer, {
+  cors: {
+    origin: '*'
+  }
+})
 
 ioServer.on('connection', socket => {
   console.dir({handshake: socket.handshake.query})
@@ -24,4 +28,4 @@ ioServer.on('connection', socket => {
   })
 });
 
-httpServer.listen(8080)
+httpServer.listen(8081)
