@@ -1,6 +1,7 @@
 import { firstValueFrom, from, fromEvent } from 'rxjs'
 import { mapTo, tap, timeout } from 'rxjs/operators'
 import { io, Socket } from 'socket.io-client'
+import { format, URL } from 'url'
 
 import { AnyObject, MessageFormat, MessageUtil, RxJSUtil } from '@iola/core/common'
 import {
@@ -22,7 +23,8 @@ export class SocketIOClient implements ISocketClient {
   constructor(options: SocketOptions, store: ISocketEventStore) {
     this._info = {
       type: options.type,
-      address: options.address,
+      address: format(new URL(options.address), {search: false}),
+      originalAddress: options.address,
       connected: false,
     }
 
@@ -40,7 +42,7 @@ export class SocketIOClient implements ISocketClient {
 
   async connect(): Promise<void> {
     if (!this._info.connected) {
-      this._client = io(this._options.address)
+      this._client = io(this._info.originalAddress)
 
       this._client.onAny((event, ...args) => {
         const message = args[0] === undefined

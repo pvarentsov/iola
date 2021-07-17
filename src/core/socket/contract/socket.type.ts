@@ -13,6 +13,7 @@ export type SocketOptions = {
 export type SocketInfo = {
   type: SocketType,
   address: string,
+  originalAddress: string,
   connected: boolean,
 }
 

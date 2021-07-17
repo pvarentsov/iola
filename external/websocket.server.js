@@ -3,7 +3,9 @@ const util = require('util')
 
 const wss = new WebSocket.Server({ port: 8080 })
 
-wss.on('connection', ws => {
+wss.on('connection', (ws, req) => {
+  console.dir({handshake: req.url})
+
   ws.on('message', data => {
     const message = data.toString()
     let json = undefined

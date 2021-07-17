@@ -5,6 +5,8 @@ const httpServer = http.createServer()
 const ioServer = new io.Server(httpServer, {})
 
 ioServer.on('connection', socket => {
+  console.dir({handshake: socket.handshake.query})
+
   socket.emit('null', null)
   socket.emit('number', 42)
   socket.emit('bool', false)

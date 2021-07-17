@@ -1,6 +1,7 @@
 import { firstValueFrom, fromEvent } from 'rxjs'
 import { filter, map, mapTo, tap, timeout } from 'rxjs/operators'
 import * as WebSocket from 'ws'
+import { format, URL } from 'url'
 
 import { AnyObject, MessageFormat, MessageRequestIdInfo, MessageUtil, Optional, RxJSUtil } from '@iola/core/common'
 import {
@@ -23,7 +24,8 @@ export class WebSocketClient implements ISocketClient {
   constructor(options: SocketOptions, store: ISocketEventStore) {
     this._info = {
       type: options.type,
-      address: options.address,
+      address: format(new URL(options.address), {search: false}),
+      originalAddress: options.address,
       connected: false,
     }
 
@@ -43,7 +45,7 @@ export class WebSocketClient implements ISocketClient {
     if (!this._info.connected) {
       this.close()
 
-      this._client = new WebSocket(this._info.address)
+      this._client = new WebSocket(this._info.originalAddress)
 
       this._client.on('message', message => {
         const unpacked = MessageUtil.unpack(message)
