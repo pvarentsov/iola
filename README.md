@@ -273,7 +273,7 @@ Examples:
 </details>
 
 <details>
-  <summary>emit event</summary>
+  <summary>emit data</summary>
   <br>
   <p>Emit any data</p>
   <p align="center">
