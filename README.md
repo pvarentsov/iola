@@ -48,10 +48,9 @@
 3. Log all socket events in console
 
 **Roadmap**:
-- [x] Detailed documentation
 - [ ] Implement clients
   - [x] WebSocket
-  - [ ] SocketIO
+  - [x] SocketIO
   - [ ] Tcp
   - [ ] Unix-socket
 - [ ] Add application's binaries for all popular platforms
@@ -264,10 +263,27 @@ Examples:
   <summary>transport</summary>
   <br>
   <p>
-    Default transport: ["websocket", "polling"].
+    Client supports "websocket" and "polling" transports. It tries to use "websocket" first, if available.
   </p>
   <p>
-    To change it you can set <code>--transport &lt;transport></code> option.
+    You can explicitly set the type of transport using <code>--transport &lt;transport></code> option.
+  </p>
+</details>
+
+<details>
+  <summary>emit event</summary>
+  <br>
+  <p align="center">Emit any data
+    <br>
+    <img src="./docs/emit-data.rest-api.png">
+  </p>
+  <p align="center">Emit binary data
+    <br>
+    <img src="./docs/emit-bytes.rest-api.png">
+  </p>
+  <p align="center">CLI example
+    <br>
+    <img src="./docs/emit.cli.png">
   </p>
 </details>
 
@@ -275,7 +291,7 @@ Examples:
   <summary>server reply</summary>
   <br>
   <p>
-    SocketIO support server replies. This feature is named acknowledgements.
+    SocketIO supports server replies. This feature is named acknowledgements.
   </p>
   <p>
     Default reply timeout is 2000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
