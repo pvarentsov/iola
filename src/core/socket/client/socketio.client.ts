@@ -3,7 +3,7 @@ import { mapTo, tap, timeout } from 'rxjs/operators'
 import { io, Socket } from 'socket.io-client'
 import { format, URL } from 'url'
 
-import { AnyObject, MessageFormat, MessageUtil, RxJSUtil } from '@iola/core/common'
+import { AnyObject, EnumUtil, MessageFormat, MessageUtil, RxJSUtil, SocketIOTransport } from '@iola/core/common'
 import {
   ISocketClient,
   ISocketEventStore,
@@ -42,7 +42,9 @@ export class SocketIOClient implements ISocketClient {
 
   async connect(): Promise<void> {
     if (!this._info.connected) {
-      this._client = io(this._info.originalAddress)
+      this._client = io(this._info.originalAddress, {
+        transports: this._options.ioTransport ? [this._options.ioTransport] : EnumUtil.values(SocketIOTransport)
+      })
 
       this._client.onAny((event, ...args) => {
         const message = args[0] === undefined

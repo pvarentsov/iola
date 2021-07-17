@@ -5,7 +5,8 @@ const httpServer = http.createServer()
 const ioServer = new io.Server(httpServer, {
   cors: {
     origin: '*'
-  }
+  },
+  // transports: ['polling']
 })
 
 ioServer.on('connection', socket => {

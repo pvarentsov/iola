@@ -3,7 +3,7 @@ import { OptionValues, program } from 'commander'
 import { EOL } from 'os'
 
 import { CliConfig, ICliParser } from '@iola/api/cli'
-import { BinaryEncoding, EnumUtil, Optional } from '@iola/core/common'
+import { BinaryEncoding, EnumUtil, Optional, SocketIOTransport } from '@iola/core/common'
 import { SocketType } from '@iola/core/socket'
 
 export class CliParser implements ICliParser {
@@ -14,6 +14,7 @@ export class CliParser implements ICliParser {
       `${chalk.bold('iola')} - a socket client with rest api`
 
     const binaryEncodingChoices = this.choices(EnumUtil.values(BinaryEncoding))
+    const ioTransportChoices = this.choices(EnumUtil.values(SocketIOTransport))
 
     const api = `API:${EOL}` +
       `  GET  /messages                    Get message list${EOL}` +
@@ -73,6 +74,7 @@ export class CliParser implements ICliParser {
       .enablePositionalOptions(false)
       .option('-ap, --api-port <port>', 'Set api port', '3000')
       .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
+      .option('-t, --transport <transport>', `Set transport ${ioTransportChoices}`)
       .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '2000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
       .option('-ne, --no-emoji', 'Disable emoji')
@@ -88,6 +90,7 @@ export class CliParser implements ICliParser {
           binaryEncoding: options.binaryEncoding,
           emoji: options.emoji,
           replyTimeout: Number(options.replyTimeout),
+          ioTransport: options.transport,
           connectionTimeout: 3000,
           reconnectionInterval: 5000,
         }
