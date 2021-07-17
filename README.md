@@ -242,7 +242,7 @@ Options:
 
 Examples: 
   iola socketio http://127.0.0.1:8080 
-  iola io http://127.0.0.1:8080/?token=secret 
+  iola io http://127.0.0.1:8080/?token=secret --transport websocket
   iola socketio http://127.0.0.1:8080 --binary-encoding utf8 
   iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>

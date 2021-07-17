@@ -30,7 +30,7 @@ export class CliParser implements ICliParser {
 
     const socketIOExamples = `Examples: ${EOL}` +
       `  iola socketio http://127.0.0.1:8080 ${EOL}` +
-      `  iola io http://127.0.0.1:8080/?token=secret ${EOL}` +
+      `  iola io http://127.0.0.1:8080/?token=secret --transport websocket${EOL}` +
       `  iola socketio http://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
       '  iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji'
 
