@@ -261,6 +261,17 @@ Examples:
 </details>
 
 <details>
+  <summary>transport</summary>
+  <br>
+  <p>
+    Default transport: ["websocket", "polling"].
+  </p>
+  <p>
+    To change it you can set <code>--transport &lt;transport></code> option.
+  </p>
+</details>
+
+<details>
   <summary>server reply</summary>
   <br>
   <p>
