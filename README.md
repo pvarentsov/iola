@@ -26,6 +26,7 @@
         <ul>
           <li><a href="https://github.com/pvarentsov/iola#common">Common</a></li>
           <li><a href="https://github.com/pvarentsov/iola#websocket">WebSocket</a></li>
+          <li><a href="https://github.com/pvarentsov/iola#socketio">SocketIO</a></li>
         </ul>
     </ul>
     <li><a href="https://github.com/pvarentsov/iola#license">License</a></li>
@@ -262,7 +263,7 @@ Examples:
   <summary>server reply</summary>
   <br>
   <p>
-    SocketIO support server replies by default. 
+    SocketIO support server replies. This feature is named acknowledgements.
   </p>
   <p>
     Default reply timeout is 2000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
