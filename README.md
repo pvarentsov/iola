@@ -181,7 +181,7 @@ Options:
 
 Examples:
   iola websocket ws://127.0.0.1:8080
-  iola websocket ws://127.0.0.1:8080/?token=secret
+  iola ws ws://127.0.0.1:8080/?token=secret
   iola websocket ws://127.0.0.1:8080 --binary-encoding utf8
   iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
