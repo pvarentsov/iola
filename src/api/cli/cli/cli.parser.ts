@@ -31,6 +31,7 @@ export class CliParser implements ICliParser {
     const socketIOExamples = `Examples: ${EOL}` +
       `  iola socketio http://127.0.0.1:8080 ${EOL}` +
       `  iola io http://127.0.0.1:8080/?token=secret --transport websocket${EOL}` +
+      `  iola io http://127.0.0.1:8080 --auth user:iola pass:qwerty1${EOL}` +
       `  iola socketio http://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
       '  iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji'
 
@@ -74,7 +75,7 @@ export class CliParser implements ICliParser {
       .enablePositionalOptions(false)
       .option('-ap, --api-port <port>', 'Set api port', '3000')
       .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
-      .option('-a, --auth <key:value...>', 'Set auth')
+      .option('-a, --auth <key:value...>', 'Set authentication payload')
       .option('-t, --transport <transport>', `Set transport ${ioTransportChoices}`)
       .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '2000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)

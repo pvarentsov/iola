@@ -235,6 +235,7 @@ Run socket.io client
 Options:
   -ap, --api-port &lt;port>             Set api port (default: "3000")
   -ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
+  -a, --auth &lt;key:value...>          Set authentication payload
   -t, --transport &lt;transport>        Set transport (choices: "polling","websocket")
   -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (default: "2000")
   -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
@@ -244,6 +245,7 @@ Options:
 Examples: 
   iola socketio http://127.0.0.1:8080 
   iola io http://127.0.0.1:8080/?token=secret --transport websocket
+  iola io http://127.0.0.1:8080 --auth user:iola pass:qwerty1
   iola socketio http://127.0.0.1:8080 --binary-encoding utf8 
   iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
@@ -273,14 +275,25 @@ Examples:
 </details>
 
 <details>
-  <summary>emit data</summary>
+  <summary>auth</summary>
   <br>
-  <p>Emit any data</p>
+  <p>
+    Socket.IO client can send credentials with the <a href="https://socket.io/docs/v4/middlewares/#Sending-credentials">auth option</a>.
+  </p>
+  <p>
+    You can set set the auth payload using <code>--auth &lt;key:value...></code> option.
+  </p>
+</details>
+
+<details>
+  <summary>send data</summary>
+  <br>
+  <p>Send any data</p>
   <p align="center">
     <br>
     <img src="./docs/emit-data.rest-api.png">
   </p>
-  <p>Emit binary data</p>
+  <p>Send binary data</p>
   <p align="center">
     <br>
     <img src="./docs/emit-bytes.rest-api.png">
@@ -295,15 +308,6 @@ Examples:
   </p>
   <p>
     Default reply timeout is 2000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
-  </p>
-</details>
-
-<details>
-  <summary>cli example</summary>
-  <br>
-  <p align="center">
-    <br>
-    <img src="./docs/emit.cli.png">
   </p>
 </details>
   
