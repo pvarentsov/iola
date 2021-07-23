@@ -19,8 +19,8 @@
     "lint": "eslint 'src/**/*.ts'",
     "lint:fix": "eslint --fix 'src/**/*.ts'",
     "demo:iola": "terminalizer render ./demo/iola-demo.yml -o ./demo/iola-demo.gif",
-    "server:websocket": "node ./external/websocket.server.js",
-    "server:socketio": "node ./external/socket.io.server.js"
+    "server:ws": "node ./external/websocket.server.js",
+    "server:io": "node ./external/socket.io.server.js"
   },
   "repository": {
     "type": "git",

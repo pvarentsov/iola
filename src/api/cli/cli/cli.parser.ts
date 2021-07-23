@@ -3,7 +3,7 @@ import { OptionValues, program } from 'commander'
 import { EOL } from 'os'
 
 import { CliConfig, ICliParser } from '@iola/api/cli'
-import { BinaryEncoding, EnumUtil, Optional, SocketIOTransport } from '@iola/core/common'
+import { AnyObject, BinaryEncoding, EnumUtil, Optional, SocketIOTransport } from '@iola/core/common'
 import { SocketType } from '@iola/core/socket'
 
 export class CliParser implements ICliParser {
@@ -74,6 +74,7 @@ export class CliParser implements ICliParser {
       .enablePositionalOptions(false)
       .option('-ap, --api-port <port>', 'Set api port', '3000')
       .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
+      .option('-a, --auth <key:value...>', 'Set auth')
       .option('-t, --transport <transport>', `Set transport ${ioTransportChoices}`)
       .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '2000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
@@ -90,6 +91,7 @@ export class CliParser implements ICliParser {
           binaryEncoding: options.binaryEncoding,
           emoji: options.emoji,
           replyTimeout: Number(options.replyTimeout),
+          ioAuth: this.parseIoAuth(options.auth),
           ioTransport: options.transport,
           connectionTimeout: 3000,
           reconnectionInterval: 5000,
@@ -135,5 +137,43 @@ export class CliParser implements ICliParser {
       .join(',')
 
     return `(choices: ${joined})`
+  }
+
+  private parseIoAuth(auth?: string[]): Optional<AnyObject> {
+    if (auth) {
+      const args = auth.map(item => item.split(':'))
+      const isFormatValid = args.every(item => item.length > 1)
+
+      if (!isFormatValid) {
+        console.error('error: option \'-a, --auth <key:value...>\' incorrect argument')
+        process.exit(1)
+      }
+
+      const parsedAuth: AnyObject = {}
+
+      args.forEach(arg => {
+        const key = arg[0]
+        const rawValue = arg.slice(1).join(':')
+        const numericValue = Number(rawValue)
+
+        let parsedValue: any = rawValue
+
+        if (!isNaN(numericValue)) {
+          parsedValue = numericValue
+        }
+        if (['true', 'false'].includes(rawValue)) {
+          parsedValue = Boolean(rawValue)
+        }
+        if (rawValue === 'null') {
+          parsedValue = null
+        }
+
+        parsedAuth[key] = parsedValue
+      })
+
+      return parsedAuth
+    }
+
+    return undefined
   }
 }

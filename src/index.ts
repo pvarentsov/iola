@@ -26,6 +26,7 @@ import { SocketFactory } from '@iola/core/socket'
       binaryEncoding: config.binaryEncoding,
       connectionTimeout: config.connectionTimeout,
       reconnectionInterval: config.reconnectionInterval,
+      ioAuth: config.ioAuth,
       ioTransport: config.ioTransport,
       replyTimeout: config.replyTimeout,
     })

@@ -1,4 +1,4 @@
-import { BinaryEncoding, SocketIOTransport } from '@iola/core/common'
+import { AnyObject, BinaryEncoding, SocketIOTransport } from '@iola/core/common'
 import { SocketEventType, SocketType } from '@iola/core/socket'
 
 export type SocketOptions = {
@@ -7,6 +7,7 @@ export type SocketOptions = {
   connectionTimeout: number,
   reconnectionInterval: number,
   replyTimeout: number,
+  ioAuth?: AnyObject,
   ioTransport?: SocketIOTransport,
   binaryEncoding?: BinaryEncoding,
 }

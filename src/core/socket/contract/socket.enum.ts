@@ -1,6 +1,6 @@
 export enum SocketType {
   WebSocket = 'websocket',
-  SocketIO = 'socketio',
+  SocketIO = 'socket.io',
   Tcp = 'tcp',
   Unix = 'unix',
 }

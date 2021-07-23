@@ -1,4 +1,4 @@
-import { BinaryEncoding, SocketIOTransport } from '@iola/core/common'
+import { AnyObject, BinaryEncoding, SocketIOTransport } from '@iola/core/common'
 import { SocketType } from '@iola/core/socket'
 
 export type CliConfig = {
@@ -10,6 +10,7 @@ export type CliConfig = {
   connectionTimeout: number
   reconnectionInterval: number
   replyTimeout: number
+  ioAuth?: AnyObject,
   ioTransport?: SocketIOTransport,
   binaryEncoding?: BinaryEncoding,
 }

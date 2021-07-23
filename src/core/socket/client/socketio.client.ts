@@ -43,6 +43,7 @@ export class SocketIOClient implements ISocketClient {
   async connect(): Promise<void> {
     if (!this._info.connected) {
       this._client = io(this._info.originalAddress, {
+        auth: this._options.ioAuth,
         transports: this._options.ioTransport ? [this._options.ioTransport] : EnumUtil.values(SocketIOTransport)
       })
 

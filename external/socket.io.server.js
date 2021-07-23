@@ -6,11 +6,13 @@ const ioServer = new io.Server(httpServer, {
   cors: {
     origin: '*'
   },
-  // transports: ['polling']
 })
 
 ioServer.on('connection', socket => {
-  console.dir({handshake: socket.handshake.query})
+  console.dir({handshake: {
+    query: socket.handshake.query,
+    auth: socket.handshake.auth,
+  }})
 
   socket.emit('null', null)
   socket.emit('number', 42)
