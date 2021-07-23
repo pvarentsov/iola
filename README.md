@@ -284,7 +284,7 @@ Examples:
     You can set the auth payload using <code>--auth &lt;key:value...></code> option. Examples:
     <ul>
       <li><code>iola io http://127.0.0.1:8080 --auth user:iola pass:qwerty1</code></li>
-      <li><code>iola io http://127.0.0.1:8080 --auth token:secret</code></li>
+      <li><code>iola io http://127.0.0.1:8080 --auth token:"super secret"</code></li>
     </ul>
   </p>
 </details>

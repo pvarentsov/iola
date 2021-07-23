@@ -159,7 +159,7 @@ export class CliParser implements ICliParser {
 
         let parsedValue: any = rawValue
 
-        if (!isNaN(numericValue)) {
+        if (!isNaN(numericValue) && rawValue !== '') {
           parsedValue = numericValue
         }
         if (['true', 'false'].includes(rawValue)) {
