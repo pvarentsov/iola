@@ -26,7 +26,7 @@
         <ul>
           <li><a href="https://github.com/pvarentsov/iola#common">Common</a></li>
           <li><a href="https://github.com/pvarentsov/iola#websocket">WebSocket</a></li>
-          <li><a href="https://github.com/pvarentsov/iola#socketio">SocketIO</a></li>
+          <li><a href="https://github.com/pvarentsov/iola#socket.io">Socket.IO</a></li>
         </ul>
     </ul>
     <li><a href="https://github.com/pvarentsov/iola#license">License</a></li>
@@ -50,7 +50,7 @@
 **Roadmap**:
 - [ ] Implement clients
   - [x] WebSocket
-  - [x] SocketIO
+  - [x] Socket.IO
   - [ ] Tcp
   - [ ] Unix-socket
 - [ ] Add application's binaries for all popular platforms
@@ -221,9 +221,9 @@ Examples:
   </p>
 </details>
 
-#### SocketIO
+#### Socket.IO
 
-**iola** relies on SocketIO v4. Please check a [version compatibility](https://socket.io/docs/v4/client-installation/#Version-compatibility).
+**iola** relies on Socket.IO v4. Please check a [version compatibility](https://socket.io/docs/v4/client-installation/#Version-compatibility).
 
 <pre>
 $ iola help socketio
@@ -291,7 +291,7 @@ Examples:
   <summary>server reply</summary>
   <br>
   <p>
-    SocketIO supports server replies. This feature is named acknowledgements.
+    Socket.IO supports server replies. This feature is named acknowledgements.
   </p>
   <p>
     Default reply timeout is 2000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
