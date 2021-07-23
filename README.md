@@ -281,7 +281,7 @@ Examples:
     Socket.IO client can send credentials with the <a href="https://socket.io/docs/v4/middlewares/#Sending-credentials">auth option</a>.
   </p>
   <p>
-    You can set set the auth payload using <code>--auth &lt;key:value...></code> option.
+    You can set the auth payload using <code>--auth &lt;key:value...></code> option.
   </p>
 </details>
 
