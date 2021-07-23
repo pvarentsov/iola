@@ -281,7 +281,11 @@ Examples:
     Socket.IO client can send credentials with the <a href="https://socket.io/docs/v4/middlewares/#Sending-credentials">auth option</a>.
   </p>
   <p>
-    You can set the auth payload using <code>--auth &lt;key:value...></code> option.
+    You can set the auth payload using <code>--auth &lt;key:value...></code> option. Examples:
+    <ul>
+      <li><code>iola io http://127.0.0.1:8080 --auth user:iola pass:qwerty1</code></li>
+      <li><code>iola io http://127.0.0.1:8080 --auth token:secret</code></li>
+    </ul>
   </p>
 </details>
 
