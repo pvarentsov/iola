@@ -26,7 +26,7 @@
         <ul>
           <li><a href="https://github.com/pvarentsov/iola#common">Common</a></li>
           <li><a href="https://github.com/pvarentsov/iola#websocket">WebSocket</a></li>
-          <li><a href="https://github.com/pvarentsov/iola#socket.io">Socket.IO</a></li>
+          <li><a href="https://github.com/pvarentsov/iola#socketio">Socket.IO</a></li>
         </ul>
     </ul>
     <li><a href="https://github.com/pvarentsov/iola#license">License</a></li>
