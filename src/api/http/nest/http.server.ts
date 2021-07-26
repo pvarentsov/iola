@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
 import { IHttpServer } from '@iola/api/http'
+import { HttpFilter } from '@iola/api/http/nest/http.filter'
 import { HttpLogger } from '@iola/api/http/nest/http.logger'
 import { HttpModule } from '@iola/api/http/nest/http.module'
 import { ISocketClient } from '@iola/core/socket'
@@ -22,10 +23,8 @@ export class HttpServer implements IHttpServer {
       logger:new HttpLogger()
     })
 
-    app.useGlobalPipes(new ValidationPipe({
-      transform: true,
-    }))
-
+    app.useGlobalPipes(new ValidationPipe({transform: true}))
+    app.useGlobalFilters(new HttpFilter())
     app.enableCors()
 
     const swaggerConfig = new DocumentBuilder()
