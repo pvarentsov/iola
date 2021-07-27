@@ -64,7 +64,7 @@ export class CliParser implements ICliParser {
           binaryEncoding: options.binaryEncoding,
           emoji: options.emoji,
           replyTimeout: Number(options.replyTimeout),
-          connectionTimeout: 3000,
+          connectionTimeout: 15_000,
           reconnectionInterval: 5000,
         }
       }).alias('ws')
@@ -94,7 +94,7 @@ export class CliParser implements ICliParser {
           replyTimeout: Number(options.replyTimeout),
           ioAuth: this.parseIoAuth(options.auth),
           ioTransport: options.transport,
-          connectionTimeout: 3000,
+          connectionTimeout: 15_000,
           reconnectionInterval: 5000,
         }
       }).alias('io')
