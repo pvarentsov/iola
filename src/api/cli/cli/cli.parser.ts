@@ -40,7 +40,7 @@ export class CliParser implements ICliParser {
 
 
     program
-      .version('0.2.4', '-v, --version', 'Display version')
+      .version('0.2.5', '-v, --version', 'Display version')
       .helpOption('-h, --help', 'Display help')
       .addHelpText('before', EOL + description + EOL)
       .addHelpText('after', EOL + api + EOL)
