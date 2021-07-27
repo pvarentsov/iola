@@ -217,7 +217,7 @@ Examples:
     </ul>
   </p>
   <p>
-    Default reply timeout is 2000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
+    Default reply timeout is 1000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
   </p>
 </details>
 
@@ -311,7 +311,7 @@ Examples:
     Socket.IO supports server replies. This feature is named acknowledgements.
   </p>
   <p>
-    Default reply timeout is 2000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
+    Default reply timeout is 1000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
   </p>
 </details>
   
