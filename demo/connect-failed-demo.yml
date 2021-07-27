@@ -1,0 +1,586 @@
+# The configurations that used for the recording, feel free to edit them
+config:
+
+  # Specify a command to be executed
+  # like `/bin/bash -l`, `ls`, or any other commands
+  # the default is bash for Linux
+  # or powershell.exe for Windows
+  command: bash -l
+  
+  # Specify the current working directory path
+  # the default is the current working directory path
+  cwd: /home/pvarentsov
+  
+  # Export additional ENV variables
+  env:
+    recording: true
+  
+  # Explicitly set the number of columns
+  # or use `auto` to take the current
+  # number of columns of your shell
+  cols: 96
+  
+  # Explicitly set the number of rows
+  # or use `auto` to take the current
+  # number of rows of your shell
+  rows: 3
+  
+  # Amount of times to repeat GIF
+  # If value is -1, play once
+  # If value is 0, loop indefinitely
+  # If value is a positive number, loop n times
+  repeat: 0
+  
+  # Quality
+  # 1 - 100
+  quality: 99
+  
+  # Delay between frames in ms
+  # If the value is `auto` use the actual recording delays
+  frameDelay: auto
+  
+  # Maximum delay between frames in ms
+  # Ignored if the `frameDelay` isn't set to `auto`
+  # Set to `auto` to prevent limiting the max idle time
+  maxIdleTime: 2000
+  
+  # The surrounding frame box
+  # The `type` can be null, window, floating, or solid`
+  # To hide the title use the value null
+  # Don't forget to add a backgroundColor style with a null as type
+  frameBox:
+    type: window
+    title: null
+    style: []
+
+  # Add a watermark image to the rendered gif
+  # You need to specify an absolute path for
+  # the image on your machine or a URL, and you can also
+  # add your own CSS styles
+  watermark:
+    imagePath: null
+    style:
+      position: absolute
+      right: 0px
+      bottom: 0px
+      width: 100px
+      opacity: 0.9
+  
+  # Cursor style can be one of
+  # `block`, `underline`, or `bar`
+  cursorStyle: underline
+  
+  # Font family
+  # You can use any font that is installed on your machine
+  # in CSS-like syntax
+  fontFamily: 'Hack, "Noto Color Emoji"'
+  
+  # The size of the font
+  fontSize: 14
+  
+  # The height of lines
+  lineHeight: 1
+  
+  # The spacing between letters
+  letterSpacing: 0
+  
+  # Theme
+  theme:
+    background: "transparent"
+    foreground: "#afafaf"
+    cursor: "#c7c7c7"
+    black: "#232628"
+    red: "#fc4384"
+    green: "#b3e33b"
+    yellow: "#ffa727"
+    blue: "#75dff2"
+    magenta: "#ae89fe"
+    cyan: "#708387"
+    white: "#d5d5d0"
+    brightBlack: "#626566"
+    brightRed: "#ff7fac"
+    brightGreen: "#c8ed71"
+    brightYellow: "#ebdf86"
+    brightBlue: "#75dff2"
+    brightMagenta: "#ae89fe"
+    brightCyan: "#b1c6ca"
+    brightWhite: "#f9f9f4"
+  
+# Records, feel free to edit them
+records:
+  - delay: 472
+    content: "\e[01;32m~\e[00m \e[94m\e[01m›\e[00m "
+  - delay: 50
+    content: i
+  - delay: 50
+    content: o
+  - delay: 50
+    content: l
+  - delay: 50
+    content: a
+  - delay: 50
+    content: ' '
+  - delay: 50
+    content: w
+  - delay: 50
+    content: e
+  - delay: 50
+    content: b
+  - delay: 50
+    content: s
+  - delay: 50
+    content: o
+  - delay: 50
+    content: c
+  - delay: 50
+    content: k
+  - delay: 50
+    content: e
+  - delay: 50
+    content: t
+  - delay: 50
+    content: ' '
+  - delay: 50
+    content: w
+  - delay: 50
+    content: s
+  - delay: 50
+    content: ':'
+  - delay: 50
+    content: /
+  - delay: 50
+    content: /
+  - delay: 50
+    content: '1'
+  - delay: 50
+    content: '2'
+  - delay: 50
+    content: '7'
+  - delay: 50
+    content: .
+  - delay: 50
+    content: '0'
+  - delay: 50
+    content: .
+  - delay: 50
+    content: '0'
+  - delay: 50
+    content: .
+  - delay: 50
+    content: '1'
+  - delay: 50
+    content: ':'
+  - delay: 50
+    content: '8'
+  - delay: 50
+    content: '0'
+  - delay: 50
+    content: '8'
+  - delay: 50
+    content: '0'
+  - delay: 50
+    content: "\r\n"
+  - delay: 260
+    content: "\e[?25l\e[36m⠋\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 79
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 79
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 79
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 79
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 85
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 74
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 79
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 79
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 79
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 79
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 79
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 79
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠧\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠇\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠏\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠋\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠙\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠹\e[39m Connecting"
+  - delay: 79
+    content: "\e[2K\e[1G\e[36m⠸\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠼\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[36m⠴\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[36m⠦\e[39m Connecting"
+  - delay: 79
+    content: "\e[2K\e[1G\e[31m⠧\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[31m⠇\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[31m⠏\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[31m⠋\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[31m⠙\e[39m Connecting"
+  - delay: 79
+    content: "\e[2K\e[1G\e[31m⠹\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[31m⠸\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[31m⠼\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[31m⠴\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[31m⠦\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[31m⠧\e[39m Connecting"
+  - delay: 80
+    content: "\e[2K\e[1G\e[31m⠇\e[39m Connecting"
+  - delay: 81
+    content: "\e[2K\e[1G\e[31m⠏\e[39m Connecting"
+  - delay: 30
+    content: "\e[2K\e[1G\e[?25hconnection to ws://127.0.0.1:8080/ is timed out\r\n\e[?25h\e]"
+  - delay: 3000
+    content: "\e"
