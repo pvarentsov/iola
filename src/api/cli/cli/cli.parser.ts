@@ -49,7 +49,7 @@ export class CliParser implements ICliParser {
       .enablePositionalOptions(false)
       .option('-ap, --api-port <port>', 'Set api port', '3000')
       .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
-      .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '2000')
+      .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '1000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
       .option('-ne, --no-emoji', 'Disable emoji')
       .helpOption('-h, --help', 'Display help')
@@ -64,8 +64,8 @@ export class CliParser implements ICliParser {
           binaryEncoding: options.binaryEncoding,
           emoji: options.emoji,
           replyTimeout: Number(options.replyTimeout),
-          connectionTimeout: 15_000,
-          reconnectionInterval: 5000,
+          connectionTimeout: 5_000,
+          reconnectionInterval: 10_000,
         }
       }).alias('ws')
 
@@ -77,7 +77,7 @@ export class CliParser implements ICliParser {
       .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
       .option('-a, --auth <key:value...>', 'Set authentication payload')
       .option('-t, --transport <transport>', `Set transport ${ioTransportChoices}`)
-      .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '2000')
+      .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '1000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
       .option('-ne, --no-emoji', 'Disable emoji')
       .helpOption('-h, --help', 'Display help')
@@ -94,8 +94,8 @@ export class CliParser implements ICliParser {
           replyTimeout: Number(options.replyTimeout),
           ioAuth: this.parseIoAuth(options.auth),
           ioTransport: options.transport,
-          connectionTimeout: 15_000,
-          reconnectionInterval: 5000,
+          connectionTimeout: 5_000,
+          reconnectionInterval: 10_000,
         }
       }).alias('io')
 
