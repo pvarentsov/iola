@@ -10,6 +10,9 @@ export class CliParser implements ICliParser {
   parse(): CliConfig {
     let config: Optional<CliConfig>
 
+    const connectionTimeout = 5_000
+    const reconnectionInterval = 10_000
+
     const description =
       `${chalk.bold('iola')} - a socket client with rest api`
 
@@ -64,8 +67,8 @@ export class CliParser implements ICliParser {
           binaryEncoding: options.binaryEncoding,
           emoji: options.emoji,
           replyTimeout: Number(options.replyTimeout),
-          connectionTimeout: 5_000,
-          reconnectionInterval: 10_000,
+          connectionTimeout: connectionTimeout,
+          reconnectionInterval: reconnectionInterval,
         }
       }).alias('ws')
 
@@ -94,8 +97,8 @@ export class CliParser implements ICliParser {
           replyTimeout: Number(options.replyTimeout),
           ioAuth: this.parseIoAuth(options.auth),
           ioTransport: options.transport,
-          connectionTimeout: 5_000,
-          reconnectionInterval: 10_000,
+          connectionTimeout: connectionTimeout,
+          reconnectionInterval: reconnectionInterval,
         }
       }).alias('io')
 
