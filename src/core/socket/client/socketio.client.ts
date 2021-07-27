@@ -93,8 +93,11 @@ export class SocketIOClient implements ISocketClient {
           mapTo(undefined),
         )
 
+        this._info.connecting = true
+
         await firstValueFrom(connect$)
 
+        this._info.connecting = false
         this._info.connected = true
       }
       catch (error) {
@@ -138,20 +141,26 @@ export class SocketIOClient implements ISocketClient {
 
     this._client = undefined
     this._info.connected = false
+    this._info.connecting = false
   }
 
   private retryConnection(): void {
     const retryInterval = setInterval(async () => {
       try {
-        this._store.add({
-          type: SocketEventType.Reconnecting,
-          date: new Date(),
-          message: this._info,
-        })
+        if (this._info.connected) {
+          clearInterval(retryInterval)
+        }
+        else if (!this._info.connecting) {
+          this._store.add({
+            type: SocketEventType.Reconnecting,
+            date: new Date(),
+            message: this._info,
+          })
 
-        await this.connect()
+          await this.connect()
 
-        clearInterval(retryInterval)
+          clearInterval(retryInterval)
+        }
       }
       catch (err) {}
     }, this._options.reconnectionInterval)

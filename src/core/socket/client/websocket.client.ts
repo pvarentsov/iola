@@ -106,8 +106,11 @@ export class WebSocketClient implements ISocketClient {
         )
 
         this._info.connecting = true
+
         await firstValueFrom(open$)
+
         this._info.connecting = false
+        this._info.connected = true
       }
       catch (error) {
         this.close()
