@@ -26,6 +26,7 @@ export class SocketIOClient implements ISocketClient {
       address: format(new URL(options.address), {search: false}),
       originalAddress: options.address,
       connected: false,
+      connecting: false,
     }
 
     this._options = options

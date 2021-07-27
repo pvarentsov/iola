@@ -27,6 +27,7 @@ export class WebSocketClient implements ISocketClient {
       address: format(new URL(options.address), {search: false}),
       originalAddress: options.address,
       connected: false,
+      connecting: false,
     }
 
     this._options = options
@@ -104,9 +105,9 @@ export class WebSocketClient implements ISocketClient {
           mapTo(undefined),
         )
 
+        this._info.connecting = true
         await firstValueFrom(open$)
-
-        this._info.connected = true
+        this._info.connecting = false
       }
       catch (error) {
         this.close()
@@ -153,20 +154,26 @@ export class WebSocketClient implements ISocketClient {
 
     this._client = undefined
     this._info.connected = false
+    this._info.connecting = false
   }
 
   private retryConnection(): void {
     const retryInterval = setInterval(async () => {
       try {
-        this._store.add({
-          type: SocketEventType.Reconnecting,
-          date: new Date(),
-          message: this._info,
-        })
+        if (this._info.connected) {
+          clearInterval(retryInterval)
+        }
+        else if (!this._info.connecting) {
+          this._store.add({
+            type: SocketEventType.Reconnecting,
+            date: new Date(),
+            message: this._info,
+          })
 
-        await this.connect()
+          await this.connect()
 
-        clearInterval(retryInterval)
+          clearInterval(retryInterval)
+        }
       }
       catch (err) {}
     }, this._options.reconnectionInterval)

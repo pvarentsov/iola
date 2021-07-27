@@ -17,6 +17,7 @@ export type SocketInfo = {
   address: string,
   originalAddress: string,
   connected: boolean,
+  connecting: boolean,
 }
 
 export type SocketEvent<TMessage = any> = {
