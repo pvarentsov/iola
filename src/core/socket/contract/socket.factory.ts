@@ -12,7 +12,7 @@ export class SocketFactory {
     const factory: Record<SocketType, () => ISocketClient> = {
       [SocketType.SocketIO]: () => new SocketIOClient(options, store),
       [SocketType.WebSocket]: () => new WebSocketClient(options, store),
-      [SocketType.Tcp]: () => new TcpSocketClient(),
+      [SocketType.Tcp]: () => new TcpSocketClient(options, store),
       [SocketType.Unix]: () => new UnixSocketClient(),
     }
 

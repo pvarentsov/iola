@@ -20,7 +20,8 @@
     "lint:fix": "eslint --fix 'src/**/*.ts'",
     "demo:iola": "terminalizer render ./demo/iola-demo.yml -o ./demo/iola-demo.gif",
     "server:ws": "node ./external/websocket.server.js",
-    "server:io": "node ./external/socket.io.server.js"
+    "server:io": "node ./external/socket.io.server.js",
+    "server:tcp": "node ./external/tcp.server.js"
   },
   "repository": {
     "type": "git",
