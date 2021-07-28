@@ -46,7 +46,9 @@ export class WebSocketClient implements ISocketClient {
     if (!this._info.connected) {
       this.close()
 
-      this._client = new WebSocket(this._info.originalAddress)
+      this._client = new WebSocket(this._info.originalAddress, {
+        rejectUnauthorized: false
+      })
 
       this._client.on('message', message => {
         const unpacked = MessageUtil.unpack(message)
