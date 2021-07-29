@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs'
 import { SocketEvent, SocketEventType, SocketInfo, SocketSendReply } from '@iola/core/socket'
+import { Observable } from 'rxjs'
 
 export interface ISocketClient {
   readonly info: SocketInfo
@@ -15,3 +15,9 @@ export interface ISocketEventStore {
   listen(): Observable<Required<SocketEvent>>
   add(event: SocketEvent): number
 }
+
+export interface IBinaryMessageStore {
+  load(): Observable<Buffer>
+  add(data: Buffer): void
+}
+
