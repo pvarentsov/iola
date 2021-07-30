@@ -1,7 +1,6 @@
 import { interval, Observable } from 'rxjs'
 import { filter, map } from 'rxjs/operators'
 
-import { Optional } from '@iola/core/common'
 import { BinaryMessage, IBinaryMessageStore } from '@iola/core/socket'
 
 export class BinaryMessageStore implements IBinaryMessageStore {
@@ -21,8 +20,8 @@ export class BinaryMessageStore implements IBinaryMessageStore {
     const diffBetweenMessages = 500
 
     return this.ticker$.pipe(
-      map(() => this.groupMessage(diffBetweenMessages)!),
-      filter(buffer => !! buffer),
+      map(() => this.groupMessage(diffBetweenMessages)),
+      filter(buffer => buffer.length > 0),
     )
   }
 
@@ -33,25 +32,28 @@ export class BinaryMessageStore implements IBinaryMessageStore {
     })
   }
 
-  private groupMessage(diffBetweenMessages: number): Optional<Buffer> {
+  private groupMessage(diffBetweenMessages: number): Buffer {
+    let buffer = Buffer.alloc(0)
+
     if (!this.loading) {
       if (this.store.length) {
         this.loading = true
-
         const count = this.countGroupedChunks(diffBetweenMessages)
-        let buffer = Buffer.alloc(0)
 
         if (count > 0) {
           for (let i = 0; i < count; i++) {
-            buffer = Buffer.concat([buffer, this.store.shift()!.data])
+            const message = this.store.shift()
+            const data = message?.data || Buffer.alloc(0)
+
+            buffer = Buffer.concat([buffer, data])
           }
         }
 
         this.loading = false
-
-        return buffer
       }
     }
+
+    return buffer
   }
 
   private countGroupedChunks(diffBetweenMessages: number): number {
