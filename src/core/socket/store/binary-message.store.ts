@@ -1,86 +1,78 @@
-import { Optional } from '@iola/core/common'
-import { BinaryMessage, IBinaryMessageStore } from '@iola/core/socket'
 import { interval, Observable } from 'rxjs'
 import { filter, map } from 'rxjs/operators'
 
+import { Optional } from '@iola/core/common'
+import { BinaryMessage, IBinaryMessageStore } from '@iola/core/socket'
+
 export class BinaryMessageStore implements IBinaryMessageStore {
   private readonly store: BinaryMessage[]
-  private readonly buffer: BinaryMessage[]
   private readonly ticker$: Observable<number>
+
+  private loading: boolean
 
   constructor() {
     this.store = []
-    this.buffer = []
 
-    this.ticker$ = interval(200)
+    this.ticker$ = interval(2000)
+    this.loading = false
   }
 
-  load(): Observable<Buffer> {
+  group(): Observable<Buffer> {
     const diffBetweenMessages = 500
 
     return this.ticker$.pipe(
-      map<number, Buffer>(() => this.loadBuffer(diffBetweenMessages)!),
-      filter<Buffer>(buffer => buffer !== undefined),
+      map(() => this.groupMessage(diffBetweenMessages)!),
+      filter(buffer => !! buffer),
     )
   }
 
   add(data: Buffer): void {
     this.store.push({
-      date: new Date(),
+      date: Date.now(),
       data: data
     })
   }
 
-  private loadBuffer(diffBetweenMessages: number): Optional<Buffer> {
-    const date = Date.now()
-    const lastBufferedMessage = this.buffer[this.buffer.length - 1]
+  private groupMessage(diffBetweenMessages: number): Optional<Buffer> {
+    if (!this.loading) {
+      if (this.store.length) {
+        this.loading = true
 
-    let ready = false
-    let count = 0
+        const count = this.countGroupedChunks(diffBetweenMessages)
+        let buffer = Buffer.alloc(0)
 
-    if (lastBufferedMessage && date - lastBufferedMessage.date.getTime() >= diffBetweenMessages) {
-      return this.concatBuffer()
-    }
-
-    if (this.store.length > 0) {
-      for (const message of this.store) {
-        if (!lastBufferedMessage) {
-          count++
-          continue
+        if (count > 0) {
+          for (let i = 0; i < count; i++) {
+            buffer = Buffer.concat([buffer, this.store.shift()!.data])
+          }
         }
 
-        const messageDiff = message.date.getTime() - lastBufferedMessage.date.getTime()
+        this.loading = false
 
-        if (messageDiff >= diffBetweenMessages) {
-          ready = true
-          break
-        }
-
-        count++
+        return buffer
       }
-    }
-
-    if (count > 0) {
-      for (let i = 0; i < count; i++) {
-        this.buffer.push(this.store.shift()!)
-      }
-    }
-
-    if (ready) {
-      return this.concatBuffer()
     }
   }
 
-  private concatBuffer(): Buffer {
-    let buffer = Buffer.alloc(0)
+  private countGroupedChunks(diffBetweenMessages: number): number {
+    let count = 0
+    let lastDate = 0
 
-    if (this.buffer.length === 0) {
-      return buffer
-    }
-    for (let i = 0; i < this.buffer.length; i++) {
-      buffer = Buffer.concat([buffer, this.buffer.shift()!.data])
+    for (const message of this.store) {
+      if (lastDate === 0) {
+        count++
+        lastDate = message.date
+        continue
+      }
+      if (message.date - lastDate >= diffBetweenMessages) {
+        break
+      }
+      else {
+        count++
+        lastDate = message.date
+      }
     }
 
-    return buffer
+    return count
   }
 }

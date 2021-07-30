@@ -33,6 +33,6 @@ export type SocketSendReply<TReply = any> = {
 }
 
 export type BinaryMessage = {
-  date: Date,
+  date: number,
   data: Buffer,
 }

@@ -17,7 +17,7 @@ export interface ISocketEventStore {
 }
 
 export interface IBinaryMessageStore {
-  load(): Observable<Buffer>
+  group(): Observable<Buffer>
   add(data: Buffer): void
 }
 

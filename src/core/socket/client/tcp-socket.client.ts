@@ -1,9 +1,10 @@
-import { Socket, createConnection } from 'net'
+import { createConnection, Socket } from 'net'
 import { firstValueFrom, fromEvent } from 'rxjs'
-import { bufferTime, filter, mapTo, tap } from 'rxjs/operators'
+import { mapTo, tap } from 'rxjs/operators'
 
 import { AnyObject, MessageUtil, RxJSUtil } from '@iola/core/common'
 import {
+  IBinaryMessageStore,
   ISocketClient,
   ISocketEventStore,
   SocketEventType,
@@ -14,12 +15,13 @@ import {
 
 export class TcpSocketClient implements ISocketClient {
   private readonly _info: SocketInfo
-  private readonly _store: ISocketEventStore
+  private readonly _eventStore: ISocketEventStore
+  private readonly _binaryMessageStore: IBinaryMessageStore
   private readonly _options: SocketOptions
 
   private _client?: Socket
 
-  constructor(options: SocketOptions, store: ISocketEventStore) {
+  constructor(options: SocketOptions, eventStore: ISocketEventStore, binaryMessageStore: IBinaryMessageStore) {
     this._info = {
       type: options.type,
       address: options.address,
@@ -29,7 +31,9 @@ export class TcpSocketClient implements ISocketClient {
     }
 
     this._options = options
-    this._store = store
+
+    this._eventStore = eventStore
+    this._binaryMessageStore = binaryMessageStore
   }
 
   get info(): SocketInfo {
@@ -37,7 +41,7 @@ export class TcpSocketClient implements ISocketClient {
   }
 
   get store(): ISocketEventStore {
-    return this._store
+    return this._eventStore
   }
 
   async connect(): Promise<void> {
@@ -51,34 +55,29 @@ export class TcpSocketClient implements ISocketClient {
         port: parseInt(parsedAddress[1]),
       })
 
-      fromEvent(this._client, 'data')
-        .pipe(
-          bufferTime(1000),
-          filter(batches => batches.length > 0)
-        )
-        .subscribe(data => {
-          const message = Buffer.concat(data as Buffer[])
+      this._client.on('data', data => this._binaryMessageStore.add(data))
 
-          const unpacked = MessageUtil.unpack(message)
-          const encoding = this._options.binaryEncoding
+      this._binaryMessageStore.group().subscribe(message => {
+        const unpacked = MessageUtil.unpack(message)
+        const encoding = this._options.binaryEncoding
 
-          const eventMessage: AnyObject = {
-            format: unpacked.format,
-            size: unpacked.data.length,
-            data: unpacked.data,
-          }
-          if (encoding) {
-            eventMessage[encoding] = (Buffer.from(unpacked.data as Uint8Array)).toString(encoding)
-          }
+        const eventMessage: AnyObject = {
+          format: unpacked.format,
+          size: unpacked.data.length,
+          data: unpacked.data,
+        }
+        if (encoding) {
+          eventMessage[encoding] = (Buffer.from(unpacked.data as Uint8Array)).toString(encoding)
+        }
 
-          this._store.add({
-            type: SocketEventType.ReceivedMessage,
-            date: new Date(),
-            message: eventMessage,
-          })
+        this._eventStore.add({
+          type: SocketEventType.ReceivedMessage,
+          date: new Date(),
+          message: eventMessage,
         })
+      })
 
-      this._client.on('error', err => this._store.add({
+      this._client.on('error', err => this._eventStore.add({
         type: SocketEventType.Error,
         date: new Date(),
         message: {
@@ -88,7 +87,7 @@ export class TcpSocketClient implements ISocketClient {
 
       this._client.on('close', () => {
         if (this._info.connected) {
-          this._store.add({
+          this._eventStore.add({
             type: SocketEventType.Closed,
             date: new Date(),
             message: {code: 1, reason: ''},
@@ -103,7 +102,7 @@ export class TcpSocketClient implements ISocketClient {
         const connect$ = fromEvent(this._client, 'connect').pipe(
           RxJSUtil.timeout(this._options.connectionTimeout, `connection to ${this.info.address} is timed out`),
           tap(() => this._info.connected = true),
-          tap(() => this._store.add({
+          tap(() => this._eventStore.add({
             type: SocketEventType.Connected,
             date: new Date(),
             message: this._info,
@@ -178,7 +177,7 @@ export class TcpSocketClient implements ISocketClient {
             message: eventMessage,
           }
 
-          const messageId = this._store.add(event)
+          const messageId = this._eventStore.add(event)
 
           resolve({messageId})
         }
@@ -203,7 +202,7 @@ export class TcpSocketClient implements ISocketClient {
           clearInterval(retryInterval)
         }
         else if (!this._info.connecting) {
-          this._store.add({
+          this._eventStore.add({
             type: SocketEventType.Reconnecting,
             date: new Date(),
             message: this._info,
