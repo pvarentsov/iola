@@ -1,44 +1,23 @@
-import { createConnection, NetConnectOpts, Socket } from 'net'
-import { firstValueFrom, fromEvent } from 'rxjs'
-import { mapTo, tap } from 'rxjs/operators'
-
 import { AnyObject, MessageUtil, RxJSUtil } from '@iola/core/common'
 import {
-  IBinaryMessageStore,
   ISocketClient,
   ISocketEventStore,
   SocketEventType,
-  SocketInfo,
   SocketOptions,
   SocketSendReply,
   SocketType,
 } from '@iola/core/socket'
+import { createConnection, NetConnectOpts, Socket } from 'net'
+import { firstValueFrom, fromEvent } from 'rxjs'
+import { mapTo, tap } from 'rxjs/operators'
 
-export class NetSocketAsyncClient implements ISocketClient {
-  private readonly _info: SocketInfo
+export class NetSocketSyncClient implements ISocketClient {
   private readonly _eventStore: ISocketEventStore
-  private readonly _binaryMessageStore: IBinaryMessageStore
   private readonly _options: SocketOptions
 
-  private _client?: Socket
-
-  constructor(options: SocketOptions, eventStore: ISocketEventStore, binaryMessageStore: IBinaryMessageStore) {
-    this._info = {
-      type: options.type,
-      address: options.address,
-      originalAddress: options.address,
-      connected: false,
-      connecting: false,
-    }
-
+  constructor(options: SocketOptions, eventStore: ISocketEventStore) {
     this._options = options
-
     this._eventStore = eventStore
-    this._binaryMessageStore = binaryMessageStore
-  }
-
-  get info(): SocketInfo {
-    return {...this._info}
   }
 
   get store(): ISocketEventStore {
@@ -46,77 +25,7 @@ export class NetSocketAsyncClient implements ISocketClient {
   }
 
   async connect(): Promise<void> {
-    if (!this._info.connected) {
-      this.close()
-      this._client = createConnection(this.netOptions())
-
-      this._client.on('data', data => this._binaryMessageStore.add(data))
-
-      this._binaryMessageStore.group().subscribe(message => {
-        const unpacked = MessageUtil.unpack(message)
-        const encoding = this._options.binaryEncoding
-
-        const eventMessage: AnyObject = {
-          format: unpacked.format,
-          size: unpacked.data.length,
-          data: unpacked.data,
-        }
-        if (encoding) {
-          eventMessage[encoding] = (Buffer.from(unpacked.data as Uint8Array)).toString(encoding)
-        }
-
-        this._eventStore.add({
-          type: SocketEventType.ReceivedMessage,
-          date: new Date(),
-          message: eventMessage,
-        })
-      })
-
-      this._client.on('error', err => this._eventStore.add({
-        type: SocketEventType.Error,
-        date: new Date(),
-        message: {
-          message: err.message
-        },
-      }))
-
-      this._client.on('close', () => {
-        if (this._info.connected) {
-          this._eventStore.add({
-            type: SocketEventType.Closed,
-            date: new Date(),
-            message: {code: 1, reason: ''},
-          })
-
-          this.close()
-          this.retryConnection()
-        }
-      })
-
-      try {
-        const connect$ = fromEvent(this._client, 'connect').pipe(
-          RxJSUtil.timeout(this._options.connectionTimeout, `connection to ${this.info.address} is timed out`),
-          tap(() => this._info.connected = true),
-          tap(() => this._eventStore.add({
-            type: SocketEventType.Connected,
-            date: new Date(),
-            message: this._info,
-          })),
-          mapTo(undefined),
-        )
-
-        this._info.connecting = true
-
-        await firstValueFrom(connect$)
-
-        this._info.connecting = false
-        this._info.connected = true
-      }
-      catch (error) {
-        this.close()
-        throw error
-      }
-    }
+    return undefined
   }
 
   async sendData<TData>(data: TData): Promise<SocketSendReply> {
@@ -156,12 +65,8 @@ export class NetSocketAsyncClient implements ISocketClient {
   }
 
   private send<TMessage>(data: Buffer|string, eventMessage: TMessage): Promise<SocketSendReply> {
-    const client = this._client
-    const connected = this._info.connected
-
-    if (!client || !connected) {
-      throw new Error(`error: client is not connected to ${this.info.address}`)
-    }
+    // TODO: Create connection
+    const client = {} as Socket
 
     return new Promise<SocketSendReply>(async (resolve, reject) => {
       client.write(data, async (err) => {
@@ -182,34 +87,33 @@ export class NetSocketAsyncClient implements ISocketClient {
     })
   }
 
-  private close(): void {
-    this._client?.removeAllListeners()
+  private async connectSocket(): Promise<Socket> {
+    const socket = createConnection(this.netOptions());
 
-    this._client = undefined
-    this._info.connected = false
-    this._info.connecting = false
+    try {
+      const connect$ = fromEvent(socket, 'connect').pipe(
+        RxJSUtil.timeout(this._options.connectionTimeout, `connection to ${this._options.address} is timed out`),
+        tap(() => this._eventStore.add({
+          type: SocketEventType.Connected,
+          date: new Date(),
+          message: {type: this._options.type, address: this._options.address},
+        })),
+        mapTo(undefined),
+      )
+      await firstValueFrom(connect$)
+
+      return socket
+    }
+    catch (error) {
+      this.close(socket)
+      throw error
+    }
   }
 
-  private retryConnection(): void {
-    const retryInterval = setInterval(async () => {
-      try {
-        if (this._info.connected) {
-          clearInterval(retryInterval)
-        }
-        else if (!this._info.connecting) {
-          this._eventStore.add({
-            type: SocketEventType.Reconnecting,
-            date: new Date(),
-            message: this._info,
-          })
+  private close(client: Socket): void {
+    client.removeAllListeners()
+    client.destroy()
 
-          await this.connect()
-
-          clearInterval(retryInterval)
-        }
-      }
-      catch (err) {}
-    }, this._options.reconnectionInterval)
   }
 
   private netOptions(): NetConnectOpts {

@@ -33,10 +33,6 @@ export class SocketIOClient implements ISocketClient {
     this._store = store
   }
 
-  get info(): SocketInfo {
-    return {...this._info}
-  }
-
   get store(): ISocketEventStore {
     return this._store
   }
@@ -84,7 +80,7 @@ export class SocketIOClient implements ISocketClient {
 
       try {
         const connect$ = fromEvent(this._client, 'connect').pipe(
-          RxJSUtil.timeout(this._options.connectionTimeout, `connection to ${this.info.address} is timed out`),
+          RxJSUtil.timeout(this._options.connectionTimeout, `connection to ${this._info.address} is timed out`),
           tap(() => this._info.connected = true),
           tap(() => this._store.add({
             type: SocketEventType.Connected,
@@ -172,7 +168,7 @@ export class SocketIOClient implements ISocketClient {
     const connected = this._info.connected
 
     if (!client || !connected) {
-      throw new Error(`error: client is not connected to ${this.info.address}`)
+      throw new Error(`error: client is not connected to ${this._info.address}`)
     }
 
     const message = {

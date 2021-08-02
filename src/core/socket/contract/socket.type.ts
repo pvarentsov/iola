@@ -9,6 +9,7 @@ export type SocketOptions = {
   replyTimeout: number,
   ioAuth?: AnyObject,
   ioTransport?: SocketIOTransport,
+  netSync?: boolean,
   binaryEncoding?: BinaryEncoding,
 }
 
