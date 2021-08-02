@@ -1,8 +1,13 @@
-const net = require('net');
+const net = require('net')
+const fs = require('fs')
+const path = require('path')
+
+const socketPath = path.join(__dirname, 'unix.sock')
+fs.unlinkSync(socketPath);
 
 const server = new net.createServer();
 
-server.listen(8082);
+server.listen(socketPath);
 
 server.on('connection', function (socket) {
   socket.on('data', function (chunk) {

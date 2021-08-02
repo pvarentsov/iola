@@ -1,4 +1,4 @@
-import { inspect } from 'util'
+import { inspect, InspectOptions } from 'util'
 
 import {
   AnyMessageInfo,
@@ -93,7 +93,7 @@ export class MessageUtil {
     return info
   }
 
-  static humanize(message: UnpackedMessage): string {
+  static humanize(message: UnpackedMessage, options?: {maxStringLength?: number, maxArrayLength?: number}): string {
     if (typeof message === 'string') {
       return message
     }
@@ -101,8 +101,8 @@ export class MessageUtil {
     return inspect(message, {
       colors: true,
       compact: true,
-      maxArrayLength: 16,
-      maxStringLength: 50,
+      maxArrayLength: options?.maxArrayLength || 16,
+      maxStringLength: options?.maxStringLength || 50,
       depth: 2,
     })
   }

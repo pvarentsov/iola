@@ -5,7 +5,7 @@ import { EOL } from 'os'
 
 import { CliConfig, ICliInteractive } from '@iola/api/cli'
 import { IHttpServer } from '@iola/api/http'
-import { MessageUtil } from '@iola/core/common'
+import { MessageUtil, Optional } from '@iola/core/common'
 import { ISocketClient, SocketEvent, SocketEventType } from '@iola/core/socket'
 
 export class CliInteractive implements ICliInteractive {
@@ -60,12 +60,18 @@ export class CliInteractive implements ICliInteractive {
     const date = moment(event.date).format('YYYY-MM-D HH:mm:ss')
     const title = `${id} [${date}] ${eventName[event.type]}`
 
-    const message = event.type === SocketEventType.Connected || event.type === SocketEventType.Reconnecting
+    const isConnectionEvent = event.type === SocketEventType.Connected || event.type === SocketEventType.Reconnecting
+
+    const message = isConnectionEvent
       ? {type: event.message.type, address: event.message.address}
       : event.message
 
+    const options: Optional<{maxStringLength?: number, maxArrayLength?: number}> = isConnectionEvent
+      ? {maxStringLength: 200}
+      : undefined
+
     const humanizedMessage = MessageUtil
-      .humanize(message)
+      .humanize(message, options)
       .replace(new RegExp(EOL, 'g'), `${EOL}  `)
 
     const body = '  ' + humanizedMessage + EOL

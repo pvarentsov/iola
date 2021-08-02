@@ -1,4 +1,4 @@
-import { createConnection, Socket } from 'net'
+import { createConnection, NetConnectOpts, Socket } from 'net'
 import { firstValueFrom, fromEvent } from 'rxjs'
 import { mapTo, tap } from 'rxjs/operators'
 
@@ -11,9 +11,10 @@ import {
   SocketInfo,
   SocketOptions,
   SocketSendReply,
+  SocketType,
 } from '@iola/core/socket'
 
-export class TcpSocketClient implements ISocketClient {
+export class NetSocketClient implements ISocketClient {
   private readonly _info: SocketInfo
   private readonly _eventStore: ISocketEventStore
   private readonly _binaryMessageStore: IBinaryMessageStore
@@ -47,13 +48,7 @@ export class TcpSocketClient implements ISocketClient {
   async connect(): Promise<void> {
     if (!this._info.connected) {
       this.close()
-
-      const parsedAddress = this._options.address.split(':')
-
-      this._client = createConnection({
-        host: parsedAddress[0],
-        port: parseInt(parsedAddress[1]),
-      })
+      this._client = createConnection(this.netOptions())
 
       this._client.on('data', data => this._binaryMessageStore.add(data))
 
@@ -215,5 +210,25 @@ export class TcpSocketClient implements ISocketClient {
       }
       catch (err) {}
     }, this._options.reconnectionInterval)
+  }
+
+  private netOptions(): NetConnectOpts {
+    let netOpts = {} as NetConnectOpts
+
+    if (this._options.type === SocketType.Tcp) {
+      const parsedAddress = this._options.address.split(':')
+
+      netOpts = {
+        host: parsedAddress[0],
+        port: parseInt(parsedAddress[1]),
+      }
+    }
+    if (this._options.type === SocketType.Unix) {
+      netOpts = {
+        path: this._options.address
+      }
+    }
+
+    return netOpts
   }
 }

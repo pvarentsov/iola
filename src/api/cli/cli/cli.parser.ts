@@ -43,6 +43,11 @@ export class CliParser implements ICliParser {
       `  iola tcp 127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
       '  iola tcp 127.0.0.1:8080 --no-emoji'
 
+    const unixExamples = `Examples: ${EOL}` +
+      `  iola unix ./unix.sock ${EOL}` +
+      `  iola unix ./unix.sock --binary-encoding utf8 ${EOL}` +
+      '  iola unix ./unix.sock --no-emoji'
+
     program
       .version('0.2.6', '-v, --version', 'Display version')
       .helpOption('-h, --help', 'Display help')
@@ -121,6 +126,32 @@ export class CliParser implements ICliParser {
       .action((address: string, options: OptionValues) => {
         config = {
           socketType: SocketType.Tcp,
+          socketAddress: address,
+          apiPort: Number(options.apiPort),
+          apiHost: options.apiHost,
+          binaryEncoding: options.binaryEncoding,
+          emoji: options.emoji,
+          replyTimeout: Number(options.replyTimeout),
+          connectionTimeout: connectionTimeout,
+          reconnectionInterval: reconnectionInterval,
+        }
+      })
+
+    program
+      .command('unix <address>')
+      .description('Run unix client')
+      .enablePositionalOptions(false)
+      .option('-ap, --api-port <port>', 'Set api port', '3000')
+      .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
+      .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '1000')
+      .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
+      .option('-ne, --no-emoji', 'Disable emoji')
+      .helpOption('-h, --help', 'Display help')
+      .addHelpText('before', ' ')
+      .addHelpText('after', EOL + unixExamples + EOL)
+      .action((address: string, options: OptionValues) => {
+        config = {
+          socketType: SocketType.Unix,
           socketAddress: address,
           apiPort: Number(options.apiPort),
           apiHost: options.apiHost,
