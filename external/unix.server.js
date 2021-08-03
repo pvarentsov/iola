@@ -3,8 +3,6 @@ const fs = require('fs')
 const path = require('path')
 
 const socketPath = path.join(__dirname, 'unix.sock')
-fs.unlinkSync(socketPath);
-
 const server = new net.createServer();
 
 server.listen(socketPath);

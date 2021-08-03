@@ -18,24 +18,19 @@ import { SocketEventType, SocketFactory } from '@iola/core/socket'
       reconnectionInterval: config.reconnectionInterval,
       ioAuth: config.ioAuth,
       ioTransport: config.ioTransport,
+      netSync: config.netSync,
       replyTimeout: config.replyTimeout,
     })
 
-    process.on('uncaughtException',  error => client.store.add({
-      type: SocketEventType.Error,
-      date: new Date(),
-      message: {
-        uncaughtException: error.message
-      },
-    }))
+    process.on('uncaughtException',  error => {
+      console.error(error.message)
+      process.exit(1)
+    })
 
-    process.on('unhandledRejection',  error => client.store.add({
-      type: SocketEventType.Error,
-      date: new Date(),
-      message: {
-        uncaughtException: error
-      },
-    }))
+    process.on('unhandledRejection',  error => {
+      console.error(error)
+      process.exit(1)
+    })
 
     const server = HttpFactory
       .createServer(client)

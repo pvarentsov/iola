@@ -117,7 +117,8 @@ export class CliParser implements ICliParser {
       .enablePositionalOptions(false)
       .option('-ap, --api-port <port>', 'Set api port', '3000')
       .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
-      .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '1000')
+      .option('-s, --sync', 'Enable sync mode')
+      .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms (only for sync mode)', '1000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
       .option('-ne, --no-emoji', 'Disable emoji')
       .helpOption('-h, --help', 'Display help')
@@ -132,6 +133,7 @@ export class CliParser implements ICliParser {
           binaryEncoding: options.binaryEncoding,
           emoji: options.emoji,
           replyTimeout: Number(options.replyTimeout),
+          netSync: options.sync,
           connectionTimeout: connectionTimeout,
           reconnectionInterval: reconnectionInterval,
         }
@@ -143,7 +145,8 @@ export class CliParser implements ICliParser {
       .enablePositionalOptions(false)
       .option('-ap, --api-port <port>', 'Set api port', '3000')
       .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
-      .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '1000')
+      .option('-s, --sync', 'Enable sync mode')
+      .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms (only for sync mode)', '1000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
       .option('-ne, --no-emoji', 'Disable emoji')
       .helpOption('-h, --help', 'Display help')
@@ -158,6 +161,7 @@ export class CliParser implements ICliParser {
           binaryEncoding: options.binaryEncoding,
           emoji: options.emoji,
           replyTimeout: Number(options.replyTimeout),
+          netSync: options.sync,
           connectionTimeout: connectionTimeout,
           reconnectionInterval: reconnectionInterval,
         }

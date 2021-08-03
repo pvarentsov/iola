@@ -164,7 +164,7 @@ export class NetSocketAsyncClient implements ISocketClient {
     }
 
     return new Promise<SocketSendReply>(async (resolve, reject) => {
-      client.write(data, async (err) => {
+      client.write(data, err => {
         if (!err) {
           const event = {
             type: SocketEventType.SentMessage,

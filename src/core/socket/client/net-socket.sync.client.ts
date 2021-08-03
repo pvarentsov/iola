@@ -8,8 +8,8 @@ import {
   SocketType,
 } from '@iola/core/socket'
 import { createConnection, NetConnectOpts, Socket } from 'net'
-import { firstValueFrom, fromEvent } from 'rxjs'
-import { mapTo, tap } from 'rxjs/operators'
+import { firstValueFrom, from, fromEvent } from 'rxjs'
+import { delay, map, mapTo, tap } from 'rxjs/operators'
 
 export class NetSocketSyncClient implements ISocketClient {
   private readonly _eventStore: ISocketEventStore
@@ -64,12 +64,11 @@ export class NetSocketSyncClient implements ISocketClient {
     return this.send(packed.data as Buffer, eventMessage)
   }
 
-  private send<TMessage>(data: Buffer|string, eventMessage: TMessage): Promise<SocketSendReply> {
-    // TODO: Create connection
-    const client = {} as Socket
+  private async send<TMessage>(data: Buffer|string, eventMessage: TMessage): Promise<SocketSendReply> {
+    const connectInfo = await this.connectSocket()
 
-    return new Promise<SocketSendReply>(async (resolve, reject) => {
-      client.write(data, async (err) => {
+    const socketSendReplyPromise = new Promise<SocketSendReply>(async (resolve, reject) => {
+      connectInfo.socket.write(data, err => {
         if (!err) {
           const event = {
             type: SocketEventType.SentMessage,
@@ -85,14 +84,54 @@ export class NetSocketSyncClient implements ISocketClient {
         reject(err)
       })
     })
+
+    return firstValueFrom(from(socketSendReplyPromise).pipe(
+      delay(this._options.replyTimeout),
+      map(reply => {
+        if (connectInfo.buffer.length) {
+          return {
+            messageId: reply.messageId,
+            reply: this.parseBuffer(connectInfo.buffer)
+          }
+        }
+        return reply
+      }),
+      tap(() => {
+        connectInfo.socket.end()
+        connectInfo.socket.destroy()
+      })
+    ))
   }
 
-  private async connectSocket(): Promise<Socket> {
-    const socket = createConnection(this.netOptions());
+  private async connectSocket(): Promise<{socket: Socket, buffer: Buffer}> {
+    const result = {
+      socket: createConnection(this.netOptions()),
+      buffer: Buffer.alloc(0),
+    }
+
+    result.socket.on('error', err => this._eventStore.add({
+      type: SocketEventType.Error,
+      date: new Date(),
+      message: {
+        message: err.message
+      },
+    }))
+
+    result.socket.on('close', () => {
+      this._eventStore.add({
+        type: SocketEventType.Closed,
+        date: new Date(),
+        message: {code: 1, reason: ''},
+      })
+    })
+
+    result.socket.on('data', chunk => {
+      result.buffer = Buffer.concat([result.buffer, chunk])
+    })
 
     try {
-      const connect$ = fromEvent(socket, 'connect').pipe(
-        RxJSUtil.timeout(this._options.connectionTimeout, `connection to ${this._options.address} is timed out`),
+      const connect$ = fromEvent(result.socket, 'connect').pipe(
+        RxJSUtil.timeout(1000, `connection to ${this._options.address} is timed out`),
         tap(() => this._eventStore.add({
           type: SocketEventType.Connected,
           date: new Date(),
@@ -102,19 +141,14 @@ export class NetSocketSyncClient implements ISocketClient {
       )
       await firstValueFrom(connect$)
 
-      return socket
+      return result
     }
     catch (error) {
-      this.close(socket)
+      result.socket.destroy()
       throw error
     }
   }
 
-  private close(client: Socket): void {
-    client.removeAllListeners()
-    client.destroy()
-
-  }
 
   private netOptions(): NetConnectOpts {
     let netOpts = {} as NetConnectOpts
@@ -134,5 +168,27 @@ export class NetSocketSyncClient implements ISocketClient {
     }
 
     return netOpts
+  }
+
+  private parseBuffer(buffer: Buffer): AnyObject {
+    const unpacked = MessageUtil.unpack(buffer)
+    const encoding = this._options.binaryEncoding
+
+    const eventMessage: AnyObject = {
+      format: unpacked.format,
+      size: unpacked.data.length,
+      data: unpacked.data,
+    }
+    if (encoding) {
+      eventMessage[encoding] = (Buffer.from(unpacked.data as Uint8Array)).toString(encoding)
+    }
+
+    this._eventStore.add({
+      type: SocketEventType.ReceivedMessage,
+      date: new Date(),
+      message: eventMessage,
+    })
+
+    return eventMessage
   }
 }

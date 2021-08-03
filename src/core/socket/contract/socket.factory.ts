@@ -1,5 +1,6 @@
 import { ISocketClient, SocketOptions, SocketType } from '@iola/core/socket'
 import { NetSocketAsyncClient } from '@iola/core/socket/client/net-socket.async.client'
+import { NetSocketSyncClient } from '@iola/core/socket/client/net-socket.sync.client'
 import { SocketIOClient } from '@iola/core/socket/client/socketio.client'
 import { WebSocketClient } from '@iola/core/socket/client/websocket.client'
 import { BinaryMessageStore } from '@iola/core/socket/store/binary-message.store'
@@ -20,7 +21,7 @@ export class SocketFactory {
 
   private static createNetSocket(options: SocketOptions): ISocketClient {
     if (options.netSync) {
-      return new NetSocketAsyncClient(options, new EventStore(), new BinaryMessageStore())
+      return new NetSocketSyncClient(options, new EventStore())
     }
 
     return new NetSocketAsyncClient(options, new EventStore(), new BinaryMessageStore())
