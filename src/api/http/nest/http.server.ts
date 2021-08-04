@@ -4,7 +4,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
 import { IHttpServer } from '@iola/api/http'
 import { HttpFilter } from '@iola/api/http/nest/http.filter'
-import { HttpLogger } from '@iola/api/http/nest/http.logger'
 import { HttpModule } from '@iola/api/http/nest/http.module'
 import { ISocketClient } from '@iola/core/socket'
 
@@ -20,7 +19,7 @@ export class HttpServer implements IHttpServer {
 
   private async init(): Promise<INestApplication> {
     const app = await NestFactory.create(HttpModule.forRoot(this.client), {
-      logger:new HttpLogger()
+      logger: false
     })
 
     app.useGlobalPipes(new ValidationPipe({transform: true}))

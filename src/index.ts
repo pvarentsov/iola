@@ -22,15 +22,21 @@ import { SocketEventType, SocketFactory } from '@iola/core/socket'
       replyTimeout: config.replyTimeout,
     })
 
-    process.on('uncaughtException',  error => {
-      console.error(error.message)
-      process.exit(1)
-    })
+    process.on('uncaughtException',  error => client.store.add({
+      type: SocketEventType.Error,
+      date: new Date(),
+      message: {
+        uncaughtException: error.message
+      },
+    }))
 
-    process.on('unhandledRejection',  error => {
-      console.error(error)
-      process.exit(1)
-    })
+    process.on('unhandledRejection',  error => client.store.add({
+      type: SocketEventType.Error,
+      date: new Date(),
+      message: {
+        uncaughtException: error
+      },
+    }))
 
     const server = HttpFactory
       .createServer(client)
