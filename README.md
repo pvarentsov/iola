@@ -27,6 +27,8 @@
           <li><a href="https://github.com/pvarentsov/iola#common">Common</a></li>
           <li><a href="https://github.com/pvarentsov/iola#websocket">WebSocket</a></li>
           <li><a href="https://github.com/pvarentsov/iola#socketio">Socket.IO</a></li>
+          <li><a href="https://github.com/pvarentsov/iola#tcp">TCP</a></li>
+          <li><a href="https://github.com/pvarentsov/iola#unix">Unix</a></li>
         </ul>
     </ul>
     <li><a href="https://github.com/pvarentsov/iola#license">License</a></li>
@@ -78,6 +80,8 @@ Options:
 Commands:
   websocket|ws [options] &lt;address>  Run websocket client
   socketio|io [options] &lt;address>   Run socket.io client
+  tcp [options] &lt;address>           Run tcp client
+  unix [options] &lt;address>          Run unix client
   help [command]                    Display help for command
 
 API:
@@ -313,6 +317,74 @@ Examples:
   <p>
     Default reply timeout is 1000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
   </p>
+</details>
+
+#### TCP
+
+<pre>
+$ iola help tcp
+ 
+Usage: iola tcp [options] <address>
+
+Run tcp client
+
+Options:
+  -ap, --api-port &lt;port>             Set api port (default: "3000")
+  -ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
+  -s, --sync                         Enable sync mode
+  -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (only for sync mode) (default: "1000")
+  -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
+  -ne, --no-emoji                    Disable emoji
+  -h, --help                         Display help
+
+Examples: 
+  iola tcp 127.0.0.1:8080
+  iola tcp 127.0.0.1:8080 --sync
+  iola tcp 127.0.0.1:8080 --binary-encoding utf8 
+  iola tcp 127.0.0.1:8080 --no-emoji
+
+</pre>
+
+<details>
+  <summary>message formats</summary>
+  <br>
+  <ul>
+    <li><code>byte-array</code></li>
+  </ul>
+</details>
+
+#### Unix
+
+<pre>
+$ iola help unix
+ 
+Usage: iola unix [options] <address>
+
+Run unix client
+
+Options:
+  -ap, --api-port &lt;port>             Set api port (default: "3000")
+  -ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
+  -s, --sync                         Enable sync mode
+  -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (only for sync mode) (default: "1000")
+  -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
+  -ne, --no-emoji                    Disable emoji
+  -h, --help                         Display help
+
+Examples: 
+  iola unix ./unix.sock
+  iola unix ./unix.sock --sync
+  iola unix ./unix.sock --binary-encoding utf8 
+  iola unix ./unix.sock --no-emoji
+
+</pre>
+
+<details>
+  <summary>message formats</summary>
+  <br>
+  <ul>
+    <li><code>byte-array</code></li>
+  </ul>
 </details>
   
 ## License

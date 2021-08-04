@@ -44,11 +44,13 @@ export class CliParser implements ICliParser {
 
     const tcpExamples = `Examples: ${EOL}` +
       `  iola tcp 127.0.0.1:8080 ${EOL}` +
+      `  iola tcp 127.0.0.1:8080 --sync ${EOL}` +
       `  iola tcp 127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
       '  iola tcp 127.0.0.1:8080 --no-emoji'
 
     const unixExamples = `Examples: ${EOL}` +
       `  iola unix ./unix.sock ${EOL}` +
+      `  iola unix ./unix.sock --sync ${EOL}` +
       `  iola unix ./unix.sock --binary-encoding utf8 ${EOL}` +
       '  iola unix ./unix.sock --no-emoji'
 
