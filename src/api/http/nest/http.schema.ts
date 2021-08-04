@@ -3,7 +3,7 @@ import { Transform } from 'class-transformer'
 import { IsArray, IsIn, IsOptional, IsString, Max, Min, ValidateIf } from 'class-validator'
 
 import { toArray } from '@iola/api/http/nest/http.transformer'
-import { EnumUtil } from '@iola/core/common'
+import { EnumUtil, MessageFormat } from '@iola/core/common'
 import { SocketEventType } from '@iola/core/socket'
 
 export class MessageModel {
@@ -73,10 +73,24 @@ export class SendBytesMessageBody {
   event?: string
 }
 
+export class SendMessageReply {
+  @ApiProperty({enum: MessageFormat})
+  format: MessageFormat
+
+  @ApiProperty({type: 'object', description: 'Any data'})
+  data: any
+
+  @ApiProperty({type: 'number', required: false, description: 'Only for binary messages'})
+  size?: number
+
+  @ApiProperty({type: 'string', required: false, description: 'Only for SocketIO'})
+  event?: string
+}
+
 export class SendMessageResponse {
   @ApiProperty({type: 'number'})
   messageId: number
 
-  @ApiProperty({type: 'object', required: false})
-  reply?: any
+  @ApiProperty({type: SendMessageReply, required: false})
+  reply?: SendMessageReply
 }

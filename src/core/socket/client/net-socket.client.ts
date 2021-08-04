@@ -14,7 +14,7 @@ import {
   SocketType,
 } from '@iola/core/socket'
 
-export class NetSocketAsyncClient implements ISocketClient {
+export class NetSocketClient implements ISocketClient {
   private readonly _info: SocketInfo
   private readonly _eventStore: ISocketEventStore
   private readonly _binaryMessageStore: IBinaryMessageStore

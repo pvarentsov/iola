@@ -46,8 +46,11 @@ export class WebSocketClient implements ISocketClient {
         rejectUnauthorized: false
       })
 
-      this._client.on('message', message => {
-        const unpacked = MessageUtil.unpack(message)
+      this._client.on('message', (message: WebSocket.Data, isBinary: boolean) => {
+        const unpacked = isBinary
+          ? MessageUtil.unpack(message)
+          : MessageUtil.unpack(message.toString())
+
         const encoding = this._options.binaryEncoding
 
         let eventMessage: AnyObject = unpacked
@@ -78,12 +81,12 @@ export class WebSocketClient implements ISocketClient {
         },
       }))
 
-      this._client.on('close', (code: number, reason: string) => {
+      this._client.on('close', (code: number, reason: Buffer) => {
         if (this._info.connected) {
           this._store.add({
             type: SocketEventType.Closed,
             date: new Date(),
-            message: {code, reason},
+            message: {code, reason: reason.toString()},
           })
 
           this.close()
@@ -197,7 +200,7 @@ export class WebSocketClient implements ISocketClient {
     const currentDate = new Date()
 
     return new Promise<SocketSendReply>(async (resolve, reject) => {
-      client.send(data, async (err) => {
+      client.send(data, {binary: Buffer.isBuffer(data)}, async (err) => {
         if (!err) {
           const event = {
             type: SocketEventType.SentMessage,
@@ -234,7 +237,7 @@ export class WebSocketClient implements ISocketClient {
       filter(event => event.date >= awaitAfterDate),
       filter(event => isRecord(event)),
       filter(event => isReply(event, requestIdInfo)),
-      map(event => event.message.data),
+      map(event => event.message),
       timeout(this._options.replyTimeout),
     )
 

@@ -1,5 +1,5 @@
 import { ISocketClient, SocketOptions, SocketType } from '@iola/core/socket'
-import { NetSocketAsyncClient } from '@iola/core/socket/client/net-socket.async.client'
+import { NetSocketClient } from '@iola/core/socket/client/net-socket.client'
 import { NetSocketSyncClient } from '@iola/core/socket/client/net-socket.sync.client'
 import { SocketIOClient } from '@iola/core/socket/client/socketio.client'
 import { WebSocketClient } from '@iola/core/socket/client/websocket.client'
@@ -8,7 +8,6 @@ import { EventStore } from '@iola/core/socket/store/event.store'
 
 export class SocketFactory {
   static createClient(options: SocketOptions): ISocketClient {
-
     const factory: Record<SocketType, () => ISocketClient> = {
       [SocketType.SocketIO]: () => new SocketIOClient(options, new EventStore()),
       [SocketType.WebSocket]: () => new WebSocketClient(options, new EventStore()),
@@ -24,6 +23,6 @@ export class SocketFactory {
       return new NetSocketSyncClient(options, new EventStore())
     }
 
-    return new NetSocketAsyncClient(options, new EventStore(), new BinaryMessageStore())
+    return new NetSocketClient(options, new EventStore(), new BinaryMessageStore())
   }
 }

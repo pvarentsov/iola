@@ -183,8 +183,7 @@ export class SocketIOClient implements ISocketClient {
 
     const reply$ = from(new Promise<SocketSendReply>(resolve => {
       const resolveCb = (res: any): void => {
-        reply.reply = res
-        this.receiveMessage(event, res)
+        reply.reply = this.receiveMessage(event, res)
         resolve(reply)
       }
 
@@ -200,7 +199,7 @@ export class SocketIOClient implements ISocketClient {
     return reply
   }
 
-  private receiveMessage(event: string, message: any): void {
+  private receiveMessage(event: string, message: any): AnyObject {
     const parsed = MessageUtil.parse(message)
     const encoding = this._options.binaryEncoding
 
@@ -227,5 +226,7 @@ export class SocketIOClient implements ISocketClient {
       date: new Date(),
       message: eventMessage,
     })
+
+    return eventMessage
   }
 }

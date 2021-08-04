@@ -6,7 +6,8 @@ const wss = new WebSocket.Server({ port: 8080 })
 wss.on('connection', (ws, req) => {
   console.dir({handshake: req.url})
 
-  ws.on('message', data => {
+  ws.on('message', (data, isBuffer) => {
+    console.dir({data, isBuffer})
     const message = data.toString()
     let json = undefined
 
@@ -21,14 +22,14 @@ wss.on('connection', (ws, req) => {
         ws.send(JSON.stringify({
           [requestIdInfo.key]: requestIdInfo.value,
           message: 'reply on request'
-        }))
+        }), {binary: false})
       }
     }
   })
 
   setTimeout(() => {
-    ws.send('Hi, Iola!')
-    ws.send(Buffer.from('Hello'))
+    ws.send('Hi, Iola!', {binary: false})
+    ws.send(Buffer.from('Hello'), {binary: true})
   }, 2_000)
 })
 
