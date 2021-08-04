@@ -6,8 +6,10 @@ import { SocketEventType, SocketFactory } from '@iola/core/socket'
 
 (async (): Promise<void> => {
   try {
+    const version = '0.2.6'
+
     const config = CliFactory
-      .createParser()
+      .createParser(version)
       .parse()
 
     const client = SocketFactory.createClient({
@@ -39,7 +41,7 @@ import { SocketEventType, SocketFactory } from '@iola/core/socket'
     }))
 
     const server = HttpFactory
-      .createServer(client)
+      .createServer(client, version)
 
     await CliFactory
       .createInteractive(config)

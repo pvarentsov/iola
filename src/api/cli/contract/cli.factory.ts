@@ -3,8 +3,8 @@ import { CliInteractive } from '@iola/api/cli/cli/cli.interactive'
 import { CliParser } from '@iola/api/cli/cli/cli.parser'
 
 export class CliFactory {
-  static createParser(): ICliParser {
-    return new CliParser()
+  static createParser(version: string): ICliParser {
+    return new CliParser(version)
   }
 
   static createInteractive(config: CliConfig): ICliInteractive {

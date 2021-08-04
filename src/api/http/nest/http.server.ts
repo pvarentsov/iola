@@ -8,7 +8,10 @@ import { HttpModule } from '@iola/api/http/nest/http.module'
 import { ISocketClient } from '@iola/core/socket'
 
 export class HttpServer implements IHttpServer {
-  constructor(private readonly client: ISocketClient) {}
+  constructor(
+    private readonly client: ISocketClient,
+    private readonly version: string
+  ) {}
 
   async listen(host: string, port: number): Promise<string> {
     const app = await this.init()
@@ -29,7 +32,7 @@ export class HttpServer implements IHttpServer {
     const swaggerConfig = new DocumentBuilder()
       .setTitle('iola')
       .setDescription('OpenAPI documentation for iola client')
-      .setVersion('1.0.0')
+      .setVersion(this.version)
       .build()
 
     const swaggerDocument = SwaggerModule

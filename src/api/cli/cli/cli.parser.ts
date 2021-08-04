@@ -7,6 +7,10 @@ import { AnyObject, BinaryEncoding, EnumUtil, Optional, SocketIOTransport } from
 import { SocketType } from '@iola/core/socket'
 
 export class CliParser implements ICliParser {
+  constructor(
+    private readonly version: string,
+  ) {}
+
   parse(): CliConfig {
     let config: Optional<CliConfig>
 
@@ -49,7 +53,7 @@ export class CliParser implements ICliParser {
       '  iola unix ./unix.sock --no-emoji'
 
     program
-      .version('0.2.6', '-v, --version', 'Display version')
+      .version(this.version, '-v, --version', 'Display version')
       .helpOption('-h, --help', 'Display help')
       .addHelpText('before', EOL + description + EOL)
       .addHelpText('after', EOL + api + EOL)
