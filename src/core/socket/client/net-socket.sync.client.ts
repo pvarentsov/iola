@@ -1,3 +1,7 @@
+import { createConnection, NetConnectOpts, Socket } from 'net'
+import { first, firstValueFrom, from, fromEvent, merge, switchMap, timer } from 'rxjs'
+import { map, mapTo, tap } from 'rxjs/operators'
+
 import { AnyObject, MessageUtil, RxJSUtil } from '@iola/core/common'
 import {
   ISocketClient,
@@ -7,9 +11,6 @@ import {
   SocketSendReply,
   SocketType,
 } from '@iola/core/socket'
-import { createConnection, NetConnectOpts, Socket } from 'net'
-import { firstValueFrom, from, fromEvent } from 'rxjs'
-import { delay, map, mapTo, tap } from 'rxjs/operators'
 
 export class NetSocketSyncClient implements ISocketClient {
   private readonly _eventStore: ISocketEventStore
@@ -67,39 +68,34 @@ export class NetSocketSyncClient implements ISocketClient {
   private async send<TMessage>(data: Buffer|string, eventMessage: TMessage): Promise<SocketSendReply> {
     const connectInfo = await this.connectSocket()
 
-    const socketSendReplyPromise = new Promise<SocketSendReply>(async (resolve, reject) => {
+    const socketSendReplyPromise = new Promise<SocketSendReply>((resolve, reject) => {
       connectInfo.socket.write(data, err => {
         if (!err) {
-          const event = {
-            type: SocketEventType.SentMessage,
-            date: new Date(),
-            message: eventMessage,
-          }
-
-          const messageId = this._eventStore.add(event)
-
-          resolve({messageId})
+          resolve({
+            messageId: this._eventStore.add({
+              type: SocketEventType.SentMessage,
+              date: new Date(),
+              message: eventMessage,
+            })
+          })
         }
-
         reject(err)
       })
     })
 
     return firstValueFrom(from(socketSendReplyPromise).pipe(
-      delay(this._options.replyTimeout),
-      map(reply => {
-        if (connectInfo.buffer.length) {
-          return {
-            messageId: reply.messageId,
-            reply: this.parseBuffer(connectInfo.buffer)
-          }
-        }
-        return reply
-      }),
-      tap(() => {
-        connectInfo.socket.end()
-        connectInfo.socket.destroy()
-      })
+      switchMap(reply => merge(
+        timer(this._options.replyTimeout),
+        fromEvent(connectInfo.socket, 'close'),
+        fromEvent(connectInfo.socket, 'end'),
+      ).pipe(
+        first(),
+        tap(() => connectInfo.socket.destroy()),
+        map(() => connectInfo.buffer.length > 0
+          ? {messageId: reply.messageId, reply: this.parseBuffer(connectInfo.buffer)}
+          : reply
+        ),
+      )),
     ))
   }
 

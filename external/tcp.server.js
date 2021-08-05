@@ -8,6 +8,7 @@ server.on('connection', function (socket) {
   socket.on('data', function (chunk) {
     console.log(chunk)
     socket.write(chunk)
+    // socket.destroy()
   });
 
   socket.on('error', err => console.log(`err: ${err}`))
