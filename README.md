@@ -321,6 +321,13 @@ Examples:
 
 #### TCP
 
+TCP client supports async and sync modes. It uses async mode by default.
+
+In **Async mode**, the client and the server exchange messages independently within one connection.
+
+**Sync mode** uses a request/response protocol. The client opens a new connection for each request, the server responds. 
+The connection is closed either on the server side after a successful response or by a timeout on the client side.
+
 <pre>
 $ iola help tcp
  
@@ -354,6 +361,13 @@ Examples:
 </details>
 
 #### Unix
+
+Unix socket client supports async and sync modes. It uses async mode by default.
+
+In **Async mode**, the client and the server exchange messages independently within one connection.
+
+**Sync mode** uses a request/response protocol. The client opens a new connection for each request, the server responds.
+The connection is closed either on the server side after a successful response or by a timeout on the client side.
 
 <pre>
 $ iola help unix
