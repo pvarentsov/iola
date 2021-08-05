@@ -28,7 +28,7 @@
           <li><a href="https://github.com/pvarentsov/iola#websocket">WebSocket</a></li>
           <li><a href="https://github.com/pvarentsov/iola#socketio">Socket.IO</a></li>
           <li><a href="https://github.com/pvarentsov/iola#tcp">TCP</a></li>
-          <li><a href="https://github.com/pvarentsov/iola#unix">Unix</a></li>
+          <li><a href="https://github.com/pvarentsov/iola#unix-socket">Unix socket</a></li>
         </ul>
     </ul>
     <li><a href="https://github.com/pvarentsov/iola#license">License</a></li>
@@ -321,11 +321,11 @@ Examples:
 
 #### TCP
 
-TCP client supports async and sync modes. It uses async mode by default.
+TCP client supports `async` and `sync` modes. It uses `async` mode by default.
 
-In **Async mode**, the client and the server exchange messages independently within one connection.
+In `async` mode, the client and the server exchange messages independently within one connection.
 
-**Sync mode** uses a request/response protocol. The client opens a new connection for each request, the server responds. 
+`Sync` mode uses a request/response protocol. The client opens a new connection for each request, the server responds.
 The connection is closed either on the server side after a successful response or by a timeout on the client side.
 
 <pre>
@@ -360,13 +360,13 @@ Examples:
   </ul>
 </details>
 
-#### Unix
+#### Unix socket
 
-Unix socket client supports async and sync modes. It uses async mode by default.
+Unix socket client supports `async` and `sync` modes. It uses `async` mode by default.
 
-In **Async mode**, the client and the server exchange messages independently within one connection.
+In `async` mode, the client and the server exchange messages independently within one connection.
 
-**Sync mode** uses a request/response protocol. The client opens a new connection for each request, the server responds.
+`Sync` mode uses a request/response protocol. The client opens a new connection for each request, the server responds.
 The connection is closed either on the server side after a successful response or by a timeout on the client side.
 
 <pre>
