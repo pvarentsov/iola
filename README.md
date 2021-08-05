@@ -325,7 +325,7 @@ TCP client supports `async` and `sync` modes. It uses `async` mode by default.
 
 In `async` mode, the client and the server exchange messages independently within one connection.
 
-`Sync` mode uses a request/response protocol. The client opens a new connection for each request, the server responds.
+`Sync` mode uses a `request`/`response` protocol. The client opens a new connection for each request, the server responds.
 The connection is closed either on the server side after a successful response or by a timeout on the client side.
 
 <pre>
@@ -366,7 +366,7 @@ Unix socket client supports `async` and `sync` modes. It uses `async` mode by de
 
 In `async` mode, the client and the server exchange messages independently within one connection.
 
-`Sync` mode uses a request/response protocol. The client opens a new connection for each request, the server responds.
+`Sync` mode uses a `request`/`response` protocol. The client opens a new connection for each request, the server responds.
 The connection is closed either on the server side after a successful response or by a timeout on the client side.
 
 <pre>
