@@ -49,11 +49,11 @@
 3. Log all socket events in console
 
 **Roadmap**:
-- [ ] Implement clients
+- [x] Implement clients
   - [x] WebSocket
   - [x] Socket.IO
-  - [ ] Tcp
-  - [ ] Unix-socket
+  - [x] Tcp
+  - [x] Unix-socket
 - [ ] Add application's binaries for all popular platforms
 
 
