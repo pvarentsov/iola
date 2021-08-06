@@ -27,7 +27,7 @@
           <li><a href="https://github.com/pvarentsov/iola#common">Common</a></li>
           <li><a href="https://github.com/pvarentsov/iola#websocket">WebSocket</a></li>
           <li><a href="https://github.com/pvarentsov/iola#socketio">Socket.IO</a></li>
-          <li><a href="https://github.com/pvarentsov/iola#tcp">TCP & Unix socket</a></li>
+          <li><a href="https://github.com/pvarentsov/iola#tcp--unix-socket">TCP & Unix socket</a></li>
         </ul>
     </ul>
     <li><a href="https://github.com/pvarentsov/iola#license">License</a></li>
