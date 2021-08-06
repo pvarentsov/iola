@@ -27,8 +27,7 @@
           <li><a href="https://github.com/pvarentsov/iola#common">Common</a></li>
           <li><a href="https://github.com/pvarentsov/iola#websocket">WebSocket</a></li>
           <li><a href="https://github.com/pvarentsov/iola#socketio">Socket.IO</a></li>
-          <li><a href="https://github.com/pvarentsov/iola#tcp">TCP</a></li>
-          <li><a href="https://github.com/pvarentsov/iola#unix-socket">Unix socket</a></li>
+          <li><a href="https://github.com/pvarentsov/iola#tcp">TCP & Unix socket</a></li>
         </ul>
     </ul>
     <li><a href="https://github.com/pvarentsov/iola#license">License</a></li>
@@ -319,14 +318,11 @@ Examples:
   </p>
 </details>
 
-#### TCP
+#### TCP & Unix socket
 
-TCP client supports `async` and `sync` modes. It uses `async` mode by default.
+TCP and Unix socket clients have the same api. 
 
-In `async` mode, the client and the server exchange messages independently within one connection.
-
-`Sync` mode uses a `request`/`response` protocol. The client opens a new connection for each request, the server responds.
-The connection is closed either on the server side after a successful response or by a timeout on the client side.
+**TCP**
 
 <pre>
 $ iola help tcp
@@ -352,22 +348,7 @@ Examples:
 
 </pre>
 
-<details>
-  <summary>message formats</summary>
-  <br>
-  <ul>
-    <li><code>byte-array</code></li>
-  </ul>
-</details>
-
-#### Unix socket
-
-Unix socket client supports `async` and `sync` modes. It uses `async` mode by default.
-
-In `async` mode, the client and the server exchange messages independently within one connection.
-
-`Sync` mode uses a `request`/`response` protocol. The client opens a new connection for each request, the server responds.
-The connection is closed either on the server side after a successful response or by a timeout on the client side.
+**Unix socket**
 
 <pre>
 $ iola help unix
@@ -393,6 +374,13 @@ Examples:
 
 </pre>
 
+Clients support `async` and `sync` modes and use `async` mode by default.
+
+In `async` mode, the client and the server exchange messages independently within one connection.
+
+`Sync` mode uses a `request`/`response` protocol. The client opens a new connection for each request, the server responds.
+The connection is closed either on the server side after a successful response or by a timeout on the client side.
+
 <details>
   <summary>message formats</summary>
   <br>
@@ -400,7 +388,24 @@ Examples:
     <li><code>byte-array</code></li>
   </ul>
 </details>
-  
+
+<details>
+  <summary>sync mode</summary>
+  <br>
+  <p>
+    To enable <code>sync</code> mode need to set <code>--sync</code> option.
+  </p>
+</details>
+
+<details>
+  <summary>server reply</summary>
+  <br>
+  <p>
+    Server replies are supported only in <code>sync</code> mode. If the server does not close the connection, the client will close it on its own during the reply timeout. 
+    Default reply timeout is 1000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
+  </p>
+</details>
+
 ## License
 
 This project is licensed under the [MIT License](https://github.com/pvarentsov/iola/blob/main/LICENSE).
