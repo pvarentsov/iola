@@ -207,7 +207,7 @@ Examples:
   </p>
   <p align="center">
     <br>
-    <img src="./docs/send-data-with-requsetid.png">
+    <img src="./docs/send-data-with-requsetid.ws.png">
   </p>
   <p>RequestId field can be one of the following:
     <ul>
@@ -313,6 +313,10 @@ Examples:
   <p>
     Socket.IO supports server replies. This feature is named acknowledgements.
   </p>
+  <p align="center">
+    <br>
+    <img src="./docs/send-data-with-requsetid.io.png">
+  </p>
   <p>
     Default reply timeout is 1000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
   </p>
@@ -402,6 +406,10 @@ The connection is closed either on the server side after a successful response o
   <br>
   <p>
     Server replies are supported only in sync mode. If the server does not close the connection, the client will close it on its own during the reply timeout.
+  </p>
+  <p align="center">
+    <br>
+    <img src="./docs/send-data-with-requsetid.tcp.png">
   </p>
   <p>
     Default reply timeout is 1000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
