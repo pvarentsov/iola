@@ -129,9 +129,9 @@ API:
   </p>
 </details>
 
-### Clients
+## Clients
 
-#### Common
+### Common
 
 All socket clients have the next options:
 
@@ -165,7 +165,7 @@ All socket clients have the next options:
 </tr>
 </table>
 
-#### WebSocket
+### WebSocket
 
 <pre>
 $ iola help websocket
@@ -224,7 +224,7 @@ Examples:
   </p>
 </details>
 
-#### Socket.IO
+### Socket.IO
 
 **iola** relies on Socket.IO v4. Please check a [version compatibility](https://socket.io/docs/v4/client-installation/#Version-compatibility).
 
@@ -318,7 +318,7 @@ Examples:
   </p>
 </details>
 
-#### TCP & Unix socket
+### TCP & Unix socket
 
 TCP and Unix socket clients have the same api. 
 
@@ -374,11 +374,11 @@ Examples:
 
 </pre>
 
-Clients support `async` and `sync` modes and use `async` mode by default.
+Clients support async and sync modes and use async mode by default.
 
-In `async` mode, the client and the server exchange messages independently within one connection.
+In async mode, the client and the server exchange messages independently within one connection.
 
-`Sync` mode uses a `request`/`response` protocol. The client opens a new connection for each request, the server responds.
+Sync mode uses a request/response protocol. The client opens a new connection for each request, the server responds.
 The connection is closed either on the server side after a successful response or by a timeout on the client side.
 
 <details>
@@ -393,7 +393,7 @@ The connection is closed either on the server side after a successful response o
   <summary>sync mode</summary>
   <br>
   <p>
-    To enable <code>sync</code> mode need to set <code>--sync</code> option.
+    To enable sync mode need to set <code>--sync</code> option.
   </p>
 </details>
 
@@ -401,7 +401,7 @@ The connection is closed either on the server side after a successful response o
   <summary>server reply</summary>
   <br>
   <p>
-    Server replies are supported only in <code>sync</code> mode. If the server does not close the connection, the client will close it on its own during the reply timeout.
+    Server replies are supported only in sync mode. If the server does not close the connection, the client will close it on its own during the reply timeout.
   </p>
   <p>
     Default reply timeout is 1000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
