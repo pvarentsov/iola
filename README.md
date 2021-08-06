@@ -401,7 +401,9 @@ The connection is closed either on the server side after a successful response o
   <summary>server reply</summary>
   <br>
   <p>
-    Server replies are supported only in <code>sync</code> mode. If the server does not close the connection, the client will close it on its own during the reply timeout. 
+    Server replies are supported only in <code>sync</code> mode. If the server does not close the connection, the client will close it on its own during the reply timeout.
+  </p>
+  <p>
     Default reply timeout is 1000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
   </p>
 </details>
