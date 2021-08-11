@@ -73,8 +73,8 @@ $ iola --help
 Usage: iola [options] [command]
 
 Options:
-  --version                         Display version
-  --help                            Display help
+  -v, --version                     Display version
+  -h, --help                        Display help
 
 Commands:
   websocket|ws [options] &lt;address>  Run websocket client
