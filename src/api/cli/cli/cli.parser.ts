@@ -30,29 +30,29 @@ export class CliParser implements ICliParser {
       '  GET  /docs                        Get api documentation'
 
     const websocketExamples = `Examples: ${EOL}` +
-      `  iola websocket ws://127.0.0.1:8080 ${EOL}` +
-      `  iola ws ws://127.0.0.1:8080/?token=secret ${EOL}` +
-      `  iola websocket ws://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
-      '  iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji'
+      `  ${chalk.bold('$')} iola websocket ws://127.0.0.1:8080 ${EOL}` +
+      `  ${chalk.bold('$')} iola ws ws://127.0.0.1:8080/?token=secret ${EOL}` +
+      `  ${chalk.bold('$')} iola websocket ws://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
+      `  ${chalk.bold('$')} iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji`
 
     const socketIOExamples = `Examples: ${EOL}` +
-      `  iola socketio http://127.0.0.1:8080 ${EOL}` +
-      `  iola io http://127.0.0.1:8080/?token=secret --transport websocket${EOL}` +
-      `  iola io http://127.0.0.1:8080 --auth user:iola pass:qwerty1${EOL}` +
-      `  iola socketio http://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
-      '  iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji'
+      `  ${chalk.bold('$')} iola socketio http://127.0.0.1:8080 ${EOL}` +
+      `  ${chalk.bold('$')} iola io http://127.0.0.1:8080/?token=secret --transport websocket${EOL}` +
+      `  ${chalk.bold('$')} iola io http://127.0.0.1:8080 --auth user:iola pass:qwerty1${EOL}` +
+      `  ${chalk.bold('$')} iola socketio http://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
+      `  ${chalk.bold('$')} iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji`
 
     const tcpExamples = `Examples: ${EOL}` +
-      `  iola tcp 127.0.0.1:8080 ${EOL}` +
-      `  iola tcp 127.0.0.1:8080 --sync ${EOL}` +
-      `  iola tcp 127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
-      '  iola tcp 127.0.0.1:8080 --no-emoji'
+      `  ${chalk.bold('$')} iola tcp 127.0.0.1:8080 ${EOL}` +
+      `  ${chalk.bold('$')} iola tcp 127.0.0.1:8080 --sync ${EOL}` +
+      `  ${chalk.bold('$')} iola tcp 127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
+      `  ${chalk.bold('$')} iola tcp 127.0.0.1:8080 --no-emoji`
 
     const unixExamples = `Examples: ${EOL}` +
-      `  iola unix ./unix.sock ${EOL}` +
-      `  iola unix ./unix.sock --sync ${EOL}` +
-      `  iola unix ./unix.sock --binary-encoding utf8 ${EOL}` +
-      '  iola unix ./unix.sock --no-emoji'
+      `  ${chalk.bold('$')} iola unix ./unix.sock ${EOL}` +
+      `  ${chalk.bold('$')} iola unix ./unix.sock --sync ${EOL}` +
+      `  ${chalk.bold('$')} iola unix ./unix.sock --binary-encoding utf8 ${EOL}` +
+      `  ${chalk.bold('$')} iola unix ./unix.sock --no-emoji`
 
     program
       .version(this.version, '-v, --version', 'Display version')

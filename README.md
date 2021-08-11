@@ -183,10 +183,10 @@ Options:
   -h, --help                         Display help
 
 Examples:
-  iola websocket ws://127.0.0.1:8080
-  iola ws ws://127.0.0.1:8080/?token=secret
-  iola websocket ws://127.0.0.1:8080 --binary-encoding utf8
-  iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
+  <b>$</b> iola websocket ws://127.0.0.1:8080
+  <b>$</b> iola ws ws://127.0.0.1:8080/?token=secret
+  <b>$</b> iola websocket ws://127.0.0.1:8080 --binary-encoding utf8
+  <b>$</b> iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
 
 <details>
@@ -246,11 +246,11 @@ Options:
   -h, --help                         Display help
 
 Examples: 
-  iola socketio http://127.0.0.1:8080 
-  iola io http://127.0.0.1:8080/?token=secret --transport websocket
-  iola io http://127.0.0.1:8080 --auth user:iola pass:qwerty1
-  iola socketio http://127.0.0.1:8080 --binary-encoding utf8 
-  iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
+  <b>$</b> iola socketio http://127.0.0.1:8080 
+  <b>$</b> iola io http://127.0.0.1:8080/?token=secret --transport websocket
+  <b>$</b> iola io http://127.0.0.1:8080 --auth user:iola pass:qwerty1
+  <b>$</b> iola socketio http://127.0.0.1:8080 --binary-encoding utf8 
+  <b>$</b> iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
 
 <details>
@@ -345,10 +345,10 @@ Options:
   -h, --help                         Display help
 
 Examples: 
-  iola tcp 127.0.0.1:8080
-  iola tcp 127.0.0.1:8080 --sync
-  iola tcp 127.0.0.1:8080 --binary-encoding utf8 
-  iola tcp 127.0.0.1:8080 --no-emoji
+  <b>$</b> iola tcp 127.0.0.1:8080
+  <b>$</b> iola tcp 127.0.0.1:8080 --sync
+  <b>$</b> iola tcp 127.0.0.1:8080 --binary-encoding utf8 
+  <b>$</b> iola tcp 127.0.0.1:8080 --no-emoji
 
 </pre>
 
@@ -371,10 +371,10 @@ Options:
   -h, --help                         Display help
 
 Examples: 
-  iola unix ./unix.sock
-  iola unix ./unix.sock --sync
-  iola unix ./unix.sock --binary-encoding utf8 
-  iola unix ./unix.sock --no-emoji
+  <b>$</b> iola unix ./unix.sock
+  <b>$</b> iola unix ./unix.sock --sync
+  <b>$</b> iola unix ./unix.sock --binary-encoding utf8 
+  <b>$</b> iola unix ./unix.sock --no-emoji
 
 </pre>
 
