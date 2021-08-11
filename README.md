@@ -138,11 +138,11 @@ All socket clients have the next options:
 <table border="0">
 <tr>
   <td nowrap><code>--api-port &lt;port&gt;</code></td>
-  <td>Set API port.</td>
+  <td>Set API port (default: "3000").</td>
 </tr>
 <tr>
   <td nowrap><code>--api-host &lt;host&gt;</code></td>
-  <td>Set API host.</td>
+  <td>Set API host (default: "127.0.0.1").</td>
 </tr>
 <tr>
   <td nowrap><code>--binary-encoding  &lt;encoding&gt;</code></td>
