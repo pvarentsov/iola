@@ -6,7 +6,7 @@ import { SocketEventType, SocketFactory } from '@iola/core/socket'
 
 (async (): Promise<void> => {
   try {
-    const version = '0.4.0'
+    const version = '0.4.1'
 
     const config = CliFactory
       .createParser(version)
