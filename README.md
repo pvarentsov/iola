@@ -48,15 +48,6 @@
 2. Send messages via rest api
 3. Log all socket events in console
 
-**Roadmap**:
-- [x] Implement clients
-  - [x] WebSocket
-  - [x] Socket.IO
-  - [x] Tcp
-  - [x] Unix-socket
-- [ ] Add application's binaries for all popular platforms
-
-
 ## Installation
 
 **Via npm**
