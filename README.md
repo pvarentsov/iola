@@ -65,12 +65,6 @@
 $ npm install -g iola
 ```
 
-**Via yarn**
-
-```bash
-$ yarn global add iola
-```
-
 **Or download** standalone binary from [releases](https://github.com/pvarentsov/iola/releases).
 ## Usage
 
