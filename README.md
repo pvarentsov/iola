@@ -43,7 +43,7 @@
 </p>
 
 **iola** tries to simplify socket server testing and support the most popular socket clients.
-The main way to interact with the program is the REST API. 
+The main way to interact with the tool is the REST API. 
 This approach allows you to use the rich functionality of modern REST clients to work with sockets.
 
 The potential of the tool is revealed when using API clients such as [Postman](https://www.postman.com/), [Insomnia](https://insomnia.rest/), etc.
