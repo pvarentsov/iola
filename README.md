@@ -36,27 +36,46 @@
 
 ## Description
 
-**iola** - a socket client with rest api. It helps to work with socket servers using your favorite rest client.
+**iola** - a socket client with REST API. It helps to work with socket servers using your favorite REST client.
 
 <p align="center"> 
   <img src="./demo/iola-demo.gif">
 </p>
 
+**iola** tries to simplify socket server testing and support the most popular socket clients.
+The main way to interact with the program is the REST API. 
+This approach allows you to use the rich functionality of modern REST clients to work with sockets.
+
+The potential of the **iola** is revealed when using API clients such as [Postman](https://www.postman.com/), [Insomnia](https://insomnia.rest/), etc.
+You can manage collections of requests for projects that have socket-based API, use dynamic variables in requests and many other features supported by these clients.
+
 **Features:**
 
-1. Read messages via rest api
-2. Send messages via rest api
-3. Log all socket events in console
+1. Read messages via REST API
+2. Send messages via REST API
+3. Log all socket events in the console
+4. Swagger UI for REST API
+
+**Supported clients:**
+
+1. WebSocket
+2. Socket.IO
+3. TCP
+4. Unix socket
 
 ## Installation
 
-**Via npm**
+**Via npm** (for all platforms where [Node.js](https://nodejs.org/en/) is installed).
 
 ```bash
 $ npm install -g iola
 ```
 
-**Or download** standalone binary from [releases](https://github.com/pvarentsov/iola/releases).
+**Or download** standalone binary from [releases](https://github.com/pvarentsov/iola/releases). The following platforms are currently supported:
+* `linux-amd64`
+* `macos-amd64`
+* `win-amd64`
+
 ## Usage
 
 ### CLI
