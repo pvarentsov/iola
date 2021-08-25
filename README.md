@@ -46,7 +46,7 @@
 The main way to interact with the program is the REST API. 
 This approach allows you to use the rich functionality of modern REST clients to work with sockets.
 
-The potential of the **iola** is revealed when using API clients such as [Postman](https://www.postman.com/), [Insomnia](https://insomnia.rest/), etc.
+The potential of the tool is revealed when using API clients such as [Postman](https://www.postman.com/), [Insomnia](https://insomnia.rest/), etc.
 You can manage collections of requests for projects that have socket-based API, use dynamic variables in requests and many other features supported by these clients.
 
 **Features:**
