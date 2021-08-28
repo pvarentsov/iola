@@ -14,10 +14,12 @@ RUN export APP_VERSION=$(node -p "require('./package.json').version") && cd /out
     zip -r -j "iola-linux-amd64.zip" ./linux-amd64/ && \
     zip -r -j "iola-win-amd64.zip" ./win-amd64/ && \
     zip -r -j "iola-macos-amd64.zip" ./macos-amd64/ && \
-    sha256sum "iola-linux-amd64.zip" > "iola-linux-amd64.sha256.txt" && \
-    sha256sum "iola-win-amd64.zip" > "iola-win-amd64.sha256.txt" && \
-    sha256sum "iola-macos-amd64.zip" > "iola-macos-amd64.sha256.txt"
-RUN mkdir /out/zip && mv /out/*.zip /out/zip/ && mv /out/*.sha256.txt /out/zip/
+    tar -czf "iola-macos-amd64.tar.gz" -C ./macos-amd64/ . && \
+    sha256sum "iola-linux-amd64.zip" > "iola-linux-amd64.zip.sha256.txt" && \
+    sha256sum "iola-win-amd64.zip" > "iola-win-amd64.zip.sha256.txt" && \
+    sha256sum "iola-macos-amd64.zip" > "iola-macos-amd64.zip.sha256.txt" && \
+    sha256sum "iola-macos-amd64.tar.gz" > "iola-macos-amd64.tar.gz.sha256.txt"
+RUN mkdir /out/zip && mv /out/*.zip /out/zip/ && mv /out/*.tar.gz /out/zip/ && mv /out/*.sha256.txt /out/zip/
 
 FROM scratch as app-amd64
 COPY --from=bin-amd64 /out/zip /
