@@ -51,10 +51,10 @@ You can manage collections of requests for projects that have socket-based API, 
 
 **Features:**
 
-1. Read messages via REST API
-2. Send messages via REST API
-3. Log all socket events in the console
-4. Swagger UI for REST API
+1. Allows reading and sending messages via REST API
+2. Logs all socket events in the console
+3. Swagger UI for REST API
+4. Works on Linux, MacOS and Windows
 
 **Supported clients:**
 
@@ -77,10 +77,7 @@ $ brew tap pvarentsov/iola
 $ brew install iola
 ```
 
-**Or download** standalone binary from [releases](https://github.com/pvarentsov/iola/releases). The following platforms are currently supported:
-* `linux-amd64`
-* `macos-amd64`
-* `win-amd64`
+**Or download** standalone binary from [releases](https://github.com/pvarentsov/iola/releases).
 
 ## Usage
 
