@@ -1,10 +1,10 @@
-import * as chalk from 'chalk'
-import { OptionValues, program } from 'commander'
-import { EOL } from 'os'
-
 import { CliConfig, ICliParser } from '@iola/api/cli'
 import { AnyObject, BinaryEncoding, EnumUtil, Optional, SocketIOTransport } from '@iola/core/common'
 import { SocketType } from '@iola/core/socket'
+import * as chalk from 'chalk'
+import { OptionValues, program } from 'commander'
+import { EOL } from 'os'
+import { platform } from 'process'
 
 export class CliParser implements ICliParser {
   constructor(
@@ -186,6 +186,9 @@ export class CliParser implements ICliParser {
   private validateConfig(config: CliConfig): CliConfig {
     const errors: string[] = []
 
+    if (platform === 'win32' && config.socketType === SocketType.Unix) {
+      errors.push('unix-socket client does not work in windows')
+    }
     if (isNaN(config.apiPort) || config.apiPort >= 65536 || config.apiPort < 0) {
       errors.push('api-port must be >= 0 and < 65536')
     }
