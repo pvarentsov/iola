@@ -86,7 +86,7 @@ $ brew install iola
 <pre>
 $ iola --help
 
-<b>iola</b> - a socket client with rest api
+<b>iola</b> - a socket client with REST API
 
 Usage: iola [options] [command]
 
@@ -108,7 +108,7 @@ API:
   GET  /swagger                     Get swagger
 </pre>
 
-### Rest API
+### REST API
 
 <p align="center">
   <img src="./docs/swagger.png">
