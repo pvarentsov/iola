@@ -71,7 +71,7 @@ You can manage collections of requests for projects that have socket-based API, 
 $ npm install -g iola
 ```
 
-**Via homebrew** (`macOS` only).
+**Via homebrew** (MacOS only).
 ```bash
 $ brew tap pvarentsov/iola
 $ brew install iola
