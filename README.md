@@ -16,19 +16,19 @@
   <summary><b>Table of contents</b> (click to open)</summary>
   <br>
   <ul>
-    <li><a href="https://github.com/pvarentsov/iola#description">Description</a></li>
-    <li><a href="https://github.com/pvarentsov/iola#installation">Installation</a></li>
-    <li><a href="https://github.com/pvarentsov/iola#usage">Usage</a></li>
+    <li><a href="#description">Description</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#usage">Usage</a></li>
     <ul>
-      <li><a href="https://github.com/pvarentsov/iola#cli">CLI</a></li>
-      <li><a href="https://github.com/pvarentsov/iola#rest-api">Rest API</a></li>
+      <li><a href="#cli">CLI</a></li>
+      <li><a href="#rest-api">REST API</a></li>
     </ul>
-    <li><a href="https://github.com/pvarentsov/iola#clients">Clients</a></li>
+    <li><a href="#clients">Clients</a></li>
       <ul>
-        <li><a href="https://github.com/pvarentsov/iola#common">Common</a></li>
-        <li><a href="https://github.com/pvarentsov/iola#websocket">WebSocket</a></li>
-        <li><a href="https://github.com/pvarentsov/iola#socketio">Socket.IO</a></li>
-        <li><a href="https://github.com/pvarentsov/iola#tcp--unix-socket">TCP & Unix socket</a></li>
+        <li><a href="#common">Common</a></li>
+        <li><a href="#websocket">WebSocket</a></li>
+        <li><a href="#socketio">Socket.IO</a></li>
+        <li><a href="#tcp--unix-socket">TCP & Unix socket</a></li>
       </ul>
     <li><a href="https://github.com/pvarentsov/iola#license">License</a></li>
   </ul>
