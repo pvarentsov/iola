@@ -105,7 +105,7 @@ API:
   GET  /messages                    Get message list
   GET  /messages/{id}               Get message by id
   POST /messages                    Send message 
-  GET  /docs                        Get api documentation
+  GET  /swagger                     Get swagger
 </pre>
 
 ### Rest API

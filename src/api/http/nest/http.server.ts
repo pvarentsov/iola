@@ -31,7 +31,7 @@ export class HttpServer implements IHttpServer {
 
     const swaggerConfig = new DocumentBuilder()
       .setTitle('iola')
-      .setDescription('OpenAPI documentation for iola client')
+      .setDescription('API documentation for iola client')
       .setVersion(this.version)
       .build()
 
@@ -39,7 +39,7 @@ export class HttpServer implements IHttpServer {
       .createDocument(app, swaggerConfig)
 
     SwaggerModule
-      .setup('docs', app, swaggerDocument)
+      .setup('swagger', app, swaggerDocument)
 
     return app
   }
