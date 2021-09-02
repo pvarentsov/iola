@@ -32,7 +32,6 @@ export class ErrorModel {
 }
 
 export class GetMessageListQuery {
-  @ApiProperty({enum: SocketEventType, isArray: true, required: false})
   @IsOptional()
   @IsIn(EnumUtil.values(SocketEventType), {each: true})
   @Transform(toArray)
