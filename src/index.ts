@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import * as path from 'path'
+
 import { CliFactory } from '@iola/api/cli'
 import { HttpFactory } from '@iola/api/http'
 import { SocketEventType, SocketFactory } from '@iola/core/socket'
@@ -11,6 +13,8 @@ import { SocketEventType, SocketFactory } from '@iola/core/socket'
     const config = CliFactory
       .createParser(version)
       .parse()
+
+    detectSwaggerUIAssets()
 
     const client = SocketFactory.createClient({
       type: config.socketType,
@@ -52,3 +56,9 @@ import { SocketEventType, SocketFactory } from '@iola/core/socket'
     process.exit(1)
   }
 })()
+
+function detectSwaggerUIAssets(): void {
+  path.join(__dirname, '../node_modules/swagger-ui-dist/swagger-ui.css')
+  path.join(__dirname, '../node_modules/swagger-ui-dist/favicon-16x16.png')
+  path.join(__dirname, '../node_modules/swagger-ui-dist/favicon-32x32.png')
+}
