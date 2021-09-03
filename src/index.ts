@@ -53,7 +53,11 @@ import { SocketEventType, SocketFactory } from '@iola/core/socket'
       .listen(server, client)
   }
   catch (error) {
-    console.error(error.message)
+    const message = error instanceof Error
+      ? error.message
+      : JSON.stringify(error)
+
+    console.error(message)
     process.exit(1)
   }
 })()

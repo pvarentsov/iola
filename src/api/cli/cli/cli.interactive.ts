@@ -1,6 +1,6 @@
 import * as chalk from 'chalk'
 import * as moment from 'moment'
-import * as ora from 'ora'
+import ora, { Ora } from 'ora'
 import { EOL } from 'os'
 
 import { CliConfig, ICliInteractive } from '@iola/api/cli'
@@ -16,7 +16,7 @@ export class CliInteractive implements ICliInteractive {
   async listen(server: IHttpServer, client: ISocketClient): Promise<void> {
     const spinner = ora('Connecting').start()
 
-    const stopSpinner = (delay: number): Promise<ora.Ora> => new Promise(
+    const stopSpinner = (delay: number): Promise<Ora> => new Promise(
       resolve => setTimeout(() => resolve(spinner.stop()), delay)
     )
 
