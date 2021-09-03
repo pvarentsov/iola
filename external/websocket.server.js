@@ -1,10 +1,16 @@
 const WebSocket = require('ws')
-const util = require('util')
 
-const wss = new WebSocket.Server({ port: 8080 })
+const PORT = 8080
+
+const wss = new WebSocket.Server({ port: PORT })
+console.log(`Server running on 127.0.0.1:${PORT}\n`)
 
 wss.on('connection', (ws, req) => {
-  console.dir({handshake: req.url})
+  console.dir({
+    handshake: {
+      url: req.url,
+      headers: req.headers,
+  }})
 
   ws.on('message', (data, isBuffer) => {
     console.dir({data, isBuffer})

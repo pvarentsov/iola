@@ -22,6 +22,7 @@ import { SocketEventType, SocketFactory } from '@iola/core/socket'
       binaryEncoding: config.binaryEncoding,
       connectionTimeout: config.connectionTimeout,
       reconnectionInterval: config.reconnectionInterval,
+      headers: config.headers,
       ioAuth: config.ioAuth,
       ioTransport: config.ioTransport,
       netSync: config.netSync,

@@ -32,13 +32,15 @@ export class CliParser implements ICliParser {
     const websocketExamples = `Examples: ${EOL}` +
       `  ${chalk.bold('$')} iola websocket ws://127.0.0.1:8080 ${EOL}` +
       `  ${chalk.bold('$')} iola ws ws://127.0.0.1:8080/?token=secret ${EOL}` +
+      `  ${chalk.bold('$')} iola ws ws://127.0.0.1:8080/ --header authorization:"Bearer token"${EOL}` +
       `  ${chalk.bold('$')} iola websocket ws://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
       `  ${chalk.bold('$')} iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji`
 
     const socketIOExamples = `Examples: ${EOL}` +
       `  ${chalk.bold('$')} iola socketio http://127.0.0.1:8080 ${EOL}` +
       `  ${chalk.bold('$')} iola io http://127.0.0.1:8080/?token=secret --transport websocket${EOL}` +
-      `  ${chalk.bold('$')} iola io http://127.0.0.1:8080 --auth user:iola pass:qwerty1${EOL}` +
+      `  ${chalk.bold('$')} iola io http://127.0.0.1:8080/ --header authorization:"Bearer token"${EOL}` +
+      `  ${chalk.bold('$')} iola io http://127.0.0.1:8080 --auth user:iola --auth pass:qwerty1${EOL}` +
       `  ${chalk.bold('$')} iola socketio http://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
       `  ${chalk.bold('$')} iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji`
 
@@ -67,6 +69,7 @@ export class CliParser implements ICliParser {
       .enablePositionalOptions(false)
       .option('-ap, --api-port <port>', 'Set api port', '3000')
       .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
+      .option('-h, --header <key:value...>', 'Set headers')
       .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '1000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
       .option('-ne, --no-emoji', 'Disable emoji')
@@ -79,6 +82,7 @@ export class CliParser implements ICliParser {
           socketAddress: address,
           apiPort: Number(options.apiPort),
           apiHost: options.apiHost,
+          headers: this.parseKeyValueOption('-h, --header <key:value...>', options.header),
           binaryEncoding: options.binaryEncoding,
           emoji: options.emoji,
           replyTimeout: Number(options.replyTimeout),
@@ -93,6 +97,7 @@ export class CliParser implements ICliParser {
       .enablePositionalOptions(false)
       .option('-ap, --api-port <port>', 'Set api port', '3000')
       .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
+      .option('-h, --header <key:value...>', 'Set headers')
       .option('-a, --auth <key:value...>', 'Set authentication payload')
       .option('-t, --transport <transport>', `Set transport ${ioTransportChoices}`)
       .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '1000')
@@ -107,6 +112,7 @@ export class CliParser implements ICliParser {
           socketAddress: address,
           apiPort: Number(options.apiPort),
           apiHost: options.apiHost,
+          headers: this.parseKeyValueOption('-h, --header <key:value...>', options.header),
           binaryEncoding: options.binaryEncoding,
           emoji: options.emoji,
           replyTimeout: Number(options.replyTimeout),

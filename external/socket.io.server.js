@@ -9,9 +9,11 @@ const ioServer = new io.Server(httpServer, {
 })
 
 ioServer.on('connection', socket => {
-  console.dir({handshake: {
-    query: socket.handshake.query,
-    auth: socket.handshake.auth,
+  console.dir({
+    handshake: {
+      query: socket.handshake.query,
+      auth: socket.handshake.auth,
+      headers: socket.handshake.headers,
   }})
 
   socket.emit('null', null)
@@ -31,4 +33,7 @@ ioServer.on('connection', socket => {
   })
 });
 
-httpServer.listen(8081)
+const PORT = 8081
+
+httpServer.listen(PORT)
+console.log(`Server running on 127.0.0.1:${PORT}\n`)

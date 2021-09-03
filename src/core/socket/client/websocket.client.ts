@@ -43,7 +43,8 @@ export class WebSocketClient implements ISocketClient {
       this.close()
 
       this._client = new WebSocket(this._info.originalAddress, {
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
+        headers: this._options.headers,
       })
 
       this._client.on('message', (message: WebSocket.Data, isBinary: boolean) => {

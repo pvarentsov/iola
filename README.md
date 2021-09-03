@@ -203,6 +203,7 @@ Options:
 Examples:
   <b>$</b> iola websocket ws://127.0.0.1:8080
   <b>$</b> iola ws ws://127.0.0.1:8080/?token=secret
+  <b>$</b> iola ws ws://127.0.0.1:8080/ --header authorization:"Bearer token"
   <b>$</b> iola websocket ws://127.0.0.1:8080 --binary-encoding utf8
   <b>$</b> iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
@@ -215,6 +216,18 @@ Examples:
     <li><code>json</code></li>
     <li><code>byte-array</code></li>
   </ul>
+</details>
+
+<details>
+  <summary>http headers</summary>
+  <br>
+  <p>
+    You can pass http headers using <code>--header &lt;key:value...></code> option. Examples:
+    <ul>
+      <li><code>iola ws ws://127.0.0.1:8080 --header authorization:"Bearer token"</code></li>
+      <li><code>iola ws ws://127.0.0.1:8080 -h content-type:application/json -h content-length:42</code></li>
+    </ul>
+  </p>
 </details>
 
 <details>
@@ -266,7 +279,8 @@ Options:
 Examples: 
   <b>$</b> iola socketio http://127.0.0.1:8080 
   <b>$</b> iola io http://127.0.0.1:8080/?token=secret --transport websocket
-  <b>$</b> iola io http://127.0.0.1:8080 --auth user:iola pass:qwerty1
+  <b>$</b> iola io http://127.0.0.1:8080/ --header authorization:"Bearer token"  
+  <b>$</b> iola io http://127.0.0.1:8080 --auth user:iola --auth pass:qwerty1
   <b>$</b> iola socketio http://127.0.0.1:8080 --binary-encoding utf8 
   <b>$</b> iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
@@ -296,6 +310,18 @@ Examples:
 </details>
 
 <details>
+  <summary>http headers</summary>
+  <br>
+  <p>
+    You can pass http headers using <code>--header &lt;key:value...></code> option. Examples:
+    <ul>
+      <li><code>iola io http://127.0.0.1:8080 --header authorization:"Bearer token"</code></li>
+      <li><code>iola io http://127.0.0.1:8080 -h content-type:application/json -h content-length:42</code></li>
+    </ul>
+  </p>
+</details>
+
+<details>
   <summary>auth</summary>
   <br>
   <p>
@@ -304,8 +330,8 @@ Examples:
   <p>
     You can set the auth payload using <code>--auth &lt;key:value...></code> option. Examples:
     <ul>
-      <li><code>iola io http://127.0.0.1:8080 --auth user:iola pass:qwerty1</code></li>
-      <li><code>iola io http://127.0.0.1:8080 --auth token:"super secret"</code></li>
+      <li><code>iola io http://127.0.0.1:8080 --auth user:iola --auth pass:qwerty1</code></li>
+      <li><code>iola io http://127.0.0.1:8080 --a token:"super secret"</code></li>
     </ul>
   </p>
 </details>

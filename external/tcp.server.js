@@ -2,7 +2,10 @@ const net = require('net');
 
 const server = new net.createServer();
 
-server.listen(8082);
+const PORT = 8082
+
+server.listen(PORT);
+console.log(`Server running on 127.0.0.1:${PORT}\n`)
 
 server.on('connection', function (socket) {
   socket.on('data', function (chunk) {
