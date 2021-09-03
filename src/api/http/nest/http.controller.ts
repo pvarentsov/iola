@@ -11,8 +11,11 @@ import {
 } from '@nestjs/common'
 import {
   ApiBadRequestResponse,
-  ApiBody, ApiCreatedResponse,
-  ApiExtraModels, ApiInternalServerErrorResponse, ApiNotFoundResponse,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiExtraModels,
+  ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiQuery,
@@ -29,7 +32,8 @@ import {
   SendDataMessageBody,
   SendMessageResponse,
 } from '@iola/api/http/nest/http.schema'
-import { ISocketClient, SocketEvent, SocketSendReply } from '@iola/core/socket'
+import { EnumUtil } from '@iola/core/common'
+import { ISocketClient, SocketEvent, SocketEventType, SocketSendReply } from '@iola/core/socket'
 
 @Controller()
 export class HttpController {
@@ -61,7 +65,7 @@ export class HttpController {
   @Get('/messages')
   @ApiTags('Messages')
   @ApiOperation({description: 'Get message list', summary: 'Get message list'})
-  @ApiQuery({type: GetMessageListQuery})
+  @ApiQuery({name: 'type', enum: EnumUtil.values(SocketEventType), isArray: true, required: false})
   @ApiOkResponse({type: MessageModel, isArray: true})
   @ApiBadRequestResponse({type: ErrorModel})
   @ApiNotFoundResponse({type: ErrorModel})

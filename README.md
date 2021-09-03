@@ -16,19 +16,19 @@
   <summary><b>Table of contents</b> (click to open)</summary>
   <br>
   <ul>
-    <li><a href="https://github.com/pvarentsov/iola#description">Description</a></li>
-    <li><a href="https://github.com/pvarentsov/iola#installation">Installation</a></li>
-    <li><a href="https://github.com/pvarentsov/iola#usage">Usage</a></li>
+    <li><a href="#description">Description</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#usage">Usage</a></li>
     <ul>
-      <li><a href="https://github.com/pvarentsov/iola#cli">CLI</a></li>
-      <li><a href="https://github.com/pvarentsov/iola#rest-api">Rest API</a></li>
+      <li><a href="#cli">CLI</a></li>
+      <li><a href="#rest-api">REST API</a></li>
     </ul>
-    <li><a href="https://github.com/pvarentsov/iola#clients">Clients</a></li>
+    <li><a href="#clients">Clients</a></li>
       <ul>
-        <li><a href="https://github.com/pvarentsov/iola#common">Common</a></li>
-        <li><a href="https://github.com/pvarentsov/iola#websocket">WebSocket</a></li>
-        <li><a href="https://github.com/pvarentsov/iola#socketio">Socket.IO</a></li>
-        <li><a href="https://github.com/pvarentsov/iola#tcp--unix-socket">TCP & Unix socket</a></li>
+        <li><a href="#common">Common</a></li>
+        <li><a href="#websocket">WebSocket</a></li>
+        <li><a href="#socketio">Socket.IO</a></li>
+        <li><a href="#tcp--unix-socket">TCP & Unix socket</a></li>
       </ul>
     <li><a href="https://github.com/pvarentsov/iola#license">License</a></li>
   </ul>
@@ -86,13 +86,13 @@ $ brew install iola
 <pre>
 $ iola --help
 
-<b>iola</b> - a socket client with rest api
+<b>iola</b> - a socket client with REST API
 
 Usage: iola [options] [command]
 
 Options:
-  -v, --version                     Display version
-  -h, --help                        Display help
+  --version                         Display version
+  --help                            Display help
 
 Commands:
   websocket|ws [options] &lt;address>  Run websocket client
@@ -105,10 +105,10 @@ API:
   GET  /messages                    Get message list
   GET  /messages/{id}               Get message by id
   POST /messages                    Send message 
-  GET  /docs                        Get api documentation
+  GET  /swagger                     Get swagger
 </pre>
 
-### Rest API
+### REST API
 
 <p align="center">
   <img src="./docs/swagger.png">
@@ -195,14 +195,16 @@ Run websocket client
 Options:
   -ap, --api-port &lt;port>             Set api port (default: "3000")
   -ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
+  -h, --header &lt;key:value...>        Set http headers
   -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (default: "1000")
   -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
   -ne, --no-emoji                    Disable emoji
-  -h, --help                         Display help
+  --help                             Display help
 
 Examples:
   <b>$</b> iola websocket ws://127.0.0.1:8080
   <b>$</b> iola ws ws://127.0.0.1:8080/?token=secret
+  <b>$</b> iola ws ws://127.0.0.1:8080 --header authorization:"Bearer token"
   <b>$</b> iola websocket ws://127.0.0.1:8080 --binary-encoding utf8
   <b>$</b> iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
@@ -215,6 +217,18 @@ Examples:
     <li><code>json</code></li>
     <li><code>byte-array</code></li>
   </ul>
+</details>
+
+<details>
+  <summary>http headers</summary>
+  <br>
+  <p>
+    You can pass http headers using <code>--header &lt;key:value...></code> option. Examples:
+    <ul>
+      <li><code>iola ws ws://127.0.0.1:8080 --header authorization:"Bearer token"</code></li>
+      <li><code>iola ws ws://127.0.0.1:8080 -h content-type:application/json -h content-length:42</code></li>
+    </ul>
+  </p>
 </details>
 
 <details>
@@ -256,17 +270,19 @@ Run socket.io client
 Options:
   -ap, --api-port &lt;port>             Set api port (default: "3000")
   -ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
+  -h, --header &lt;key:value...>        Set http headers
   -a, --auth &lt;key:value...>          Set authentication payload
   -t, --transport &lt;transport>        Set transport (choices: "polling","websocket")
   -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (default: "1000")
   -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
   -ne, --no-emoji                    Disable emoji
-  -h, --help                         Display help
+  --help                             Display help
 
 Examples: 
   <b>$</b> iola socketio http://127.0.0.1:8080 
   <b>$</b> iola io http://127.0.0.1:8080/?token=secret --transport websocket
-  <b>$</b> iola io http://127.0.0.1:8080 --auth user:iola pass:qwerty1
+  <b>$</b> iola io http://127.0.0.1:8080 --header authorization:"Bearer token"  
+  <b>$</b> iola io http://127.0.0.1:8080 --auth user:iola --auth pass:qwerty1
   <b>$</b> iola socketio http://127.0.0.1:8080 --binary-encoding utf8 
   <b>$</b> iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
@@ -296,6 +312,18 @@ Examples:
 </details>
 
 <details>
+  <summary>http headers</summary>
+  <br>
+  <p>
+    You can pass http headers using <code>--header &lt;key:value...></code> option. Examples:
+    <ul>
+      <li><code>iola io http://127.0.0.1:8080 --header authorization:"Bearer token"</code></li>
+      <li><code>iola io http://127.0.0.1:8080 -h content-type:application/json -h content-length:42</code></li>
+    </ul>
+  </p>
+</details>
+
+<details>
   <summary>auth</summary>
   <br>
   <p>
@@ -304,8 +332,8 @@ Examples:
   <p>
     You can set the auth payload using <code>--auth &lt;key:value...></code> option. Examples:
     <ul>
-      <li><code>iola io http://127.0.0.1:8080 --auth user:iola pass:qwerty1</code></li>
-      <li><code>iola io http://127.0.0.1:8080 --auth token:"super secret"</code></li>
+      <li><code>iola io http://127.0.0.1:8080 --auth user:iola --auth pass:qwerty1</code></li>
+      <li><code>iola io http://127.0.0.1:8080 --a token:"super secret"</code></li>
     </ul>
   </p>
 </details>
@@ -360,7 +388,7 @@ Options:
   -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (sync mode only) (default: "1000")
   -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
   -ne, --no-emoji                    Disable emoji
-  -h, --help                         Display help
+  --help                             Display help
 
 Examples: 
   <b>$</b> iola tcp 127.0.0.1:8080
@@ -386,7 +414,7 @@ Options:
   -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (sync mode only) (default: "1000")
   -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
   -ne, --no-emoji                    Disable emoji
-  -h, --help                         Display help
+  --help                             Display help
 
 Examples: 
   <b>$</b> iola unix ./unix.sock

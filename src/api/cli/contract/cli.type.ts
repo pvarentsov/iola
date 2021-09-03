@@ -10,6 +10,7 @@ export type CliConfig = {
   connectionTimeout: number
   reconnectionInterval: number
   replyTimeout: number
+  headers?: AnyObject,
   ioAuth?: AnyObject,
   ioTransport?: SocketIOTransport,
   netSync?: boolean,

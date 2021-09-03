@@ -1,10 +1,10 @@
-import * as chalk from 'chalk'
-import { OptionValues, program } from 'commander'
-import { EOL } from 'os'
-
 import { CliConfig, ICliParser } from '@iola/api/cli'
 import { AnyObject, BinaryEncoding, EnumUtil, Optional, SocketIOTransport } from '@iola/core/common'
 import { SocketType } from '@iola/core/socket'
+import * as chalk from 'chalk'
+import { OptionValues, program } from 'commander'
+import { EOL } from 'os'
+import { platform } from 'process'
 
 export class CliParser implements ICliParser {
   constructor(
@@ -18,7 +18,7 @@ export class CliParser implements ICliParser {
     const reconnectionInterval = 10_000
 
     const description =
-      `${chalk.bold('iola')} - a socket client with rest api`
+      `${chalk.bold('iola')} - a socket client with REST API`
 
     const binaryEncodingChoices = this.choices(EnumUtil.values(BinaryEncoding))
     const ioTransportChoices = this.choices(EnumUtil.values(SocketIOTransport))
@@ -27,18 +27,20 @@ export class CliParser implements ICliParser {
       `  GET  /messages                    Get message list${EOL}` +
       `  GET  /messages/{id}               Get message by id${EOL}` +
       `  POST /messages                    Send message ${EOL}` +
-      '  GET  /docs                        Get api documentation'
+      '  GET  /swagger                     Get swagger'
 
     const websocketExamples = `Examples: ${EOL}` +
       `  ${chalk.bold('$')} iola websocket ws://127.0.0.1:8080 ${EOL}` +
       `  ${chalk.bold('$')} iola ws ws://127.0.0.1:8080/?token=secret ${EOL}` +
+      `  ${chalk.bold('$')} iola ws ws://127.0.0.1:8080 --header authorization:"Bearer token"${EOL}` +
       `  ${chalk.bold('$')} iola websocket ws://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
       `  ${chalk.bold('$')} iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji`
 
     const socketIOExamples = `Examples: ${EOL}` +
       `  ${chalk.bold('$')} iola socketio http://127.0.0.1:8080 ${EOL}` +
       `  ${chalk.bold('$')} iola io http://127.0.0.1:8080/?token=secret --transport websocket${EOL}` +
-      `  ${chalk.bold('$')} iola io http://127.0.0.1:8080 --auth user:iola pass:qwerty1${EOL}` +
+      `  ${chalk.bold('$')} iola io http://127.0.0.1:8080 --header authorization:"Bearer token"${EOL}` +
+      `  ${chalk.bold('$')} iola io http://127.0.0.1:8080 --auth user:iola --auth pass:qwerty1${EOL}` +
       `  ${chalk.bold('$')} iola socketio http://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
       `  ${chalk.bold('$')} iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji`
 
@@ -55,8 +57,8 @@ export class CliParser implements ICliParser {
       `  ${chalk.bold('$')} iola unix ./unix.sock --no-emoji`
 
     program
-      .version(this.version, '-v, --version', 'Display version')
-      .helpOption('-h, --help', 'Display help')
+      .version(this.version, '--version', 'Display version')
+      .helpOption('--help', 'Display help')
       .addHelpText('before', EOL + description + EOL)
       .addHelpText('after', EOL + api + EOL)
       .addHelpCommand('help [command]', 'Display help for command')
@@ -67,10 +69,11 @@ export class CliParser implements ICliParser {
       .enablePositionalOptions(false)
       .option('-ap, --api-port <port>', 'Set api port', '3000')
       .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
+      .option('-h, --header <key:value...>', 'Set http headers')
       .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '1000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
       .option('-ne, --no-emoji', 'Disable emoji')
-      .helpOption('-h, --help', 'Display help')
+      .helpOption('--help', 'Display help')
       .addHelpText('before', ' ')
       .addHelpText('after', EOL + websocketExamples + EOL)
       .action((address: string, options: OptionValues) => {
@@ -79,6 +82,7 @@ export class CliParser implements ICliParser {
           socketAddress: address,
           apiPort: Number(options.apiPort),
           apiHost: options.apiHost,
+          headers: this.parseKeyValueOption('-h, --header <key:value...>', options.header),
           binaryEncoding: options.binaryEncoding,
           emoji: options.emoji,
           replyTimeout: Number(options.replyTimeout),
@@ -93,12 +97,13 @@ export class CliParser implements ICliParser {
       .enablePositionalOptions(false)
       .option('-ap, --api-port <port>', 'Set api port', '3000')
       .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
+      .option('-h, --header <key:value...>', 'Set http headers')
       .option('-a, --auth <key:value...>', 'Set authentication payload')
       .option('-t, --transport <transport>', `Set transport ${ioTransportChoices}`)
       .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '1000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
       .option('-ne, --no-emoji', 'Disable emoji')
-      .helpOption('-h, --help', 'Display help')
+      .helpOption('--help', 'Display help')
       .addHelpText('before', ' ')
       .addHelpText('after', EOL + socketIOExamples + EOL)
       .action((address: string, options: OptionValues) => {
@@ -107,10 +112,11 @@ export class CliParser implements ICliParser {
           socketAddress: address,
           apiPort: Number(options.apiPort),
           apiHost: options.apiHost,
+          headers: this.parseKeyValueOption('-h, --header <key:value...>', options.header),
           binaryEncoding: options.binaryEncoding,
           emoji: options.emoji,
           replyTimeout: Number(options.replyTimeout),
-          ioAuth: this.parseIoAuth(options.auth),
+          ioAuth: this.parseKeyValueOption('-a, --auth <key:value...>', options.auth),
           ioTransport: options.transport,
           connectionTimeout: connectionTimeout,
           reconnectionInterval: reconnectionInterval,
@@ -127,7 +133,7 @@ export class CliParser implements ICliParser {
       .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms (sync mode only)', '1000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
       .option('-ne, --no-emoji', 'Disable emoji')
-      .helpOption('-h, --help', 'Display help')
+      .helpOption('--help', 'Display help')
       .addHelpText('before', ' ')
       .addHelpText('after', EOL + tcpExamples + EOL)
       .action((address: string, options: OptionValues) => {
@@ -155,7 +161,7 @@ export class CliParser implements ICliParser {
       .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms (sync mode only)', '1000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
       .option('-ne, --no-emoji', 'Disable emoji')
-      .helpOption('-h, --help', 'Display help')
+      .helpOption('--help', 'Display help')
       .addHelpText('before', ' ')
       .addHelpText('after', EOL + unixExamples + EOL)
       .action((address: string, options: OptionValues) => {
@@ -186,6 +192,9 @@ export class CliParser implements ICliParser {
   private validateConfig(config: CliConfig): CliConfig {
     const errors: string[] = []
 
+    if (platform === 'win32' && config.socketType === SocketType.Unix) {
+      errors.push('unix-socket client does not work in windows')
+    }
     if (isNaN(config.apiPort) || config.apiPort >= 65536 || config.apiPort < 0) {
       errors.push('api-port must be >= 0 and < 65536')
     }
@@ -214,17 +223,17 @@ export class CliParser implements ICliParser {
     return `(choices: ${joined})`
   }
 
-  private parseIoAuth(auth?: string[]): Optional<AnyObject> {
-    if (auth) {
-      const args = auth.map(item => item.split(':'))
+  private parseKeyValueOption(optionName: string, optionValue?: string[]): Optional<AnyObject> {
+    if (optionValue) {
+      const args = optionValue.map(item => item.split(':'))
       const isFormatValid = args.every(item => item.length > 1)
 
       if (!isFormatValid) {
-        console.error('error: option \'-a, --auth <key:value...>\' incorrect argument')
+        console.error(`error: option ${optionName} incorrect argument`)
         process.exit(1)
       }
 
-      const parsedAuth: AnyObject = {}
+      const parsed: AnyObject = {}
 
       args.forEach(arg => {
         const key = arg[0]
@@ -243,10 +252,10 @@ export class CliParser implements ICliParser {
           parsedValue = null
         }
 
-        parsedAuth[key] = parsedValue
+        parsed[key] = parsedValue
       })
 
-      return parsedAuth
+      return parsed
     }
 
     return undefined

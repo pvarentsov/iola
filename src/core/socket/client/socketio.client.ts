@@ -41,6 +41,7 @@ export class SocketIOClient implements ISocketClient {
     if (!this._info.connected) {
       this._client = io(this._info.originalAddress, {
         auth: this._options.ioAuth,
+        extraHeaders: this._options.headers,
         rejectUnauthorized: false,
         transports: this._options.ioTransport ? [this._options.ioTransport] : EnumUtil.values(SocketIOTransport)
       })
