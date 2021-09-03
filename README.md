@@ -204,7 +204,7 @@ Options:
 Examples:
   <b>$</b> iola websocket ws://127.0.0.1:8080
   <b>$</b> iola ws ws://127.0.0.1:8080/?token=secret
-  <b>$</b> iola ws ws://127.0.0.1:8080/ --header authorization:"Bearer token"
+  <b>$</b> iola ws ws://127.0.0.1:8080 --header authorization:"Bearer token"
   <b>$</b> iola websocket ws://127.0.0.1:8080 --binary-encoding utf8
   <b>$</b> iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
@@ -281,7 +281,7 @@ Options:
 Examples: 
   <b>$</b> iola socketio http://127.0.0.1:8080 
   <b>$</b> iola io http://127.0.0.1:8080/?token=secret --transport websocket
-  <b>$</b> iola io http://127.0.0.1:8080/ --header authorization:"Bearer token"  
+  <b>$</b> iola io http://127.0.0.1:8080 --header authorization:"Bearer token"  
   <b>$</b> iola io http://127.0.0.1:8080 --auth user:iola --auth pass:qwerty1
   <b>$</b> iola socketio http://127.0.0.1:8080 --binary-encoding utf8 
   <b>$</b> iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji

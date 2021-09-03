@@ -32,14 +32,14 @@ export class CliParser implements ICliParser {
     const websocketExamples = `Examples: ${EOL}` +
       `  ${chalk.bold('$')} iola websocket ws://127.0.0.1:8080 ${EOL}` +
       `  ${chalk.bold('$')} iola ws ws://127.0.0.1:8080/?token=secret ${EOL}` +
-      `  ${chalk.bold('$')} iola ws ws://127.0.0.1:8080/ --header authorization:"Bearer token"${EOL}` +
+      `  ${chalk.bold('$')} iola ws ws://127.0.0.1:8080 --header authorization:"Bearer token"${EOL}` +
       `  ${chalk.bold('$')} iola websocket ws://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
       `  ${chalk.bold('$')} iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji`
 
     const socketIOExamples = `Examples: ${EOL}` +
       `  ${chalk.bold('$')} iola socketio http://127.0.0.1:8080 ${EOL}` +
       `  ${chalk.bold('$')} iola io http://127.0.0.1:8080/?token=secret --transport websocket${EOL}` +
-      `  ${chalk.bold('$')} iola io http://127.0.0.1:8080/ --header authorization:"Bearer token"${EOL}` +
+      `  ${chalk.bold('$')} iola io http://127.0.0.1:8080 --header authorization:"Bearer token"${EOL}` +
       `  ${chalk.bold('$')} iola io http://127.0.0.1:8080 --auth user:iola --auth pass:qwerty1${EOL}` +
       `  ${chalk.bold('$')} iola socketio http://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
       `  ${chalk.bold('$')} iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji`
