@@ -195,7 +195,7 @@ Run websocket client
 Options:
   -ap, --api-port &lt;port>             Set api port (default: "3000")
   -ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
-  -h, --header &lt;key:value...>        Set headers
+  -h, --header &lt;key:value...>        Set http headers
   -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (default: "1000")
   -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
   -ne, --no-emoji                    Disable emoji
@@ -270,7 +270,7 @@ Run socket.io client
 Options:
   -ap, --api-port &lt;port>             Set api port (default: "3000")
   -ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
-  -h, --header &lt;key:value...>        Set headers
+  -h, --header &lt;key:value...>        Set http headers
   -a, --auth &lt;key:value...>          Set authentication payload
   -t, --transport &lt;transport>        Set transport (choices: "polling","websocket")
   -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (default: "1000")
