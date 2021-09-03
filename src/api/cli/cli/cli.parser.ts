@@ -55,8 +55,8 @@ export class CliParser implements ICliParser {
       `  ${chalk.bold('$')} iola unix ./unix.sock --no-emoji`
 
     program
-      .version(this.version, '-v, --version', 'Display version')
-      .helpOption('-h, --help', 'Display help')
+      .version(this.version, '--version', 'Display version')
+      .helpOption('--help', 'Display help')
       .addHelpText('before', EOL + description + EOL)
       .addHelpText('after', EOL + api + EOL)
       .addHelpCommand('help [command]', 'Display help for command')
@@ -70,7 +70,7 @@ export class CliParser implements ICliParser {
       .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '1000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
       .option('-ne, --no-emoji', 'Disable emoji')
-      .helpOption('-h, --help', 'Display help')
+      .helpOption('--help', 'Display help')
       .addHelpText('before', ' ')
       .addHelpText('after', EOL + websocketExamples + EOL)
       .action((address: string, options: OptionValues) => {
@@ -98,7 +98,7 @@ export class CliParser implements ICliParser {
       .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '1000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
       .option('-ne, --no-emoji', 'Disable emoji')
-      .helpOption('-h, --help', 'Display help')
+      .helpOption('--help', 'Display help')
       .addHelpText('before', ' ')
       .addHelpText('after', EOL + socketIOExamples + EOL)
       .action((address: string, options: OptionValues) => {
@@ -110,7 +110,7 @@ export class CliParser implements ICliParser {
           binaryEncoding: options.binaryEncoding,
           emoji: options.emoji,
           replyTimeout: Number(options.replyTimeout),
-          ioAuth: this.parseIoAuth(options.auth),
+          ioAuth: this.parseKeyValueOption('-a, --auth <key:value...>', options.auth),
           ioTransport: options.transport,
           connectionTimeout: connectionTimeout,
           reconnectionInterval: reconnectionInterval,
@@ -127,7 +127,7 @@ export class CliParser implements ICliParser {
       .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms (sync mode only)', '1000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
       .option('-ne, --no-emoji', 'Disable emoji')
-      .helpOption('-h, --help', 'Display help')
+      .helpOption('--help', 'Display help')
       .addHelpText('before', ' ')
       .addHelpText('after', EOL + tcpExamples + EOL)
       .action((address: string, options: OptionValues) => {
@@ -155,7 +155,7 @@ export class CliParser implements ICliParser {
       .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms (sync mode only)', '1000')
       .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
       .option('-ne, --no-emoji', 'Disable emoji')
-      .helpOption('-h, --help', 'Display help')
+      .helpOption('--help', 'Display help')
       .addHelpText('before', ' ')
       .addHelpText('after', EOL + unixExamples + EOL)
       .action((address: string, options: OptionValues) => {
@@ -217,17 +217,17 @@ export class CliParser implements ICliParser {
     return `(choices: ${joined})`
   }
 
-  private parseIoAuth(auth?: string[]): Optional<AnyObject> {
-    if (auth) {
-      const args = auth.map(item => item.split(':'))
+  private parseKeyValueOption(optionName: string, optionValue?: string[]): Optional<AnyObject> {
+    if (optionValue) {
+      const args = optionValue.map(item => item.split(':'))
       const isFormatValid = args.every(item => item.length > 1)
 
       if (!isFormatValid) {
-        console.error('error: option \'-a, --auth <key:value...>\' incorrect argument')
+        console.error(`error: option ${optionName} incorrect argument`)
         process.exit(1)
       }
 
-      const parsedAuth: AnyObject = {}
+      const parsed: AnyObject = {}
 
       args.forEach(arg => {
         const key = arg[0]
@@ -246,10 +246,10 @@ export class CliParser implements ICliParser {
           parsedValue = null
         }
 
-        parsedAuth[key] = parsedValue
+        parsed[key] = parsedValue
       })
 
-      return parsedAuth
+      return parsed
     }
 
     return undefined

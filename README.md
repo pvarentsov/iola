@@ -91,8 +91,8 @@ $ iola --help
 Usage: iola [options] [command]
 
 Options:
-  -v, --version                     Display version
-  -h, --help                        Display help
+  --version                         Display version
+  --help                            Display help
 
 Commands:
   websocket|ws [options] &lt;address>  Run websocket client
@@ -198,7 +198,7 @@ Options:
   -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (default: "1000")
   -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
   -ne, --no-emoji                    Disable emoji
-  -h, --help                         Display help
+  --help                             Display help
 
 Examples:
   <b>$</b> iola websocket ws://127.0.0.1:8080
@@ -261,7 +261,7 @@ Options:
   -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (default: "1000")
   -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
   -ne, --no-emoji                    Disable emoji
-  -h, --help                         Display help
+  --help                             Display help
 
 Examples: 
   <b>$</b> iola socketio http://127.0.0.1:8080 
@@ -360,7 +360,7 @@ Options:
   -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (sync mode only) (default: "1000")
   -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
   -ne, --no-emoji                    Disable emoji
-  -h, --help                         Display help
+  --help                             Display help
 
 Examples: 
   <b>$</b> iola tcp 127.0.0.1:8080
@@ -386,7 +386,7 @@ Options:
   -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (sync mode only) (default: "1000")
   -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
   -ne, --no-emoji                    Disable emoji
-  -h, --help                         Display help
+  --help                             Display help
 
 Examples: 
   <b>$</b> iola unix ./unix.sock
