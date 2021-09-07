@@ -53,7 +53,7 @@ You can manage collections of requests for projects that have socket-based API, 
 
 1. Allows reading and sending messages via REST API
 2. Logs all socket events in the console
-3. Swagger UI for REST API
+3. Has Swagger UI for REST API
 4. Works on Linux, MacOS and Windows
 
 **Supported clients:**
@@ -188,7 +188,7 @@ All socket clients have the next options:
 <pre>
 $ iola help websocket
 
-Usage: iola websocket [options] <address>
+Usage: iola websocket|ws [options] &lt;address>
 
 Run websocket client
 
@@ -263,7 +263,7 @@ Examples:
 <pre>
 $ iola help socketio
  
-Usage: iola socketio|io [options] <address>
+Usage: iola socketio|io [options] &lt;address>
 
 Run socket.io client
 
@@ -377,7 +377,7 @@ TCP and Unix socket clients have the same api.
 <pre>
 $ iola help tcp
  
-Usage: iola tcp [options] <address>
+Usage: iola tcp [options] &lt;address>
 
 Run tcp client
 
@@ -403,7 +403,7 @@ Examples:
 <pre>
 $ iola help unix
  
-Usage: iola unix [options] <address>
+Usage: iola unix [options] &lt;address>
 
 Run unix client
 
