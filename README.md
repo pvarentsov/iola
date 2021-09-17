@@ -114,33 +114,33 @@ API:
   <img src="./docs/swagger.png">
 </p>
 
-get message
-<p align="center">
-  <br>
-  <img src="./docs/get-message.png">
-</p>
+* get message
+  <p >
+    <br>
+    <img src="./docs/get-message.png">
+  </p>
 
-get message list
-<p align="center">
-  <br>
-  <img src="./docs/get-message-list.png">
-</p>
+* get message list
+  <p>
+    <br>
+    <img src="./docs/get-message-list.png">
+  </p>
 
-send any data
-<p align="center">
-  <br>
-  <img src="./docs/send-any-data.png">
-</p>
-<p align="center">
-  <br>
-  <img src="./docs/send-any-data-2.png">
-</p>
+* send any data
+  <p>
+    <br>
+    <img src="./docs/send-any-data.png">
+  </p>
+  <p>
+    <br>
+    <img src="./docs/send-any-data-2.png">
+  </p>
 
-send binary data (uint8 array)
-<p align="center">
-  <br>
-  <img src="./docs/send-bytes.png">
-</p>
+* send binary data (uint8 array)
+  <p>
+    <br>
+    <img src="./docs/send-bytes.png">
+  </p>
 
 ## Clients
 
