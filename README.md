@@ -110,7 +110,7 @@ API:
 
 ### REST API
 
-<p align="center">
+<p>
   <img src="./docs/swagger.png">
 </p>
 
