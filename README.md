@@ -131,6 +131,10 @@ send any data
   <br>
   <img src="./docs/send-any-data.png">
 </p>
+<p align="center">
+  <br>
+  <img src="./docs/send-any-data-2.png">
+</p>
 
 send binary data (uint8 array)
 <p align="center">
