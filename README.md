@@ -110,13 +110,10 @@ API:
 
 ### REST API
 
-<details>
-  <summary>Swagger UI</summary>
-  <br>
-  <p align="center">
-    <img src="./docs/swagger.png">
-  </p>
-</details>
+Swagger UI:
+<p>
+  <img src="./docs/swagger.png">
+</p>
 
 Get message:
 <p>
