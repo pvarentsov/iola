@@ -157,17 +157,13 @@ All socket clients have the next options:
 </tr>
 <tr>
   <td nowrap><code>--binary-encoding  &lt;encoding&gt;</code></td>
-  <td>Encode <code>sent</code>/<code>received</code> binary messages for more readability. Supported encodings: 
-    <code>ascii</code>,
-    <code>utf8</code>,
-    <code>base64</code>,
-    <code>hex</code>.
-    <br>
-    <br>
-    <img src="./docs/binary-encoding.cli.png">
-    <br>
-    <br>
-    <img src="./docs/binary-encoding.rest-api.png">
+  <td>Encode sent and received binary messages for more readability.
+      <br>
+      Supported encodings: 
+      <code>ascii</code>,
+      <code>utf8</code>,
+      <code>base64</code>,
+      <code>hex</code>.
   </td>
 </tr>
 <tr>
