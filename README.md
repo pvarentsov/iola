@@ -25,7 +25,6 @@
     </ul>
     <li><a href="#clients">Clients</a></li>
       <ul>
-        <li><a href="#common">Common</a></li>
         <li><a href="#websocket">WebSocket</a></li>
         <li><a href="#socketio">Socket.IO</a></li>
         <li><a href="#tcp--unix-socket">TCP & Unix socket</a></li>
@@ -144,8 +143,6 @@ Send binary data (uint8 array):
 </p>
 
 ## Clients
-
-### Common
 
 All socket clients have the next options:
 
