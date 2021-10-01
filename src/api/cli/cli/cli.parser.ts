@@ -57,6 +57,7 @@ export class CliParser implements ICliParser {
       `  ${chalk.bold('$')} iola unix ./unix.sock --no-emoji`
 
     program
+      .name('iola')
       .version(this.version, '--version', 'Display version')
       .helpOption('--help', 'Display help')
       .addHelpText('before', EOL + description + EOL)
