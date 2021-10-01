@@ -62,6 +62,10 @@ import { SocketEventType, SocketFactory } from '@iola/core/socket'
   }
 })()
 
+/**
+ * @description Need to detect assets in source code
+ * @link https://github.com/vercel/pkg#detecting-assets-in-source-code
+ **/
 function detectSwaggerUIAssets(): void {
   path.join(__dirname, '../node_modules/swagger-ui-dist/swagger-ui.css')
   path.join(__dirname, '../node_modules/swagger-ui-dist/favicon-16x16.png')
