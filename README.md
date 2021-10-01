@@ -139,7 +139,7 @@ Send any data:
 Send binary data (uint8 array):
 <p>
   <br>
-  <img src="./docs/send-bytes.png">
+  <img src="./docs/send-bytes-2.png">
 </p>
 
 ## Clients
