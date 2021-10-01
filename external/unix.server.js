@@ -17,6 +17,6 @@ server.on('connection', function (socket) {
       socket.write(`${i.toString().padStart(5, '0')}: ${chunk.toString()}`)
     }
 
-    setTimeout(() => socket.write(chunk), 1100)
+    // setTimeout(() => socket.write(chunk), 1100)
   });
 });

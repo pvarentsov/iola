@@ -21,7 +21,7 @@ ioServer.on('connection', socket => {
   socket.emit('bool', false)
   socket.emit('array', ['42', {}, 1])
   socket.emit('object', {a: 'a', b: [null]})
-  socket.emit('greeting', new Uint8Array(Buffer.from('hell')))
+  socket.emit('greeting', new Uint8Array(Buffer.from('hello')))
 
   socket.on('request', (data, cb) => {
     console.dir({event: 'request', data})

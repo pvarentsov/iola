@@ -50,7 +50,7 @@ export class SendDataBody {
   @Max(255, {each: true})
   bytes: number[]
 
-  @ApiProperty({type: 'string', required: false, description: 'Only for SocketIO'})
+  @ApiProperty({type: 'string', required: false, description: 'Only for SocketIO', default: '*'})
   @IsOptional()
   @IsString()
   event?: string
@@ -60,7 +60,7 @@ export class SendDataMessageBody {
   @ApiProperty({type: 'object', description: 'Any data'})
   data: any
 
-  @ApiProperty({type: 'string', required: false, description: 'Only for SocketIO'})
+  @ApiProperty({type: 'string', required: false, description: 'Only for SocketIO', default: '*'})
   event?: string
 }
 
@@ -68,7 +68,7 @@ export class SendBytesMessageBody {
   @ApiProperty({type: 'number', isArray: true, description: 'UInt8 Array'})
   bytes: number[]
 
-  @ApiProperty({type: 'string', required: false, description: 'Only for SocketIO'})
+  @ApiProperty({type: 'string', required: false, description: 'Only for SocketIO', default: '*'})
   event?: string
 }
 
