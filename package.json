@@ -27,12 +27,12 @@
     "url": "git+https://github.com/pvarentsov/iola.git"
   },
   "keywords": [
+    "iola",
     "socket-client",
-    "websocket",
-    "tcp",
-    "socket.io",
-    "unix-socket",
-    "in-progress"
+    "websocket-client",
+    "socketio-client",
+    "tcp-client",
+    "unix-socket-socket"
   ],
   "author": "Pavel Varentsov <varentsovpavel@gmail.com>",
   "license": "MIT",
