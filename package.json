@@ -32,7 +32,7 @@
     "websocket-client",
     "socketio-client",
     "tcp-client",
-    "unix-socket-socket"
+    "unix-socket-client"
   ],
   "author": "Pavel Varentsov <varentsovpavel@gmail.com>",
   "license": "MIT",
