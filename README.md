@@ -53,7 +53,7 @@ You can manage collections of requests for projects that have socket-based API, 
 1. Allows reading and sending messages via REST API
 2. Logs all socket events in the console
 3. Has Swagger UI for REST API
-4. Works on Linux, MacOS and Windows
+4. Works on Linux, macOS and Windows
 
 **Supported clients:**
 
@@ -70,13 +70,13 @@ You can manage collections of requests for projects that have socket-based API, 
 $ npm install -g iola
 ```
 
-**Via homebrew** (Linux, MacOS).
+**Via homebrew** ([Linux](a "amd64"), [macOS](a "amd64 and M1 with Rosetta 2")).
 ```bash
 $ brew tap pvarentsov/iola
 $ brew install iola
 ```
 
-**Or download** standalone binary from [releases](https://github.com/pvarentsov/iola/releases) (Linux, MacOS, Windows).
+**Or download** standalone binary from [releases](https://github.com/pvarentsov/iola/releases) ([Linux](a "amd64"), [macOS](a "amd64 and M1 with Rosetta 2"), [Windows](a "amd64")).
 
 ## Usage
 
