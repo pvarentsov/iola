@@ -70,13 +70,13 @@ You can manage collections of requests for projects that have socket-based API, 
 $ npm install -g iola
 ```
 
-**Via homebrew** ([Linux](a "amd64"), [macOS](a "amd64 and M1 with Rosetta 2")).
+**Via homebrew** (Linux, macOS).
 ```bash
 $ brew tap pvarentsov/iola
 $ brew install iola
 ```
 
-**Or download** standalone binary from [releases](https://github.com/pvarentsov/iola/releases) ([Linux](a "amd64"), [macOS](a "amd64 and M1 with Rosetta 2"), [Windows](a "amd64")).
+**Or download** standalone binary from [releases](https://github.com/pvarentsov/iola/releases) (Linux, macOS, Windows).
 
 ## Usage
 
