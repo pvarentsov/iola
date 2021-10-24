@@ -21,8 +21,10 @@ jobs:
         with:
           node-version: '14.x'
           registry-url: 'https://registry.npmjs.org'
+
       - name: Install libs
         run: npm install
+
       - name: NPM Release
         run: npm run release
         env:
