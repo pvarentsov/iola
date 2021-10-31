@@ -1,5 +1,5 @@
-import { SocketEvent, SocketEventType, SocketSendReply } from '@iola/core/socket'
 import { Observable } from 'rxjs'
+import { SocketEvent, SocketEventType, SocketSendReply } from '@iola/core/socket'
 
 export interface ISocketClient {
   readonly store: ISocketEventStore
