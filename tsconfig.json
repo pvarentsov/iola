@@ -27,7 +27,6 @@
     },
     "types": [
       "reflect-metadata",
-      "jest",
       "node"
     ],
     "lib": [
@@ -35,5 +34,5 @@
       "dom"
     ]
   },
-  "include": ["./src", "./test"]
+  "include": ["./src"]
 }

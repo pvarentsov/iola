@@ -1,10 +1,11 @@
-import { CliConfig, ICliParser } from '@iola/api/cli'
-import { AnyObject, BinaryEncoding, EnumUtil, Optional, SocketIOTransport } from '@iola/core/common'
-import { SocketType } from '@iola/core/socket'
 import * as chalk from 'chalk'
 import { OptionValues, program } from 'commander'
 import { EOL } from 'os'
 import { platform } from 'process'
+
+import { CliConfig, ICliParser } from '@iola/api/cli'
+import { AnyObject, BinaryEncoding, EnumUtil, Optional, SocketIOTransport } from '@iola/core/common'
+import { SocketType } from '@iola/core/socket'
 
 export class CliParser implements ICliParser {
   constructor(

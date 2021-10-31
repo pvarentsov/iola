@@ -1,4 +1,4 @@
-import { inspect, InspectOptions } from 'util'
+import { inspect } from 'util'
 
 import {
   AnyMessageInfo,
