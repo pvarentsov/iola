@@ -76,6 +76,12 @@ $ brew tap pvarentsov/iola
 $ brew install iola
 ```
 
+**Via scoop** (Windows).
+```bash
+$ scoop bucket add iola https://github.com/pvarentsov/scoop-iola.git
+$ scoop install iola/iola
+```
+
 **Or download** standalone binary from [releases](https://github.com/pvarentsov/iola/releases) (Linux, macOS, Windows).
 
 ## Usage
