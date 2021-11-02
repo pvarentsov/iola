@@ -35,7 +35,7 @@
 
 ## Description
 
-**iola** - a socket client with REST API. It helps to work with socket servers using your favorite REST client.
+**iola** - a command-line socket client with REST API. It helps to work with socket servers using your favorite REST client.
 
 <p align="center"> 
   <img src="./demo/iola-demo.gif">
