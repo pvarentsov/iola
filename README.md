@@ -1,4 +1,4 @@
-<h1 align="center"><img height="21" src="./demo/icon.gif" alt="🔄"> iola</h1> 
+<h1 align="center"><img height="21" width="21" src="./demo/icon.gif" alt="🔄"> iola</h1> 
 
 <p align="center">
   <a href="https://github.com/pvarentsov/iola/blob/main/LICENSE">
