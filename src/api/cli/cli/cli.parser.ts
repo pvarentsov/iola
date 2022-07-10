@@ -19,7 +19,7 @@ export class CliParser implements ICliParser {
     const reconnectionInterval = 10_000
 
     const description =
-      `${chalk.bold('iola')} - a socket client with REST API`
+      `${chalk.bold('iola')} - a socket client with REST APInpm unlink`
 
     const binaryEncodingChoices = this.choices(EnumUtil.values(BinaryEncoding))
     const ioTransportChoices = this.choices(EnumUtil.values(SocketIOTransport))
@@ -31,31 +31,31 @@ export class CliParser implements ICliParser {
       '  GET  /swagger                     Get swagger'
 
     const websocketExamples = `Examples: ${EOL}` +
-      `  ${chalk.bold('$')} iola websocket ws://127.0.0.1:8080 ${EOL}` +
-      `  ${chalk.bold('$')} iola ws ws://127.0.0.1:8080/?token=secret ${EOL}` +
-      `  ${chalk.bold('$')} iola ws ws://127.0.0.1:8080 --header authorization:"Bearer token"${EOL}` +
-      `  ${chalk.bold('$')} iola websocket ws://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
-      `  ${chalk.bold('$')} iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji`
+      `  $ iola ws ws://127.0.0.1:8080 ${EOL}` +
+      `  $ iola ws ws://127.0.0.1:8080/?token=secret ${EOL}` +
+      `  $ iola ws ws://127.0.0.1:8080 --header authorization:"Bearer token"${EOL}` +
+      `  $ iola ws ws://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
+      '  $ iola ws ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji'
 
     const socketIOExamples = `Examples: ${EOL}` +
-      `  ${chalk.bold('$')} iola socketio http://127.0.0.1:8080 ${EOL}` +
-      `  ${chalk.bold('$')} iola io http://127.0.0.1:8080/?token=secret --transport websocket${EOL}` +
-      `  ${chalk.bold('$')} iola io http://127.0.0.1:8080 --header authorization:"Bearer token"${EOL}` +
-      `  ${chalk.bold('$')} iola io http://127.0.0.1:8080 --auth user:iola --auth pass:qwerty1${EOL}` +
-      `  ${chalk.bold('$')} iola socketio http://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
-      `  ${chalk.bold('$')} iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji`
+      `  $ iola io http://127.0.0.1:8080 ${EOL}` +
+      `  $ iola io http://127.0.0.1:8080/?token=secret --transport websocket${EOL}` +
+      `  $ iola io http://127.0.0.1:8080 --header authorization:"Bearer token"${EOL}` +
+      `  $ iola io http://127.0.0.1:8080 --auth user:iola --auth pass:qwerty1${EOL}` +
+      `  $ iola io http://127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
+      '  $ iola io http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji'
 
     const tcpExamples = `Examples: ${EOL}` +
-      `  ${chalk.bold('$')} iola tcp 127.0.0.1:8080 ${EOL}` +
-      `  ${chalk.bold('$')} iola tcp 127.0.0.1:8080 --sync ${EOL}` +
-      `  ${chalk.bold('$')} iola tcp 127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
-      `  ${chalk.bold('$')} iola tcp 127.0.0.1:8080 --no-emoji`
+      `  $ iola tcp 127.0.0.1:8080 ${EOL}` +
+      `  $ iola tcp 127.0.0.1:8080 --sync ${EOL}` +
+      `  $ iola tcp 127.0.0.1:8080 --binary-encoding utf8 ${EOL}` +
+      '  $ iola tcp 127.0.0.1:8080 --no-emoji'
 
     const unixExamples = `Examples: ${EOL}` +
-      `  ${chalk.bold('$')} iola unix ./unix.sock ${EOL}` +
-      `  ${chalk.bold('$')} iola unix ./unix.sock --sync ${EOL}` +
-      `  ${chalk.bold('$')} iola unix ./unix.sock --binary-encoding utf8 ${EOL}` +
-      `  ${chalk.bold('$')} iola unix ./unix.sock --no-emoji`
+      `  $ iola unix ./unix.sock ${EOL}` +
+      `  $ iola unix ./unix.sock --sync ${EOL}` +
+      `  $ iola unix ./unix.sock --binary-encoding utf8 ${EOL}` +
+      '  $ iola unix ./unix.sock --no-emoji'
 
     program
       .name('iola')
@@ -66,15 +66,15 @@ export class CliParser implements ICliParser {
       .addHelpCommand('help [command]', 'Display help for command')
 
     program
-      .command('websocket <address>')
+      .command('ws <address>')
       .description('Run websocket client')
       .enablePositionalOptions(false)
-      .option('-ap, --api-port <port>', 'Set api port', '3000')
-      .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
-      .option('-h, --header <key:value...>', 'Set http headers')
-      .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '1000')
-      .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
-      .option('-ne, --no-emoji', 'Disable emoji')
+      .option('--api-port <port>', 'Set api port', '3000')
+      .option('--api-host <host>', 'Set api host', '127.0.0.1')
+      .option('--header <key:value...>', 'Set http headers')
+      .option('--reply-timeout <timeout>', 'Set reply timeout in ms', '1000')
+      .option('--binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
+      .option('--no-emoji', 'Disable emoji')
       .helpOption('--help', 'Display help')
       .addHelpText('before', ' ')
       .addHelpText('after', EOL + websocketExamples + EOL)
@@ -91,20 +91,20 @@ export class CliParser implements ICliParser {
           connectionTimeout: connectionTimeout,
           reconnectionInterval: reconnectionInterval,
         }
-      }).alias('ws')
+      })
 
     program
-      .command('socketio <address>')
+      .command('io <address>')
       .description('Run socket.io client')
       .enablePositionalOptions(false)
-      .option('-ap, --api-port <port>', 'Set api port', '3000')
-      .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
-      .option('-h, --header <key:value...>', 'Set http headers')
-      .option('-a, --auth <key:value...>', 'Set authentication payload')
-      .option('-t, --transport <transport>', `Set transport ${ioTransportChoices}`)
-      .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms', '1000')
-      .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
-      .option('-ne, --no-emoji', 'Disable emoji')
+      .option('--api-port <port>', 'Set api port', '3000')
+      .option('--api-host <host>', 'Set api host', '127.0.0.1')
+      .option('--header <key:value...>', 'Set http headers')
+      .option('--auth <key:value...>', 'Set authentication payload')
+      .option('--transport <transport>', `Set transport ${ioTransportChoices}`)
+      .option('--reply-timeout <timeout>', 'Set reply timeout in ms', '1000')
+      .option('--binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
+      .option('--no-emoji', 'Disable emoji')
       .helpOption('--help', 'Display help')
       .addHelpText('before', ' ')
       .addHelpText('after', EOL + socketIOExamples + EOL)
@@ -123,18 +123,18 @@ export class CliParser implements ICliParser {
           connectionTimeout: connectionTimeout,
           reconnectionInterval: reconnectionInterval,
         }
-      }).alias('io')
+      })
 
     program
       .command('tcp <address>')
       .description('Run tcp client')
       .enablePositionalOptions(false)
-      .option('-ap, --api-port <port>', 'Set api port', '3000')
-      .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
-      .option('-s, --sync', 'Enable sync mode')
-      .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms (sync mode only)', '1000')
-      .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
-      .option('-ne, --no-emoji', 'Disable emoji')
+      .option('--api-port <port>', 'Set api port', '3000')
+      .option('--api-host <host>', 'Set api host', '127.0.0.1')
+      .option('--sync', 'Enable sync mode')
+      .option('--reply-timeout <timeout>', 'Set reply timeout in ms (sync mode only)', '1000')
+      .option('--binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
+      .option('--no-emoji', 'Disable emoji')
       .helpOption('--help', 'Display help')
       .addHelpText('before', ' ')
       .addHelpText('after', EOL + tcpExamples + EOL)
@@ -157,12 +157,12 @@ export class CliParser implements ICliParser {
       .command('unix <address>')
       .description('Run unix client')
       .enablePositionalOptions(false)
-      .option('-ap, --api-port <port>', 'Set api port', '3000')
-      .option('-ah, --api-host <host>', 'Set api host', '127.0.0.1')
-      .option('-s, --sync', 'Enable sync mode')
-      .option('-rt, --reply-timeout <timeout>', 'Set reply timeout in ms (sync mode only)', '1000')
-      .option('-be, --binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
-      .option('-ne, --no-emoji', 'Disable emoji')
+      .option('--api-port <port>', 'Set api port', '3000')
+      .option('--api-host <host>', 'Set api host', '127.0.0.1')
+      .option('--sync', 'Enable sync mode')
+      .option('--reply-timeout <timeout>', 'Set reply timeout in ms (sync mode only)', '1000')
+      .option('--binary-encoding <encoding>', `Set binary encoding ${binaryEncodingChoices}`)
+      .option('--no-emoji', 'Disable emoji')
       .helpOption('--help', 'Display help')
       .addHelpText('before', ' ')
       .addHelpText('after', EOL + unixExamples + EOL)
