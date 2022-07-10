@@ -17,6 +17,8 @@
     "lib:upgrade": "ncu -u && npm install",
     "lint": "eslint 'src/**/*.ts'",
     "lint:fix": "eslint --fix 'src/**/*.ts'",
+    "link": "npm link iola --location=local",
+    "unlink": "npm unlink iola --location=global",
     "demo:iola": "terminalizer render ./demo/iola-demo.yml -o ./demo/iola-demo.gif",
     "server:ws": "node ./external/websocket.server.js",
     "server:io": "node ./external/socket.io.server.js",
