@@ -369,25 +369,24 @@ TCP and Unix socket clients have the same api.
 <pre>
 $ iola help tcp
  
-Usage: iola tcp [options] &lt;address>
+Usage: iola tcp [options] <address>
 
 Run tcp client
 
 Options:
-  -ap, --api-port &lt;port>             Set api port (default: "3000")
-  -ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
-  -s, --sync                         Enable sync mode
-  -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (sync mode only) (default: "1000")
-  -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
-  -ne, --no-emoji                    Disable emoji
-  --help                             Display help
+  --api-port &lt;port&gt;             Set api port (default: "3000")
+  --api-host &lt;host&gt;             Set api host (default: "127.0.0.1")
+  --sync                        Enable sync mode
+  --reply-timeout &lt;timeout&gt;     Set reply timeout in ms (sync mode only) (default: "1000")
+  --binary-encoding &lt;encoding&gt;  Set binary encoding (choices: "ascii","utf8","base64","hex")
+  --no-emoji                    Disable emoji
+  --help                        Display help
 
 Examples: 
-  <b>$</b> iola tcp 127.0.0.1:8080
-  <b>$</b> iola tcp 127.0.0.1:8080 --sync
-  <b>$</b> iola tcp 127.0.0.1:8080 --binary-encoding utf8 
-  <b>$</b> iola tcp 127.0.0.1:8080 --no-emoji
-
+  $ iola tcp 127.0.0.1:8080 
+  $ iola tcp 127.0.0.1:8080 --sync 
+  $ iola tcp 127.0.0.1:8080 --binary-encoding utf8 
+  $ iola tcp 127.0.0.1:8080 --no-emoji
 </pre>
 
 **Unix socket**
@@ -400,13 +399,13 @@ Usage: iola unix [options] &lt;address>
 Run unix client
 
 Options:
-  -ap, --api-port &lt;port>             Set api port (default: "3000")
-  -ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
-  -s, --sync                         Enable sync mode
-  -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (sync mode only) (default: "1000")
-  -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
-  -ne, --no-emoji                    Disable emoji
-  --help                             Display help
+  --api-port &lt;port&gt;             Set api port (default: "3000")
+  --api-host &lt;host&gt;             Set api host (default: "127.0.0.1")
+  --sync                        Enable sync mode
+  --reply-timeout &lt;timeout&gt;     Set reply timeout in ms (sync mode only) (default: "1000")
+  --binary-encoding &lt;encoding&gt;  Set binary encoding (choices: "ascii","utf8","base64","hex")
+  --no-emoji                    Disable emoji
+  --help                        Display help
 
 Examples: 
   <b>$</b> iola unix ./unix.sock
