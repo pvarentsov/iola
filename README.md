@@ -96,21 +96,21 @@ $ iola --help
 Usage: iola [options] [command]
 
 Options:
-  --version                         Display version
-  --help                            Display help
+  --version                 Display version
+  --help                    Display help
 
 Commands:
-  websocket|ws [options] &lt;address>  Run websocket client
-  socketio|io [options] &lt;address>   Run socket.io client
-  tcp [options] &lt;address>           Run tcp client
-  unix [options] &lt;address>          Run unix client
-  help [command]                    Display help for command
+  ws [options] &lt;address&gt;    Run websocket client
+  io [options] &lt;address&gt;    Run socket.io client
+  tcp [options] &lt;address&gt;   Run tcp client
+  unix [options] &lt;address&gt;  Run unix client
+  help [command]            Display help for command
 
 API:
-  GET  /messages                    Get message list
-  GET  /messages/{id}               Get message by id
-  POST /messages                    Send message 
-  GET  /swagger                     Get swagger
+  GET  /messages            Get message list
+  GET  /messages/{id}       Get message by id
+  POST /messages            Send message 
+  GET  /swagger             Get swagger
 </pre>
 
 ### REST API
@@ -181,27 +181,27 @@ All socket clients have the next options:
 ### WebSocket
 
 <pre>
-$ iola help websocket
+$ iola help ws
 
-Usage: iola websocket|ws [options] &lt;address>
+Usage: iola ws [options] <address>
 
 Run websocket client
 
 Options:
-  -ap, --api-port &lt;port>             Set api port (default: "3000")
-  -ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
-  -h, --header &lt;key:value...>        Set http headers
-  -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (default: "1000")
-  -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
-  -ne, --no-emoji                    Disable emoji
-  --help                             Display help
+  --api-port &lt;port&gt;             Set api port (default: "3000")
+  --api-host &lt;host&gt;             Set api host (default: "127.0.0.1")
+  --header &lt;key:value...&gt;       Set http headers
+  --reply-timeout &lt;timeout&gt;     Set reply timeout in ms (default: "1000")
+  --binary-encoding &lt;encoding&gt;  Set binary encoding (choices: "ascii","utf8","base64","hex")
+  --no-emoji                    Disable emoji
+  --help                        Display help
 
-Examples:
-  <b>$</b> iola websocket ws://127.0.0.1:8080
-  <b>$</b> iola ws ws://127.0.0.1:8080/?token=secret
-  <b>$</b> iola ws ws://127.0.0.1:8080 --header authorization:"Bearer token"
-  <b>$</b> iola websocket ws://127.0.0.1:8080 --binary-encoding utf8
-  <b>$</b> iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
+Examples: 
+  $ iola ws ws://127.0.0.1:8080 
+  $ iola ws ws://127.0.0.1:8080/?token=secret 
+  $ iola ws ws://127.0.0.1:8080 --header authorization:"Bearer token"
+  $ iola ws ws://127.0.0.1:8080 --binary-encoding utf8 
+  $ iola ws ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
 
 <details>
@@ -221,7 +221,6 @@ Examples:
     You can pass http headers using <code>--header &lt;key:value...></code> option. Examples:
     <ul>
       <li><code>iola ws ws://127.0.0.1:8080 --header authorization:"Bearer token"</code></li>
-      <li><code>iola ws ws://127.0.0.1:8080 -h content-type:application/json -h content-length:42</code></li>
     </ul>
   </p>
 </details>
@@ -256,30 +255,30 @@ Examples:
 **iola** relies on Socket.IO v4. Please check a [version compatibility](https://socket.io/docs/v4/client-installation/#Version-compatibility).
 
 <pre>
-$ iola help socketio
- 
-Usage: iola socketio|io [options] &lt;address>
+$ iola help io
+
+Usage: iola io [options] <address>
 
 Run socket.io client
 
 Options:
-  -ap, --api-port &lt;port>             Set api port (default: "3000")
-  -ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
-  -h, --header &lt;key:value...>        Set http headers
-  -a, --auth &lt;key:value...>          Set authentication payload
-  -t, --transport &lt;transport>        Set transport (choices: "polling","websocket")
-  -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (default: "1000")
-  -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
-  -ne, --no-emoji                    Disable emoji
-  --help                             Display help
+  --api-port &lt;port&gt;             Set api port (default: "3000")
+  --api-host &lt;host&gt;             Set api host (default: "127.0.0.1")
+  --header &lt;key:value...&gt;       Set http headers
+  --auth &lt;key:value...&gt;         Set authentication payload
+  --transport &lt;transport&gt;       Set transport (choices: "websocket","polling")
+  --reply-timeout &lt;timeout&gt;     Set reply timeout in ms (default: "1000")
+  --binary-encoding &lt;encoding&gt;  Set binary encoding (choices: "ascii","utf8","base64","hex")
+  --no-emoji                    Disable emoji
+  --help                        Display help
 
 Examples: 
-  <b>$</b> iola socketio http://127.0.0.1:8080 
-  <b>$</b> iola io http://127.0.0.1:8080/?token=secret --transport websocket
-  <b>$</b> iola io http://127.0.0.1:8080 --header authorization:"Bearer token"  
-  <b>$</b> iola io http://127.0.0.1:8080 --auth user:iola --auth pass:qwerty1
-  <b>$</b> iola socketio http://127.0.0.1:8080 --binary-encoding utf8 
-  <b>$</b> iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
+  $ iola io http://127.0.0.1:8080 
+  $ iola io http://127.0.0.1:8080/?token=secret --transport websocket
+  $ iola io http://127.0.0.1:8080 --header authorization:"Bearer token"
+  $ iola io http://127.0.0.1:8080 --auth user:iola --auth pass:qwerty1
+  $ iola io http://127.0.0.1:8080 --binary-encoding utf8 
+  $ iola io http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
 
 <details>
@@ -313,7 +312,6 @@ Examples:
     You can pass http headers using <code>--header &lt;key:value...></code> option. Examples:
     <ul>
       <li><code>iola io http://127.0.0.1:8080 --header authorization:"Bearer token"</code></li>
-      <li><code>iola io http://127.0.0.1:8080 -h content-type:application/json -h content-length:42</code></li>
     </ul>
   </p>
 </details>
@@ -328,7 +326,6 @@ Examples:
     You can set the auth payload using <code>--auth &lt;key:value...></code> option. Examples:
     <ul>
       <li><code>iola io http://127.0.0.1:8080 --auth user:iola --auth pass:qwerty1</code></li>
-      <li><code>iola io http://127.0.0.1:8080 --a token:"super secret"</code></li>
     </ul>
   </p>
 </details>

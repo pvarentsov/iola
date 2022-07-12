@@ -19,16 +19,16 @@ export class CliParser implements ICliParser {
     const reconnectionInterval = 10_000
 
     const description =
-      `${chalk.bold('iola')} - a socket client with REST APInpm unlink`
+      `${chalk.bold('iola')} - a socket client with REST API`
 
     const binaryEncodingChoices = this.choices(EnumUtil.values(BinaryEncoding))
     const ioTransportChoices = this.choices(EnumUtil.values(SocketIOTransport))
 
     const api = `API:${EOL}` +
-      `  GET  /messages                    Get message list${EOL}` +
-      `  GET  /messages/{id}               Get message by id${EOL}` +
-      `  POST /messages                    Send message ${EOL}` +
-      '  GET  /swagger                     Get swagger'
+      `  GET  /messages            Get message list${EOL}` +
+      `  GET  /messages/{id}       Get message by id${EOL}` +
+      `  POST /messages            Send message ${EOL}` +
+      '  GET  /swagger             Get swagger'
 
     const websocketExamples = `Examples: ${EOL}` +
       `  $ iola ws ws://127.0.0.1:8080 ${EOL}` +
