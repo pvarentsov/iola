@@ -23,12 +23,9 @@
       <li><a href="#cli">CLI</a></li>
       <li><a href="#rest-api">REST API</a></li>
     </ul>
-    <li><a href="#clients">Clients</a></li>
-      <ul>
-        <li><a href="#websocket">WebSocket</a></li>
-        <li><a href="#socketio">Socket.IO</a></li>
-        <li><a href="#tcp--unix-socket">TCP & Unix socket</a></li>
-      </ul>
+    <li><a href="#websocket">WebSocket</a></li>
+    <li><a href="#socketio">Socket.IO</a></li>
+    <li><a href="#tcp--unix-socket">TCP & Unix socket</a></li>
     <li><a href="https://github.com/pvarentsov/iola#license">License</a></li>
   </ul>
 </details>
@@ -218,9 +215,7 @@ $ http --print=b GET http://127.0.0.1:3000/messages
 ]
 ```
 
-## Clients
-
-### WebSocket
+## WebSocket
 
 <pre>
 $ iola help ws
@@ -246,12 +241,12 @@ Examples:
   $ iola ws ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
 
-#### Message formats
+### Message formats
 * string
 * json
 * byte-array
 
-#### Server replies
+### Server replies
 
 You can pass the RequestId to the request with json data to await the server reply with such RequestId in the reply data.
 RequestId field can be one of the following:
@@ -261,7 +256,6 @@ RequestId field can be one of the following:
 * req_id
 * traceId
 * trace_id
-Default reply timeout is 1000 ms. To change it you can set `--reply-timeout <timeout>` option.
 
 ```shell
 $ http --print=b POST http://127.0.0.1:3000/messages data:='{"requestId": "1", "message": "Hi, Server!"}'
@@ -277,7 +271,7 @@ $ http --print=b POST http://127.0.0.1:3000/messages data:='{"requestId": "1", "
 }
 ```
 
-### Socket.IO
+## Socket.IO
 
 **iola** relies on Socket.IO v4. Please check a [version compatibility](https://socket.io/docs/v4/client-installation/#Version-compatibility).
 
@@ -308,7 +302,7 @@ Examples:
   $ iola io http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
 
-#### Message formats
+### Message formats
 * string
 * number
 * boolean
@@ -316,17 +310,17 @@ Examples:
 * json
 * byte-array
 
-#### Transports
+### Transports
 
 Client supports "websocket" and "polling" transports. It tries to use "websocket" first, if available.
 You can explicitly set the type of transport using `--transport <transport>` option.
 
-#### Auth
+### Auth
 
 Socket.IO client can send credentials using [auth option](https://socket.io/docs/v4/middlewares/#Sending-credentials).
 You can set the auth payload using `--auth &lt;key:value...&gt;` option.
 
-#### Pass event
+### Pass event
 
 You can pass event name to sending message. Default event name - `*`.
 
@@ -344,12 +338,11 @@ $ http --print=b POST http://127.0.0.1:3000/messages event='greeting' data='Hi, 
 }
 ```
 
-#### Server replies
+### Server replies
 
-Socket.IO client supports server replies by default. 
-Default reply timeout is 1000 ms. To change it you can set `--reply-timeout <timeout>` option.
+Socket.IO client supports server replies by default.
 
-### TCP & Unix socket
+## TCP & Unix socket
 
 TCP and Unix socket clients have the same api. 
 
@@ -381,10 +374,10 @@ Examples:
   $ iola unix ./unix.sock --no-emoji
 </pre>
 
-#### Message formats
+### Message formats
 * byte-array
 
-#### Modes
+### Modes
 
 Clients support async and sync modes and use async mode by default.
 
@@ -394,11 +387,10 @@ Sync mode uses a request/response protocol. The client opens a new connection fo
 The connection is closed either on the server side after a successful response or by a timeout on the client side.
 To enable sync mode you need to set `--sync`.
 
-#### Server replies
+### Server replies
 
 Server replies are supported only in sync mode. 
 If the server does not close the connection, the client will close it on its own during the reply timeout.
-Default reply timeout is 1000 ms. To change it you can set `--reply-timeout <timeout>` option.
 
 ## License
 
