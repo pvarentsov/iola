@@ -318,8 +318,7 @@ You can explicitly set the type of transport using `--transport <transport>` opt
 
 ### Auth
 
-Socket.IO client can send credentials using [auth option](https://socket.io/docs/v4/middlewares/#Sending-credentials).
-You can set the auth payload using `--auth <key:value...>` option.
+Socket.IO client can send [auth credentials](https://socket.io/docs/v4/middlewares/#Sending-credentials) using `--auth <key:value...>` option.
 
 ### Pass event
 
