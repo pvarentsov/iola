@@ -258,7 +258,8 @@ RequestId field can be one of the following:
 * trace_id
 
 ```shell
-$ http --print=b POST http://127.0.0.1:3000/messages data:='{"requestId": "1", "message": "Hi, Server!"}'
+$ http --print=b POST http://127.0.0.1:3000/messages \
+       data:='{"requestId": "1", "message": "Hi, Server!"}'
 {
     "messageId": 9,
     "reply": {
@@ -383,8 +384,8 @@ Clients support async and sync modes and use async mode by default.
 
 In async mode, the client and the server exchange messages independently within one connection.
 
-Sync mode uses a request/response protocol. The client opens a new connection for each request, the server responds.
-The connection is closed either on the server side after a successful response or by a timeout on the client side.
+Sync mode uses a request/response protocol. The client opens a new connection for each request. 
+The connection will be closed either on the server side after a successful response or by a timeout on the client side.
 To enable sync mode you need to set `--sync`.
 
 ### Server replies
