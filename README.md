@@ -115,12 +115,12 @@ API:
 Send any data
 ```shell
 # Send string data
-$ http --print=b POST http://127.0.0.1:3000/messages data='Hi, Server!'
+$ http POST http://127.0.0.1:3000/messages data='Hi, Server!'
 {
     "messageId": 1
 }
 
-$ http --print=b GET http://127.0.0.1:3000/messages/1
+$ http GET http://127.0.0.1:3000/messages/1
 {
     "id": 1,
     "date": "2022-07-15T21:48:19.939Z",
@@ -132,12 +132,12 @@ $ http --print=b GET http://127.0.0.1:3000/messages/1
 }
 
 # Send json string data
-$ http --print=b POST http://127.0.0.1:3000/messages data:='{"message": "Hi, Server!"}'
+$ http POST http://127.0.0.1:3000/messages data:='{"message": "Hi, Server!"}'
 {
     "messageId": 2
 }
 
-$ http --print=b GET http://127.0.0.1:3000/messages/2
+$ http GET http://127.0.0.1:3000/messages/2
 {
     "id": 2,
     "date": "2022-07-15T22:16:31.887Z",
@@ -153,7 +153,7 @@ $ http --print=b GET http://127.0.0.1:3000/messages/2
 
 Send binary data
 ```shell
-$ http --print=b POST http://127.0.0.1:3000/messages bytes:='[72,101,108,108,111,33]'
+$ http POST http://127.0.0.1:3000/messages bytes:='[72,101,108,108,111,33]'
 {
     "messageId": 3
 }
@@ -180,7 +180,7 @@ $ http --print=b GET http://127.0.0.1:3000/messages/3
 
 List messages
 ```shell
-$ http --print=b GET http://127.0.0.1:3000/messages
+$ http GET http://127.0.0.1:3000/messages
 [
     {
         "date": "2022-07-15T22:26:10.371Z",
@@ -258,8 +258,7 @@ RequestId field can be one of the following:
 * trace_id
 
 ```shell
-$ http --print=b POST http://127.0.0.1:3000/messages \
-       data:='{"requestId": "1", "message": "Hi, Server!"}'
+$ http POST http://127.0.0.1:3000/messages data:='{"requestId": "1", "message": "Hi, Server!"}'
 {
     "messageId": 9,
     "reply": {
@@ -325,7 +324,7 @@ Socket.IO client can send [auth credentials](https://socket.io/docs/v4/middlewar
 You can pass event name to sending message. Default event name - `*`.
 
 ```shell
-$ http --print=b POST http://127.0.0.1:3000/messages event='greeting' data='Hi, Server!'
+$ http POST http://127.0.0.1:3000/messages event='greeting' data='Hi, Server!'
 {
     "messageId": 1,
     "reply": {

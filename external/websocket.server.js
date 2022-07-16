@@ -14,6 +14,9 @@ wss.on('connection', (ws, req) => {
 
   ws.on('message', (data, isBuffer) => {
     console.dir({data, isBuffer})
+
+    ws.send('Hi, Iola!', {binary: false})
+
     const message = data.toString()
     let json = undefined
 
@@ -27,16 +30,11 @@ wss.on('connection', (ws, req) => {
       if (requestIdInfo) {
         ws.send(JSON.stringify({
           [requestIdInfo.key]: requestIdInfo.value,
-          message: 'reply on request'
+          message: 'Hi, Iola!'
         }), {binary: false})
       }
     }
   })
-
-  setTimeout(() => {
-    ws.send('Hi, Iola!', {binary: false})
-    ws.send(Buffer.from('Hello'), {binary: true})
-  }, 2_000)
 })
 
 function findRequestId(message) {
