@@ -171,7 +171,7 @@ $ http GET http://127.0.0.1:3000/messages/1
 }
 ```
 
-All clients support `--binary-encoding &lt;encoding&gt;` option for more readability of sent and received binary messages.
+All clients support `--binary-encoding <encoding>` option for more readability of sent and received binary messages.
 ```shell
 $ iola ws ws://127.0.0.1:8080 --binary-encoding utf8
 
