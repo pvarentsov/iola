@@ -117,7 +117,7 @@ API:
 # Send string data
 $ http POST http://127.0.0.1:3000/messages data='Hi, Server!'
 {
-    "messageId": 
+    "messageId": 1
 }
 
 $ http GET http://127.0.0.1:3000/messages/1
@@ -207,26 +207,13 @@ $ http GET http://127.0.0.1:3000/messages/2
 }
 ```
 
-
 #### List messages
 ```shell
 $ http GET http://127.0.0.1:3000/messages
 [
     {
-        "date": "2022-07-15T22:26:10.371Z",
         "id": 1,
-        "message": {
-            "address": "ws://127.0.0.1:8080/",
-            "connected": true,
-            "connecting": false,
-            "originalAddress": "ws://127.0.0.1:8080",
-            "type": "websocket"
-        },
-        "type": "Connected"
-    },
-    {
         "date": "2022-07-15T22:26:57.442Z",
-        "id": 2,
         "message": {
             "data": "Hi, Server",
             "format": "string"
@@ -234,8 +221,8 @@ $ http GET http://127.0.0.1:3000/messages
         "type": "SentMessage"
     },
     {
+        "id": 2,
         "date": "2022-07-15T22:26:57.445Z",
-        "id": 3,
         "message": {
             "data": "Hi, Iola!",
             "format": "string"
