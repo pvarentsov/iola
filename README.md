@@ -132,7 +132,7 @@ $ http GET http://127.0.0.1:3000/messages/1
 }
 
 # Send json string data
-$ http POST http://127.0.0.1:3000/messages data:='{"message": "Hi, Server!"}'
+$ http POST http://127.0.0.1:3000/messages data:='{"message":"Hi, Server!"}'
 {
     "messageId": 2
 }
@@ -258,7 +258,7 @@ RequestId field can be one of the following:
 * trace_id
 
 ```shell
-$ http POST http://127.0.0.1:3000/messages data:='{"requestId": "1", "message": "Hi, Server!"}'
+$ http POST http://127.0.0.1:3000/messages data:='{"requestId":"1","message":"Hi, Server!"}'
 {
     "messageId": 9,
     "reply": {
