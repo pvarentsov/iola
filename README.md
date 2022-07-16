@@ -112,7 +112,7 @@ API:
 
 ### REST API
 
-Send any data
+**Send any data**
 ```shell
 # Send string data
 $ http POST http://127.0.0.1:3000/messages data='Hi, Server!'
@@ -151,7 +151,7 @@ $ http GET http://127.0.0.1:3000/messages/2
 }
 ```
 
-Send binary data
+**Send binary data**
 ```shell
 $ http POST http://127.0.0.1:3000/messages bytes:='[72,101,108,108,111,33]'
 {
@@ -163,14 +163,7 @@ $ http --print=b GET http://127.0.0.1:3000/messages/3
     "id": 3,
     "date": "2022-07-15T22:23:32.591Z",
     "message": {
-        "data": [
-            72,
-            101,
-            108,
-            108,
-            111,
-            33
-        ],
+        "data": [72,101,108,108,111,33],
         "format": "byte-array",
         "size": 6
     },
@@ -178,7 +171,7 @@ $ http --print=b GET http://127.0.0.1:3000/messages/3
 }
 ```
 
-List messages
+**List messages**
 ```shell
 $ http GET http://127.0.0.1:3000/messages
 [
