@@ -245,6 +245,10 @@ $ http GET http://127.0.0.1:3000/messages
 ]
 ```
 
+**Swagger**
+
+To get to know the REST API in more detail you can see swagger that is exposed on the `/swagger` path.
+
 ## WebSocket
 
 <pre>
