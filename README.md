@@ -117,7 +117,7 @@ API:
 # Send string data
 $ http POST http://127.0.0.1:3000/messages data='Hi, Server!'
 {
-    "messageId": 1
+    "messageId": 
 }
 
 $ http GET http://127.0.0.1:3000/messages/1
@@ -155,12 +155,12 @@ $ http GET http://127.0.0.1:3000/messages/2
 ```shell
 $ http POST http://127.0.0.1:3000/messages bytes:='[72,101,108,108,111,33]'
 {
-    "messageId": 3
+    "messageId": 1
 }
 
-$ http --print=b GET http://127.0.0.1:3000/messages/3
+$ http GET http://127.0.0.1:3000/messages/1
 {
-    "id": 3,
+    "id": 1,
     "date": "2022-07-15T22:23:32.591Z",
     "message": {
         "data": [72,101,108,108,111,33],
@@ -170,6 +170,43 @@ $ http --print=b GET http://127.0.0.1:3000/messages/3
     "type": "SentMessage"
 }
 ```
+
+All clients support `--binary-encoding &lt;encoding&gt;` option for more readability of sent and received binary messages.
+```shell
+$ iola ws ws://127.0.0.1:8080 --binary-encoding utf8
+
+$ http POST http://127.0.0.1:3000/messages bytes:='[72,101,108,108,111,33]'
+{
+    "messageId": 1
+}
+
+$ http GET http://127.0.0.1:3000/messages/1
+{
+    "id": 1,
+    "date": "2022-07-15T22:23:32.591Z",
+    "message": {
+        "data": [72,101,108,108,111,33],
+        "format": "byte-array",
+        "size": 6,
+        "utf8": "Hello!"
+    },
+    "type": "SentMessage"
+}
+
+$ http GET http://127.0.0.1:3000/messages/2
+{
+    "id": 2,
+    "date": "2022-07-15T22:23:32.591Z",
+    "message": {
+        "data": [72,105,44,32,73,111,108,97,33],
+        "format": "byte-array",
+        "size": 9,
+        "utf8": "Hi, Iola!!"
+    },
+    "type": "ReceivedMessage"
+}
+```
+
 
 **List messages**
 ```shell
