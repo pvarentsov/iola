@@ -213,7 +213,7 @@ $ http GET http://127.0.0.1:3000/messages
 <pre>
 $ iola help ws
 
-Usage: iola ws [options] <address>
+Usage: iola ws [options] &lt;address&gt;
 
 Run websocket client
 
@@ -271,7 +271,7 @@ $ http POST http://127.0.0.1:3000/messages data:='{"requestId":"1","message":"Hi
 <pre>
 $ iola help io
 
-Usage: iola io [options] <address>
+Usage: iola io [options] &lt;address&gt;
 
 Run socket.io client
 
@@ -341,7 +341,7 @@ TCP and Unix socket clients have the same api.
 <pre>
 $ iola help tcp|unix
  
-Usage: iola tcp|unix [options] <address>
+Usage: iola tcp|unix [options] &lt;address&gt;
 
 Run tcp|unix client
 
