@@ -26,7 +26,7 @@
     <li><a href="#websocket">WebSocket</a></li>
     <li><a href="#socketio">Socket.IO</a></li>
     <li><a href="#tcp--unix-socket">TCP & Unix socket</a></li>
-    <li><a href="https://github.com/pvarentsov/iola#license">License</a></li>
+    <li><a href="#license">License</a></li>
   </ul>
 </details>
 
