@@ -201,7 +201,7 @@ $ http GET http://127.0.0.1:3000/messages/2
         "data": [72,105,44,32,73,111,108,97,33],
         "format": "byte-array",
         "size": 9,
-        "utf8": "Hi, Iola!!"
+        "utf8": "Hi, Iola!"
     },
     "type": "ReceivedMessage"
 }
