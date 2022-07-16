@@ -384,12 +384,12 @@ In async mode, the client and the server exchange messages independently within 
 
 Sync mode uses a request/response protocol. The client opens a new connection for each request. 
 The connection will be closed either on the server side after a successful response or by a timeout on the client side.
-To enable sync mode you need to set `--sync`.
+To enable sync mode you need to set `--sync` option.
 
 ### Server replies
 
-Server replies are supported only in sync mode. 
-If the server does not close the connection, the client will close it on its own during the reply timeout.
+Server replies are supported only in sync mode.
+If the server does not close the connection after receiving the request, the client will close it itself by reply timeout.
 
 ## License
 
