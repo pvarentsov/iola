@@ -112,7 +112,7 @@ API:
 
 ### REST API
 
-**Send any data**
+#### Send any data
 ```shell
 # Send string data
 $ http POST http://127.0.0.1:3000/messages data='Hi, Server!'
@@ -151,7 +151,7 @@ $ http GET http://127.0.0.1:3000/messages/2
 }
 ```
 
-**Send binary data**
+#### Send binary data
 ```shell
 $ http POST http://127.0.0.1:3000/messages bytes:='[72,101,108,108,111,33]'
 {
@@ -208,7 +208,7 @@ $ http GET http://127.0.0.1:3000/messages/2
 ```
 
 
-**List messages**
+#### List messages
 ```shell
 $ http GET http://127.0.0.1:3000/messages
 [
@@ -245,7 +245,7 @@ $ http GET http://127.0.0.1:3000/messages
 ]
 ```
 
-**Swagger**
+#### Swagger
 
 To get to know the REST API in more detail you can see swagger that is exposed on the `/swagger` path.
 
