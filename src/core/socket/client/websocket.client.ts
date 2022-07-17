@@ -40,7 +40,7 @@ export class WebSocketClient implements ISocketClient {
 
   async connect(): Promise<void> {
     if (!this._info.connected) {
-      this.close()
+      this.clear()
 
       this._client = new WebSocket(this._info.originalAddress, {
         rejectUnauthorized: false,
@@ -90,7 +90,7 @@ export class WebSocketClient implements ISocketClient {
             message: {code, reason: reason.toString()},
           })
 
-          this.close()
+          this.clear()
           this.retryConnection()
         }
       })
@@ -115,7 +115,7 @@ export class WebSocketClient implements ISocketClient {
         this._info.connected = true
       }
       catch (error) {
-        this.close()
+        this.clear()
         throw error
       }
     }
@@ -154,7 +154,12 @@ export class WebSocketClient implements ISocketClient {
     return this.send(packed.data, eventMessage)
   }
 
-  private close(): void {
+  close(): void {
+    this._client?.terminate()
+    this.clear()
+  }
+
+  clear(): void {
     this._client?.removeAllListeners()
 
     this._client = undefined

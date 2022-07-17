@@ -18,6 +18,10 @@
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
+  "moduleNameMapper": {
+    "@iola/core/(.*)$": "<rootDir>/src/core/$1",
+    "@iola/api/(.*)$": "<rootDir>/src/api/$1"
+  },
   "reporters": [
     "default",
     "jest-junit"

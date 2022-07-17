@@ -47,7 +47,7 @@ export class NetSocketClient implements ISocketClient {
 
   async connect(): Promise<void> {
     if (!this._info.connected) {
-      this.close()
+      this.clear()
       this._client = createConnection(this.netOptions())
 
       this._client.on('data', data => this._binaryMessageStore.add(data))
@@ -88,7 +88,7 @@ export class NetSocketClient implements ISocketClient {
             message: {code: 1, reason: ''},
           })
 
-          this.close()
+          this.clear()
           this.retryConnection()
         }
       })
@@ -113,7 +113,7 @@ export class NetSocketClient implements ISocketClient {
         this._info.connected = true
       }
       catch (error) {
-        this.close()
+        this.clear()
         throw error
       }
     }
@@ -155,6 +155,19 @@ export class NetSocketClient implements ISocketClient {
     return this.send(packed.data as Buffer, eventMessage)
   }
 
+  close(): void {
+    this._client?.destroy()
+    this.clear()
+  }
+
+  private clear(): void {
+    this._client?.removeAllListeners()
+
+    this._client = undefined
+    this._info.connected = false
+    this._info.connecting = false
+  }
+
   private send<TMessage>(data: Buffer|string, eventMessage: TMessage): Promise<SocketSendReply> {
     const client = this._client
     const connected = this._info.connected
@@ -180,14 +193,6 @@ export class NetSocketClient implements ISocketClient {
         reject(err)
       })
     })
-  }
-
-  private close(): void {
-    this._client?.removeAllListeners()
-
-    this._client = undefined
-    this._info.connected = false
-    this._info.connecting = false
   }
 
   private retryConnection(): void {

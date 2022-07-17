@@ -7,6 +7,7 @@ export interface ISocketClient {
   connect(): Promise<void>
   sendData<TData>(data: TData, event?: string): Promise<SocketSendReply>
   sendBytes(bytes: number[], event?: string): Promise<SocketSendReply>
+  close(): void
 }
 
 export interface ISocketEventStore {

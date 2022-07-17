@@ -10,14 +10,20 @@ import { ISocketClient } from '@iola/core/socket'
 export class HttpServer implements IHttpServer {
   constructor(
     private readonly client: ISocketClient,
-    private readonly version: string
+    private readonly version: string,
+
+    private app?: INestApplication,
   ) {}
 
   async listen(host: string, port: number): Promise<string> {
-    const app = await this.init()
-    await app.listen(port, host)
+    this.app = await this.init()
+    await this.app.listen(port, host)
 
-    return app.getUrl()
+    return this.app.getUrl()
+  }
+
+  engine(): any {
+    return this.app
   }
 
   private async init(): Promise<INestApplication> {
