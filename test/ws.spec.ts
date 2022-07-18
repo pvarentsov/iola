@@ -1,32 +1,33 @@
-import { WsServer } from './server/ws.server'
-import { HttpFactory } from '@iola/api/http'
-import { ISocketClient, SocketFactory, SocketType } from '@iola/core/socket'
+import { SocketType } from '@iola/core/socket'
 import { BinaryEncoding } from '@iola/core/common'
 import * as supertest from 'supertest'
-import { INestApplication } from '@nestjs/common'
-import { AddressInfo, createServer } from 'net'
+import { TestStand, TestUtil } from './util/test.util'
 
 describe('WebSocket', () => {
-  const states = new Array<State>()
+  const opts = {
+    type: SocketType.WebSocket,
+    address: '',
+    binaryEncoding: BinaryEncoding.Utf8,
+    connectionTimeout: 1000,
+    reconnectionInterval: 1000,
+    replyTimeout: 1000,
+    headers: {},
+  }
 
-  afterEach(async () => {
-    for (const state of states) {
-      await state.wss.close()
-      await state.client.close()
-      await state.nestApp.close()
-    }
-  })
+  const stands = new Array<TestStand>()
+
+  afterEach(async () => TestUtil.closeStands(stands))
 
   it('Send string message',  async () => {
-    const state = await createState()
-    states.push(state)
+    const stand = await TestUtil.prepareStand(opts)
+    stands.push(stand)
 
-    const sendMsgRes = await supertest(state.nestApp.getHttpServer())
+    const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
       .post('/messages')
       .send({data: 'string msg'})
       .expect(201)
 
-    const getMsgRes = await supertest(state.nestApp.getHttpServer())
+    const getMsgRes = await supertest(stand.nestApp.getHttpServer())
       .get('/messages/' + sendMsgRes.body.messageId)
       .send()
       .expect(200)
@@ -35,7 +36,7 @@ describe('WebSocket', () => {
     expect(getMsgRes.body.type).toEqual('SentMessage')
     expect(getMsgRes.body.message).toEqual({format: 'string', data: 'string msg'})
 
-    const getReplyMsgRes = await supertest(state.nestApp.getHttpServer())
+    const getReplyMsgRes = await supertest(stand.nestApp.getHttpServer())
       .get('/messages/' + (sendMsgRes.body.messageId + 1))
       .send()
       .expect(200)
@@ -46,18 +47,18 @@ describe('WebSocket', () => {
   })
 
   it('Send binary message',  async () => {
-    const state = await createState()
-    states.push(state)
+    const stand = await TestUtil.prepareStand(opts)
+    stands.push(stand)
 
     const bytes = Array.from(Buffer.from('binary msg'))
     const replyBytes = Array.from(Buffer.from('binary reply'))
 
-    const sendMsgRes = await supertest(state.nestApp.getHttpServer())
+    const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
       .post('/messages')
       .send({bytes})
       .expect(201)
 
-    const getMsgRes = await supertest(state.nestApp.getHttpServer())
+    const getMsgRes = await supertest(stand.nestApp.getHttpServer())
       .get('/messages/' + sendMsgRes.body.messageId)
       .send()
       .expect(200)
@@ -71,7 +72,7 @@ describe('WebSocket', () => {
       utf8: 'binary msg'
     })
 
-    const getReplyMsgRes = await supertest(state.nestApp.getHttpServer())
+    const getReplyMsgRes = await supertest(stand.nestApp.getHttpServer())
       .get('/messages/' + (sendMsgRes.body.messageId + 1))
       .send()
       .expect(200)
@@ -87,15 +88,15 @@ describe('WebSocket', () => {
   })
 
   it('Send json message',  async () => {
-    const state = await createState()
-    states.push(state)
+    const stand = await TestUtil.prepareStand(opts)
+    stands.push(stand)
 
-    const sendMsgRes = await supertest(state.nestApp.getHttpServer())
+    const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
       .post('/messages')
       .send({data: {message: 'json msg'}})
       .expect(201)
 
-    const getMsgRes = await supertest(state.nestApp.getHttpServer())
+    const getMsgRes = await supertest(stand.nestApp.getHttpServer())
       .get('/messages/' + sendMsgRes.body.messageId)
       .send()
       .expect(200)
@@ -104,7 +105,7 @@ describe('WebSocket', () => {
     expect(getMsgRes.body.type).toEqual('SentMessage')
     expect(getMsgRes.body.message).toEqual({format: 'json', data: {message: 'json msg'}})
 
-    const getReplyMsgRes = await supertest(state.nestApp.getHttpServer())
+    const getReplyMsgRes = await supertest(stand.nestApp.getHttpServer())
       .get('/messages/' + (sendMsgRes.body.messageId + 1))
       .send()
       .expect(200)
@@ -116,10 +117,10 @@ describe('WebSocket', () => {
   })
 
   it('Send json message with request id',  async () => {
-    const state = await createState()
-    states.push(state)
+    const stand = await TestUtil.prepareStand(opts)
+    stands.push(stand)
 
-    const sendMsgRes = await supertest(state.nestApp.getHttpServer())
+    const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
       .post('/messages')
       .send({data: {requestId: 1, message: 'json msg'}})
       .expect(201)
@@ -132,7 +133,7 @@ describe('WebSocket', () => {
       }
     })
 
-    const getMsgRes = await supertest(state.nestApp.getHttpServer())
+    const getMsgRes = await supertest(stand.nestApp.getHttpServer())
       .get('/messages/' + sendMsgRes.body.messageId)
       .send()
       .expect(200)
@@ -147,7 +148,7 @@ describe('WebSocket', () => {
       }
     })
 
-    const getReplyMsgRes = await supertest(state.nestApp.getHttpServer())
+    const getReplyMsgRes = await supertest(stand.nestApp.getHttpServer())
       .get('/messages/' + (sendMsgRes.body.messageId + 1))
       .send()
       .expect(200)
@@ -163,53 +164,33 @@ describe('WebSocket', () => {
       }
     })
   })
+
+  it('List messages',  async () => {
+    const stand = await TestUtil.prepareStand(opts)
+    stands.push(stand)
+
+    const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
+      .post('/messages')
+      .send({data: 'string msg'})
+      .expect(201)
+
+    const listMsgRes = await supertest(stand.nestApp.getHttpServer())
+      .get('/messages')
+      .send()
+      .expect(200)
+
+    expect(listMsgRes.body.length).toEqual(3)
+
+    expect(listMsgRes.body[0].id).toEqual(1)
+    expect(listMsgRes.body[0].type).toEqual('Connected')
+    expect(listMsgRes.body[0].message.type).toEqual('websocket')
+
+    expect(listMsgRes.body[1].id).toEqual(sendMsgRes.body.messageId)
+    expect(listMsgRes.body[1].type).toEqual('SentMessage')
+    expect(listMsgRes.body[1].message).toEqual({format: 'string', data: 'string msg'})
+
+    expect(listMsgRes.body[2].id).toEqual(sendMsgRes.body.messageId + 1)
+    expect(listMsgRes.body[2].type).toEqual('ReceivedMessage')
+    expect(listMsgRes.body[2].message).toEqual({format: 'string', data: 'string reply'})
+  })
 })
-
-async function createState(): Promise<State> {
-  const wssPort = await getFreePort()
-  const wss = new WsServer()
-  await wss.start(wssPort)
-
-  const client = newClient(wssPort)
-  await client.connect()
-
-  const httpServerPort = await getFreePort()
-  const httpServer = await HttpFactory.createServer(client, '')
-  await httpServer.listen('0.0.0.0', httpServerPort)
-
-  const nestApp = httpServer.engine<INestApplication>()
-
-  return {wss, client, nestApp}
-}
-
-
-function newClient(port: number): ISocketClient {
-  const client = SocketFactory.createClient({
-    type: SocketType.WebSocket,
-    address: 'ws://127.0.0.1:' + port,
-    binaryEncoding: BinaryEncoding.Utf8,
-    connectionTimeout: 1000,
-    reconnectionInterval: 1000,
-    replyTimeout: 1000,
-    headers: {},
-  })
-
-  return client
-}
-
-type State = {
-  wss: WsServer
-  client: ISocketClient
-  nestApp: INestApplication
-}
-
-async function getFreePort(): Promise<number> {
-  return new Promise( resolve => {
-    const server = createServer()
-
-    server.listen(0, () => {
-      const addr = server.address()
-      server.close(() => resolve((addr as AddressInfo).port))
-    })
-  })
-}

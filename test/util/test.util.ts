@@ -1,0 +1,62 @@
+import { AddressInfo, createServer } from 'net'
+import { ISocketClient, SocketFactory, SocketOptions, SocketType } from '@iola/core/socket'
+import { WsServer } from '../server/ws.server'
+import { INestApplication } from '@nestjs/common'
+import { HttpFactory } from '@iola/api/http'
+
+export type TestStand = {
+  wss: WsServer
+  client: ISocketClient
+  nestApp: INestApplication
+}
+
+export class TestUtil {
+  static async prepareStand(opts: SocketOptions): Promise<TestStand> {
+    const wssPort = await this.findFreePort()
+    const wss = new WsServer()
+    await wss.start(wssPort)
+
+    const client = SocketFactory.createClient({...opts, address: this.prepareClientAddress(opts.type, wssPort)})
+    await client.connect()
+
+    const httpServerPort = await this.findFreePort()
+    const httpServer = await HttpFactory.createServer(client, '')
+    await httpServer.listen('127.0.0.1', httpServerPort)
+
+    const nestApp = httpServer.engine<INestApplication>()
+
+    return {wss, client, nestApp}
+  }
+
+  static async closeStands(stands: Array<TestStand>): Promise<void> {
+    for (const stand of stands) {
+      await stand.wss.close()
+      await stand.client.close()
+      await stand.nestApp.close()
+    }
+  }
+
+  static async findFreePort(): Promise<number> {
+    return new Promise( resolve => {
+      const server = createServer()
+
+      server.listen(0, () => {
+        const addr = server.address()
+        server.close(() => resolve((addr as AddressInfo).port))
+      })
+    })
+  }
+
+  private static prepareClientAddress(type: SocketType, port: number): string {
+    if (type === SocketType.WebSocket) {
+      return 'ws://127.0.0.1:' + port
+    }
+    if (type === SocketType.SocketIO) {
+      return 'http://127.0.0.1:' + port
+    }
+    if (type === SocketType.Tcp) {
+      return '127.0.0.1:' + port
+    }
+    return 'unix.sock'
+  }
+}
