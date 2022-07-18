@@ -1,4 +1,4 @@
-import { Server } from 'ws'
+import { Server, WebSocket } from 'ws'
 import { Optional } from '@iola/core/common'
 import { IncomingHttpHeaders } from 'http'
 import { parse as parseURL } from 'url'
@@ -7,15 +7,20 @@ import { parse as parseQuery, ParsedUrlQuery } from 'querystring'
 export class WsServer {
   private wss: Server
 
+  private _clients: Array<WebSocket> = []
+  private _port: number
   private _headers: IncomingHttpHeaders
   private _query: ParsedUrlQuery
 
   public start(port: number): void {
+    this._port = port
     this.wss = new Server({port})
 
     this.wss.on('connection', (ws, req) => {
       this._query = parseQuery(parseURL(req.url + '').query + '')
       this._headers = req.headers
+
+      this._clients.push(ws)
 
       ws.on('message', (data, isBuffer) => {
         if (isBuffer) {
@@ -45,6 +50,12 @@ export class WsServer {
   public close(): void {
     this.wss?.removeAllListeners()
     this.wss?.close()
+  }
+
+  public disconnectClients(): void {
+    for (const client of this._clients) {
+      client.terminate()
+    }
   }
 
   public query(): ParsedUrlQuery {

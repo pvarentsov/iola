@@ -1,7 +1,7 @@
 import { SocketType } from '@iola/core/socket'
 import { BinaryEncoding } from '@iola/core/common'
 import * as supertest from 'supertest'
-import { TestStand, TestUtil } from './util/test.util'
+import { WSTestStand, TestUtil } from './util/test.util'
 
 describe('WebSocket', () => {
   const opts = {
@@ -9,7 +9,7 @@ describe('WebSocket', () => {
     address: '',
     binaryEncoding: BinaryEncoding.Utf8,
     connectionTimeout: 1000,
-    reconnectionInterval: 1000,
+    reconnectionInterval: 1,
     replyTimeout: 1000,
     headers: {
       user: 'user',
@@ -17,12 +17,12 @@ describe('WebSocket', () => {
     },
   }
 
-  const stands = new Array<TestStand>()
+  const stands = new Array<WSTestStand>()
 
-  afterEach(async () => TestUtil.closeStands(stands))
+  afterEach(async () => TestUtil.closeWSStands(stands))
 
   it('Send string message',  async () => {
-    const stand = await TestUtil.prepareStand(opts)
+    const stand = await TestUtil.prepareWSStand(opts)
     stands.push(stand)
 
     const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
@@ -50,7 +50,7 @@ describe('WebSocket', () => {
   })
 
   it('Send binary message',  async () => {
-    const stand = await TestUtil.prepareStand(opts)
+    const stand = await TestUtil.prepareWSStand(opts)
     stands.push(stand)
 
     const bytes = Array.from(Buffer.from('binary msg'))
@@ -91,7 +91,7 @@ describe('WebSocket', () => {
   })
 
   it('Send json message',  async () => {
-    const stand = await TestUtil.prepareStand(opts)
+    const stand = await TestUtil.prepareWSStand(opts)
     stands.push(stand)
 
     const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
@@ -120,7 +120,7 @@ describe('WebSocket', () => {
   })
 
   it('Send json message with request id',  async () => {
-    const stand = await TestUtil.prepareStand(opts)
+    const stand = await TestUtil.prepareWSStand(opts)
     stands.push(stand)
 
     const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
@@ -169,7 +169,7 @@ describe('WebSocket', () => {
   })
 
   it('List messages',  async () => {
-    const stand = await TestUtil.prepareStand(opts)
+    const stand = await TestUtil.prepareWSStand(opts)
     stands.push(stand)
 
     const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
@@ -198,10 +198,50 @@ describe('WebSocket', () => {
   })
 
   it('Pass query string and headers',  async () => {
-    const stand = await TestUtil.prepareStand(opts)
+    const stand = await TestUtil.prepareWSStand(opts)
     stands.push(stand)
 
     expect(stand.wss.headers()).toMatchObject({user: 'user', pass: 'pass'})
     expect(stand.wss.query()).toMatchObject({isTestStand: 'true'})
+  })
+
+  it('Reconnect client',  async () => {
+    const stand = await TestUtil.prepareWSStand(opts)
+    stands.push(stand)
+
+    stand.wss.disconnectClients()
+    await TestUtil.delay(50)
+
+    const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
+      .post('/messages')
+      .send({data: 'string msg'})
+      .expect(201)
+
+    const listMsgRes = await supertest(stand.nestApp.getHttpServer())
+      .get('/messages')
+      .send()
+      .expect(200)
+
+    expect(listMsgRes.body[0].id).toEqual(1)
+    expect(listMsgRes.body[0].type).toEqual('Connected')
+    expect(listMsgRes.body[0].message.type).toEqual('websocket')
+
+    expect(listMsgRes.body[1].id).toEqual(2)
+    expect(listMsgRes.body[1].type).toEqual('Closed')
+
+    expect(listMsgRes.body[2].id).toEqual(3)
+    expect(listMsgRes.body[2].type).toEqual('Reconnecting')
+
+    expect(listMsgRes.body[3].id).toEqual(4)
+    expect(listMsgRes.body[3].type).toEqual('Connected')
+    expect(listMsgRes.body[3].message.type).toEqual('websocket')
+
+    expect(listMsgRes.body[4].id).toEqual(sendMsgRes.body.messageId)
+    expect(listMsgRes.body[4].type).toEqual('SentMessage')
+    expect(listMsgRes.body[4].message).toEqual({format: 'string', data: 'string msg'})
+
+    expect(listMsgRes.body[5].id).toEqual(sendMsgRes.body.messageId + 1)
+    expect(listMsgRes.body[5].type).toEqual('ReceivedMessage')
+    expect(listMsgRes.body[5].message).toEqual({format: 'string', data: 'string reply'})
   })
 })

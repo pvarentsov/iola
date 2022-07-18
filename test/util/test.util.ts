@@ -4,14 +4,14 @@ import { WsServer } from '../server/ws.server'
 import { INestApplication } from '@nestjs/common'
 import { HttpFactory } from '@iola/api/http'
 
-export type TestStand = {
+export type WSTestStand = {
   wss: WsServer
   client: ISocketClient
   nestApp: INestApplication
 }
 
 export class TestUtil {
-  static async prepareStand(opts: SocketOptions): Promise<TestStand> {
+  static async prepareWSStand(opts: SocketOptions): Promise<WSTestStand> {
     const wssPort = await this.findFreePort()
     const wss = new WsServer()
     await wss.start(wssPort)
@@ -28,7 +28,7 @@ export class TestUtil {
     return {wss, client, nestApp}
   }
 
-  static async closeStands(stands: Array<TestStand>): Promise<void> {
+  static async closeWSStands(stands: Array<WSTestStand>): Promise<void> {
     for (const stand of stands) {
       await stand.wss.close()
       await stand.client.close()
@@ -45,6 +45,10 @@ export class TestUtil {
         server.close(() => resolve((addr as AddressInfo).port))
       })
     })
+  }
+
+  static async delay(ms: number): Promise<void> {
+    return new Promise( resolve => setTimeout(resolve, ms))
   }
 
   private static prepareClientAddress(type: SocketType, port: number): string {
