@@ -1,13 +1,22 @@
 import { Server } from 'ws'
 import { Optional } from '@iola/core/common'
+import { IncomingHttpHeaders } from 'http'
+import { parse as parseURL } from 'url'
+import { parse as parseQuery, ParsedUrlQuery } from 'querystring'
 
 export class WsServer {
   private wss: Server
 
+  private _headers: IncomingHttpHeaders
+  private _query: ParsedUrlQuery
+
   public start(port: number): void {
     this.wss = new Server({port})
 
-    this.wss.on('connection', (ws) => {
+    this.wss.on('connection', (ws, req) => {
+      this._query = parseQuery(parseURL(req.url + '').query + '')
+      this._headers = req.headers
+
       ws.on('message', (data, isBuffer) => {
         if (isBuffer) {
           ws.send('binary reply', {binary: isBuffer})
@@ -36,6 +45,14 @@ export class WsServer {
   public close(): void {
     this.wss?.removeAllListeners()
     this.wss?.close()
+  }
+
+  public query(): ParsedUrlQuery {
+    return this._query
+  }
+
+  public headers(): IncomingHttpHeaders {
+    return this._headers
   }
 }
 

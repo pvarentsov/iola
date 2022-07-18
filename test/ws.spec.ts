@@ -11,7 +11,10 @@ describe('WebSocket', () => {
     connectionTimeout: 1000,
     reconnectionInterval: 1000,
     replyTimeout: 1000,
-    headers: {},
+    headers: {
+      user: 'user',
+      pass: 'pass',
+    },
   }
 
   const stands = new Array<TestStand>()
@@ -192,5 +195,13 @@ describe('WebSocket', () => {
     expect(listMsgRes.body[2].id).toEqual(sendMsgRes.body.messageId + 1)
     expect(listMsgRes.body[2].type).toEqual('ReceivedMessage')
     expect(listMsgRes.body[2].message).toEqual({format: 'string', data: 'string reply'})
+  })
+
+  it('Pass query string and headers',  async () => {
+    const stand = await TestUtil.prepareStand(opts)
+    stands.push(stand)
+
+    expect(stand.wss.headers()).toMatchObject({user: 'user', pass: 'pass'})
+    expect(stand.wss.query()).toMatchObject({isTestStand: 'true'})
   })
 })

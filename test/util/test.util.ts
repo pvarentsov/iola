@@ -49,10 +49,10 @@ export class TestUtil {
 
   private static prepareClientAddress(type: SocketType, port: number): string {
     if (type === SocketType.WebSocket) {
-      return 'ws://127.0.0.1:' + port
+      return 'ws://127.0.0.1:' + port + '?isTestStand=true'
     }
     if (type === SocketType.SocketIO) {
-      return 'http://127.0.0.1:' + port
+      return 'http://127.0.0.1:' + port + '?isTestStand=true'
     }
     if (type === SocketType.Tcp) {
       return '127.0.0.1:' + port
