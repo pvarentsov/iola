@@ -4,7 +4,7 @@ import { mapTo, tap } from 'rxjs/operators'
 
 import { AnyObject, MessageUtil, RxJSUtil } from '@iola/core/common'
 import {
-  IBinaryMessageStore,
+  IBinaryStore,
   ISocketClient,
   ISocketEventStore,
   SocketEventType,
@@ -17,12 +17,12 @@ import {
 export class NetSocketClient implements ISocketClient {
   private readonly _info: SocketInfo
   private readonly _eventStore: ISocketEventStore
-  private readonly _binaryMessageStore: IBinaryMessageStore
+  private readonly _binaryStore: IBinaryStore
   private readonly _options: SocketOptions
 
   private _client?: Socket
 
-  constructor(options: SocketOptions, eventStore: ISocketEventStore, binaryMessageStore: IBinaryMessageStore) {
+  constructor(options: SocketOptions, eventStore: ISocketEventStore, binaryMessageStore: IBinaryStore) {
     this._info = {
       type: options.type,
       address: options.address,
@@ -34,7 +34,7 @@ export class NetSocketClient implements ISocketClient {
     this._options = options
 
     this._eventStore = eventStore
-    this._binaryMessageStore = binaryMessageStore
+    this._binaryStore = binaryMessageStore
   }
 
   get info(): SocketInfo {
@@ -50,9 +50,9 @@ export class NetSocketClient implements ISocketClient {
       this.clear()
       this._client = createConnection(this.netOptions())
 
-      this._client.on('data', data => this._binaryMessageStore.add(data))
+      this._client.on('data', chunk => this._binaryStore.add(chunk))
 
-      this._binaryMessageStore.group().subscribe(message => {
+      this._binaryStore.listen().subscribe(message => {
         const unpacked = MessageUtil.unpack(message)
         const encoding = this._options.binaryEncoding
 
@@ -156,12 +156,14 @@ export class NetSocketClient implements ISocketClient {
   }
 
   close(): void {
+    this._binaryStore.close()
     this._client?.destroy()
     this.clear()
   }
 
   private clear(): void {
     this._client?.removeAllListeners()
+    this._binaryStore.clear()
 
     this._client = undefined
     this._info.connected = false

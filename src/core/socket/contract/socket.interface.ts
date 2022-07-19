@@ -16,8 +16,10 @@ export interface ISocketEventStore {
   add(event: SocketEvent): number
 }
 
-export interface IBinaryMessageStore {
-  group(): Observable<Buffer>
+export interface IBinaryStore {
+  listen(): Observable<Buffer>
   add(data: Buffer): void
+  close(): void
+  clear(): void
 }
 

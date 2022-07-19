@@ -4,6 +4,7 @@ import { WsServer } from '../server/ws.server'
 import { INestApplication } from '@nestjs/common'
 import { HttpFactory } from '@iola/api/http'
 import { IOServer } from '../server/io.server'
+import { TCPServer } from '../server/tcp.server'
 
 export type WSTestStand = {
   wss: WsServer
@@ -13,6 +14,12 @@ export type WSTestStand = {
 
 export type IOTestStand = {
   ios: IOServer
+  client: ISocketClient
+  nestApp: INestApplication
+}
+
+export type TCPTestStand = {
+  tcps: TCPServer
   client: ISocketClient
   nestApp: INestApplication
 }
@@ -80,6 +87,37 @@ export class TestUtil {
     }
   }
 
+  static async prepareTCPStand(opts: SocketOptions): Promise<TCPTestStand> {
+    const closeStand: Partial<TCPTestStand> = {}
+
+    try {
+      const tcpsPort = await this.findFreePort()
+      const tcps = new TCPServer()
+      await tcps.start(tcpsPort)
+      closeStand.tcps = tcps
+
+      const client = SocketFactory.createClient({...opts, address: this.prepareClientAddress(opts.type, tcpsPort)})
+      await client.connect()
+      closeStand.client = client
+
+      const httpServerPort = await this.findFreePort()
+      const httpServer = await HttpFactory.createServer(client, '')
+      await httpServer.listen('127.0.0.1', httpServerPort)
+
+      const nestApp = httpServer.engine<INestApplication>()
+      closeStand.nestApp = nestApp
+
+      return {tcps, client, nestApp}
+
+    } catch (e) {
+      await closeStand.tcps?.close()
+      await closeStand.client?.close()
+      await closeStand.nestApp?.close()
+
+      throw e
+    }
+  }
+
   static async closeWSStands(stands: Array<WSTestStand>): Promise<void> {
     for (const stand of stands) {
       await stand.wss.close()
@@ -91,6 +129,14 @@ export class TestUtil {
   static async closeIOStands(stands: Array<IOTestStand>): Promise<void> {
     for (const stand of stands) {
       await stand.ios.close()
+      await stand.client.close()
+      await stand.nestApp.close()
+    }
+  }
+
+  static async closeTCPStands(stands: Array<TCPTestStand>): Promise<void> {
+    for (const stand of stands) {
+      await stand.tcps.close()
       await stand.client.close()
       await stand.nestApp.close()
     }
