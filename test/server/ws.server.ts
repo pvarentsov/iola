@@ -36,6 +36,11 @@ export class WsServer {
 
           if (requestIdInfo) {
             message[requestIdInfo.key] = requestIdInfo.value
+
+            if (requestIdInfo.value === 'timeout') {
+              setTimeout(() => ws.send(JSON.stringify(message), {binary: isBuffer}), 20)
+              return
+            }
           }
 
           ws.send(JSON.stringify(message), {binary: isBuffer})

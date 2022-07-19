@@ -12,20 +12,34 @@ export type WSTestStand = {
 
 export class TestUtil {
   static async prepareWSStand(opts: SocketOptions): Promise<WSTestStand> {
-    const wssPort = await this.findFreePort()
-    const wss = new WsServer()
-    await wss.start(wssPort)
+    const closeStand: Partial<WSTestStand> = {}
 
-    const client = SocketFactory.createClient({...opts, address: this.prepareClientAddress(opts.type, wssPort)})
-    await client.connect()
+    try {
+      const wssPort = await this.findFreePort()
+      const wss = new WsServer()
+      await wss.start(wssPort)
+      closeStand.wss = wss
 
-    const httpServerPort = await this.findFreePort()
-    const httpServer = await HttpFactory.createServer(client, '')
-    await httpServer.listen('127.0.0.1', httpServerPort)
+      const client = SocketFactory.createClient({...opts, address: this.prepareClientAddress(opts.type, wssPort)})
+      await client.connect()
+      closeStand.client = client
 
-    const nestApp = httpServer.engine<INestApplication>()
+      const httpServerPort = await this.findFreePort()
+      const httpServer = await HttpFactory.createServer(client, '')
+      await httpServer.listen('127.0.0.1', httpServerPort)
 
-    return {wss, client, nestApp}
+      const nestApp = httpServer.engine<INestApplication>()
+      closeStand.nestApp = nestApp
+
+      return {wss, client, nestApp}
+
+    } catch (e) {
+      await closeStand.wss?.close()
+      await closeStand.client?.close()
+      await closeStand.nestApp?.close()
+
+      throw e
+    }
   }
 
   static async closeWSStands(stands: Array<WSTestStand>): Promise<void> {

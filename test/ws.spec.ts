@@ -168,6 +168,51 @@ describe('WebSocket', () => {
     })
   })
 
+  it('Send json message with request id and do not await timed out reply',  async () => {
+    const stand = await TestUtil.prepareWSStand({...opts, replyTimeout: 5})
+    stands.push(stand)
+
+    const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
+      .post('/messages')
+      .send({data: {requestId: 'timeout', message: 'json msg'}})
+      .expect(201)
+
+    expect(sendMsgRes.body.reply).toBeUndefined()
+
+    await TestUtil.delay(50)
+
+    const getMsgRes = await supertest(stand.nestApp.getHttpServer())
+      .get('/messages/' + sendMsgRes.body.messageId)
+      .send()
+      .expect(200)
+
+    expect(getMsgRes.body.id).toEqual(sendMsgRes.body.messageId)
+    expect(getMsgRes.body.type).toEqual('SentMessage')
+    expect(getMsgRes.body.message).toEqual({
+      format: 'json',
+      data: {
+        requestId: 'timeout',
+        message: 'json msg'
+      }
+    })
+
+    const getReplyMsgRes = await supertest(stand.nestApp.getHttpServer())
+      .get('/messages/' + (sendMsgRes.body.messageId + 1))
+      .send()
+      .expect(200)
+
+    expect(getReplyMsgRes.status).toEqual(200)
+    expect(getReplyMsgRes.body.id).toEqual(sendMsgRes.body.messageId + 1)
+    expect(getReplyMsgRes.body.type).toEqual('ReceivedMessage')
+    expect(getReplyMsgRes.body.message).toEqual({
+      format: 'json',
+      data: {
+        requestId: 'timeout',
+        message: 'json reply'
+      }
+    })
+  })
+
   it('List messages',  async () => {
     const stand = await TestUtil.prepareWSStand(opts)
     stands.push(stand)
@@ -205,7 +250,7 @@ describe('WebSocket', () => {
     expect(stand.wss.query()).toMatchObject({isTestStand: 'true'})
   })
 
-  it('Reconnect client',  async () => {
+  it('Reconnect client if active connection is lost',  async () => {
     const stand = await TestUtil.prepareWSStand(opts)
     stands.push(stand)
 
