@@ -26,6 +26,8 @@ export class IOServer {
 
       socket.on('type:any', (data, cb) => cb(data))
       socket.on('type:binary', (data, cb) => cb(Buffer.from('binary reply')))
+
+      socket.on('timeout', (data, cb) => setTimeout(() => cb(data), 20))
     })
   }
 

@@ -120,6 +120,47 @@ describe('SocketIO', () => {
     })
   })
 
+  it('Send message and do not await timed out reply',  async () => {
+    const stand = await TestUtil.prepareIOStand({...opts, replyTimeout: 5})
+    stands.push(stand)
+
+    const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
+      .post('/messages')
+      .send({event: 'timeout', data: 42})
+      .expect(201)
+
+    expect(sendMsgRes.body.reply).toBeUndefined()
+
+    await TestUtil.delay(50)
+
+    const getMsgRes = await supertest(stand.nestApp.getHttpServer())
+      .get('/messages/' + sendMsgRes.body.messageId)
+      .send()
+      .expect(200)
+
+    expect(getMsgRes.body.id).toEqual(sendMsgRes.body.messageId)
+    expect(getMsgRes.body.type).toEqual('SentMessage')
+    expect(getMsgRes.body.message).toEqual({
+      format: 'number',
+      event: 'timeout',
+      data: 42
+    })
+
+    const getReplyMsgRes = await supertest(stand.nestApp.getHttpServer())
+      .get('/messages/' + (sendMsgRes.body.messageId + 1))
+      .send()
+      .expect(200)
+
+    expect(getReplyMsgRes.status).toEqual(200)
+    expect(getReplyMsgRes.body.id).toEqual(sendMsgRes.body.messageId + 1)
+    expect(getReplyMsgRes.body.type).toEqual('ReceivedMessage')
+    expect(getReplyMsgRes.body.message).toEqual({
+      format: 'number',
+      event: 'timeout',
+      data: 42
+    })
+  })
+
   it('List messages',  async () => {
     const stand = await TestUtil.prepareIOStand(opts)
     stands.push(stand)
@@ -156,5 +197,45 @@ describe('SocketIO', () => {
     expect(stand.ios.headers()).toMatchObject({user: 'user', pass: 'pass'})
     expect(stand.ios.auth()).toMatchObject({user: 'user', pass: 'pass'})
     expect(stand.ios.query()).toMatchObject({isTestStand: 'true'})
+  })
+
+  it('Reconnect client if active connection is lost',  async () => {
+    const stand = await TestUtil.prepareIOStand(opts)
+    stands.push(stand)
+
+    stand.ios.disconnectClients()
+    await TestUtil.delay(50)
+
+    const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
+      .post('/messages')
+      .send({event: 'type:any', data: 'string msg'})
+      .expect(201)
+
+    const listMsgRes = await supertest(stand.nestApp.getHttpServer())
+      .get('/messages')
+      .send()
+      .expect(200)
+
+    expect(listMsgRes.body[0].id).toEqual(1)
+    expect(listMsgRes.body[0].type).toEqual('Connected')
+    expect(listMsgRes.body[0].message.type).toEqual('socket.io')
+
+    expect(listMsgRes.body[1].id).toEqual(2)
+    expect(listMsgRes.body[1].type).toEqual('Closed')
+
+    expect(listMsgRes.body[2].id).toEqual(3)
+    expect(listMsgRes.body[2].type).toEqual('Reconnecting')
+
+    expect(listMsgRes.body[3].id).toEqual(4)
+    expect(listMsgRes.body[3].type).toEqual('Connected')
+    expect(listMsgRes.body[3].message.type).toEqual('socket.io')
+
+    expect(listMsgRes.body[4].id).toEqual(sendMsgRes.body.messageId)
+    expect(listMsgRes.body[4].type).toEqual('SentMessage')
+    expect(listMsgRes.body[4].message).toEqual({format: 'string', event: 'type:any', data: 'string msg'})
+
+    expect(listMsgRes.body[5].id).toEqual(sendMsgRes.body.messageId + 1)
+    expect(listMsgRes.body[5].type).toEqual('ReceivedMessage')
+    expect(listMsgRes.body[5].message).toEqual({format: 'string', event: 'type:any', data: 'string msg'})
   })
 })
