@@ -135,11 +135,11 @@ export class SocketIOClient implements ISocketClient {
   }
 
   close(): void {
-    this._client?.disconnect()
     this.clear()
   }
 
   private clear(): void {
+    this._client?.removeAllListeners()
     this._client?.close()
 
     this._client = undefined

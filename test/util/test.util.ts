@@ -3,9 +3,16 @@ import { ISocketClient, SocketFactory, SocketOptions, SocketType } from '@iola/c
 import { WsServer } from '../server/ws.server'
 import { INestApplication } from '@nestjs/common'
 import { HttpFactory } from '@iola/api/http'
+import { IOServer } from '../server/io.server'
 
 export type WSTestStand = {
   wss: WsServer
+  client: ISocketClient
+  nestApp: INestApplication
+}
+
+export type IOTestStand = {
+  ios: IOServer
   client: ISocketClient
   nestApp: INestApplication
 }
@@ -42,9 +49,48 @@ export class TestUtil {
     }
   }
 
+  static async prepareIOStand(opts: SocketOptions): Promise<IOTestStand> {
+    const closeStand: Partial<IOTestStand> = {}
+
+    try {
+      const iosPort = await this.findFreePort()
+      const ios = new IOServer()
+      await ios.start(iosPort)
+      closeStand.ios = ios
+
+      const client = SocketFactory.createClient({...opts, address: this.prepareClientAddress(opts.type, iosPort)})
+      await client.connect()
+      closeStand.client = client
+
+      const httpServerPort = await this.findFreePort()
+      const httpServer = await HttpFactory.createServer(client, '')
+      await httpServer.listen('127.0.0.1', httpServerPort)
+
+      const nestApp = httpServer.engine<INestApplication>()
+      closeStand.nestApp = nestApp
+
+      return {ios, client, nestApp}
+
+    } catch (e) {
+      await closeStand.ios?.close()
+      await closeStand.client?.close()
+      await closeStand.nestApp?.close()
+
+      throw e
+    }
+  }
+
   static async closeWSStands(stands: Array<WSTestStand>): Promise<void> {
     for (const stand of stands) {
       await stand.wss.close()
+      await stand.client.close()
+      await stand.nestApp.close()
+    }
+  }
+
+  static async closeIOStands(stands: Array<IOTestStand>): Promise<void> {
+    for (const stand of stands) {
+      await stand.ios.close()
       await stand.client.close()
       await stand.nestApp.close()
     }
