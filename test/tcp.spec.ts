@@ -17,6 +17,62 @@ describe('TCP', () => {
 
   afterEach(async () => TestUtil.closeTCPStands(stands))
 
+  it('Reconnect client if active connection is lost',  async () => {
+    const stand = await TestUtil.prepareTCPStand(opts)
+    stands.push(stand)
+
+    stand.tcps.disconnectClients()
+    await TestUtil.delay(50)
+
+    const bytes = Array.from(Buffer.from('string msg'))
+
+    const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
+      .post('/messages')
+      .send({data: 'string msg'})
+      .expect(201)
+
+    await TestUtil.delay(1000)
+
+    const listMsgRes = await supertest(stand.nestApp.getHttpServer())
+      .get('/messages')
+      .send()
+      .expect(200)
+
+    expect(listMsgRes.body.length).toEqual(6)
+
+    expect(listMsgRes.body[0].id).toEqual(1)
+    expect(listMsgRes.body[0].type).toEqual('Connected')
+    expect(listMsgRes.body[0].message.type).toEqual('tcp')
+
+    expect(listMsgRes.body[1].id).toEqual(2)
+    expect(listMsgRes.body[1].type).toEqual('Closed')
+
+    expect(listMsgRes.body[2].id).toEqual(3)
+    expect(listMsgRes.body[2].type).toEqual('Reconnecting')
+
+    expect(listMsgRes.body[3].id).toEqual(4)
+    expect(listMsgRes.body[3].type).toEqual('Connected')
+    expect(listMsgRes.body[3].message.type).toEqual('tcp')
+
+    expect(listMsgRes.body[4].id).toEqual(sendMsgRes.body.messageId)
+    expect(listMsgRes.body[4].type).toEqual('SentMessage')
+    expect(listMsgRes.body[4].message).toEqual({
+      format: 'byte-array',
+      size: bytes.length,
+      data: bytes,
+      utf8: 'string msg'
+    })
+
+    expect(listMsgRes.body[5].id).toEqual(sendMsgRes.body.messageId + 1)
+    expect(listMsgRes.body[5].type).toEqual('ReceivedMessage')
+    expect(listMsgRes.body[5].message).toEqual({
+      format: 'byte-array',
+      size: bytes.length,
+      data: bytes,
+      utf8: 'string msg'
+    })
+  })
+
   it('Send string message',  async () => {
     const stand = await TestUtil.prepareTCPStand(opts)
     stands.push(stand)
@@ -123,62 +179,6 @@ describe('TCP', () => {
       size: bytes.length,
       data: bytes,
       utf8: 'binary msg'
-    })
-  })
-
-  it('Reconnect client if active connection is lost',  async () => {
-    const stand = await TestUtil.prepareTCPStand(opts)
-    stands.push(stand)
-
-    stand.tcps.disconnectClients()
-    await TestUtil.delay(50)
-
-    const bytes = Array.from(Buffer.from('string msg'))
-
-    const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
-      .post('/messages')
-      .send({data: 'string msg'})
-      .expect(201)
-
-    await TestUtil.delay(1000)
-
-    const listMsgRes = await supertest(stand.nestApp.getHttpServer())
-      .get('/messages')
-      .send()
-      .expect(200)
-
-    expect(listMsgRes.body.length).toEqual(6)
-
-    expect(listMsgRes.body[0].id).toEqual(1)
-    expect(listMsgRes.body[0].type).toEqual('Connected')
-    expect(listMsgRes.body[0].message.type).toEqual('tcp')
-
-    expect(listMsgRes.body[1].id).toEqual(2)
-    expect(listMsgRes.body[1].type).toEqual('Closed')
-
-    expect(listMsgRes.body[2].id).toEqual(3)
-    expect(listMsgRes.body[2].type).toEqual('Reconnecting')
-
-    expect(listMsgRes.body[3].id).toEqual(4)
-    expect(listMsgRes.body[3].type).toEqual('Connected')
-    expect(listMsgRes.body[3].message.type).toEqual('tcp')
-
-    expect(listMsgRes.body[4].id).toEqual(sendMsgRes.body.messageId)
-    expect(listMsgRes.body[4].type).toEqual('SentMessage')
-    expect(listMsgRes.body[4].message).toEqual({
-      format: 'byte-array',
-      size: bytes.length,
-      data: bytes,
-      utf8: 'string msg'
-    })
-
-    expect(listMsgRes.body[5].id).toEqual(sendMsgRes.body.messageId + 1)
-    expect(listMsgRes.body[5].type).toEqual('ReceivedMessage')
-    expect(listMsgRes.body[5].message).toEqual({
-      format: 'byte-array',
-      size: bytes.length,
-      data: bytes,
-      utf8: 'string msg'
     })
   })
 })

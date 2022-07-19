@@ -28,8 +28,8 @@ export class TCPServer {
 
   public disconnectClients(): void {
     for (const client of this._clients) {
-      client.emit('close')
       client.destroy()
     }
+    this._clients = []
   }
 }
