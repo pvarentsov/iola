@@ -2,8 +2,7 @@ name: NPM Publish
 
 on:
   push:
-    tags:
-      - '*'
+    branches: [v1.0.0]
 
 jobs:
   build:
@@ -25,7 +24,18 @@ jobs:
       - name: Install libs
         run: npm install
 
-      - name: NPM Release
-        run: npm run release
+      - name: Run tests
+        run: npm run test:cov
+
+      - name: Get version
+        id: get_version
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.projectVersion=${{ steps.get_version.outputs.VERSION }}
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
