@@ -10,7 +10,10 @@ export class HttpFilter implements ExceptionFilter {
       .switchToHttp()
       .getResponse<Response>()
 
-    return of(response.json(this.parseError(error))).pipe(
+    const body = this.parseError(error)
+    response.statusCode = body.statusCode
+
+    return of(response.json(body)).pipe(
       mapTo(undefined)
     )
   }

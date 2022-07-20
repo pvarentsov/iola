@@ -65,6 +65,10 @@ export class NetSocketSyncClient implements ISocketClient {
     return this.send(packed.data as Buffer, eventMessage)
   }
 
+  close(): void {
+    return
+  }
+
   private async send<TMessage>(data: Buffer|string, eventMessage: TMessage): Promise<SocketSendReply> {
     const connectInfo = await this.connectSocket()
 

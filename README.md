@@ -1,4 +1,4 @@
-<h1 align="center"><img height="21" width="21" src="./demo/icon.gif" alt="🔄"> iola</h1> 
+<h1 align="center">🔄 iola</h1> 
 
 <p align="center">
   <a href="https://github.com/pvarentsov/iola/blob/main/LICENSE">
@@ -9,6 +9,13 @@
   </a>
   <a href="https://www.npmjs.com/package/iola">
     <img src="https://img.shields.io/npm/dt/iola.svg" alt="downloads" />
+  </a>
+  <br> 
+  <a href="">
+    <img src="https://img.shields.io/sonar/quality_gate/pvarentsov_iola/main?server=https%3A%2F%2Fsonarcloud.io" alt="quality" />
+  </a>  
+  <a href="">
+    <img src="https://img.shields.io/sonar/coverage/pvarentsov_iola/main?server=https%3A%2F%2Fsonarcloud.io" alt="coverage" />
   </a>
 </p>
 
@@ -23,13 +30,10 @@
       <li><a href="#cli">CLI</a></li>
       <li><a href="#rest-api">REST API</a></li>
     </ul>
-    <li><a href="#clients">Clients</a></li>
-      <ul>
-        <li><a href="#websocket">WebSocket</a></li>
-        <li><a href="#socketio">Socket.IO</a></li>
-        <li><a href="#tcp--unix-socket">TCP & Unix socket</a></li>
-      </ul>
-    <li><a href="https://github.com/pvarentsov/iola#license">License</a></li>
+    <li><a href="#websocket">WebSocket</a></li>
+    <li><a href="#socketio">Socket.IO</a></li>
+    <li><a href="#tcp--unix-socket">TCP & Unix socket</a></li>
+    <li><a href="#license">License</a></li>
   </ul>
 </details>
 
@@ -38,7 +42,7 @@
 **iola** - a command-line socket client with REST API. It helps to work with socket servers using your favorite REST client.
 
 <p align="center"> 
-  <img src="./demo/iola-demo.gif">
+  <img src="./docs/cli.png">
 </p>
 
 **iola** tries to simplify socket server testing and support the most popular socket clients.
@@ -96,366 +100,324 @@ $ iola --help
 Usage: iola [options] [command]
 
 Options:
-  --version                         Display version
-  --help                            Display help
+  --version                 Display version
+  --help                    Display help
 
 Commands:
-  websocket|ws [options] &lt;address>  Run websocket client
-  socketio|io [options] &lt;address>   Run socket.io client
-  tcp [options] &lt;address>           Run tcp client
-  unix [options] &lt;address>          Run unix client
-  help [command]                    Display help for command
+  ws [options] &lt;address&gt;    Run websocket client
+  io [options] &lt;address&gt;    Run socket.io client
+  tcp [options] &lt;address&gt;   Run tcp client
+  unix [options] &lt;address&gt;  Run unix client
+  help [command]            Display help for command
 
 API:
-  GET  /messages                    Get message list
-  GET  /messages/{id}               Get message by id
-  POST /messages                    Send message 
-  GET  /swagger                     Get swagger
+  GET  /messages            Get message list
+  GET  /messages/{id}       Get message by id
+  POST /messages            Send message 
+  GET  /swagger             Get swagger
 </pre>
 
 ### REST API
 
-Swagger UI:
-<p>
-  <img src="./docs/swagger.png">
-</p>
+#### Send any data
+```shell
+# Send string data
+$ http POST http://127.0.0.1:3000/messages data='Hi, Server!'
+{
+    "messageId": 1
+}
 
-Get message:
-<p>
-  <br>
-  <img src="./docs/get-message.png">
-</p>
+$ http GET http://127.0.0.1:3000/messages/1
+{
+    "id": 1,
+    "date": "2022-07-15T21:48:19.939Z",
+    "message": {
+        "data": "Hi, Server!",
+        "format": "string"
+    },
+    "type": "SentMessage"
+}
 
-Get message list:
-<p>
-  <br>
-  <img src="./docs/get-message-list.png">
-</p>
+# Send json string data
+$ http POST http://127.0.0.1:3000/messages data:='{"message":"Hi, Server!"}'
+{
+    "messageId": 2
+}
 
-Send any data:
-<p>
-  <br>
-  <img src="./docs/send-any-data.png">
-</p>
-<p>
-  <br>
-  <img src="./docs/send-any-data-2.png">
-</p>
+$ http GET http://127.0.0.1:3000/messages/2
+{
+    "id": 2,
+    "date": "2022-07-15T22:16:31.887Z",
+    "message": {
+        "data": {
+            "message": "Hi, Server!"
+        },
+        "format": "json"
+    },
+    "type": "SentMessage"
+}
+```
 
-Send binary data (uint8 array):
-<p>
-  <br>
-  <img src="./docs/send-bytes-2.png">
-</p>
+#### Send binary data
+```shell
+$ http POST http://127.0.0.1:3000/messages bytes:='[72,101,108,108,111,33]'
+{
+    "messageId": 1
+}
 
-## Clients
+$ http GET http://127.0.0.1:3000/messages/1
+{
+    "id": 1,
+    "date": "2022-07-15T22:23:32.591Z",
+    "message": {
+        "data": [72,101,108,108,111,33],
+        "format": "byte-array",
+        "size": 6
+    },
+    "type": "SentMessage"
+}
+```
 
-All socket clients have the next options:
+All clients support `--binary-encoding <encoding>` option for more readability of sent and received binary messages.
+```shell
+$ iola ws ws://127.0.0.1:8080 --binary-encoding utf8
 
-<table border="0">
-<tr>
-  <td nowrap><code>--api-port &lt;port&gt;</code></td>
-  <td>Set API port. <br>Default value: <code>3000</code>.</td>
-</tr>
-<tr>
-  <td nowrap><code>--api-host &lt;host&gt;</code></td>
-  <td>Set API host. <br>Default value: <code>127.0.0.1</code>.</td>
-</tr>
-<tr>
-  <td nowrap><code>--binary-encoding  &lt;encoding&gt;</code></td>
-  <td>Encode sent and received binary messages for more readability.
-      <br>
-      Supported encodings: 
-      <code>ascii</code>,
-      <code>utf8</code>,
-      <code>base64</code>,
-      <code>hex</code>.
-  </td>
-</tr>
-<tr>
-  <td nowrap><code>--no-emoji</code></td>
-  <td>Disable emoji in the console.</td>
-</tr>
-</table>
+$ http POST http://127.0.0.1:3000/messages bytes:='[72,101,108,108,111,33]'
+{
+    "messageId": 1
+}
 
-### WebSocket
+$ http GET http://127.0.0.1:3000/messages/1
+{
+    "id": 1,
+    "date": "2022-07-15T22:23:32.591Z",
+    "message": {
+        "data": [72,101,108,108,111,33],
+        "format": "byte-array",
+        "size": 6,
+        "utf8": "Hello!"
+    },
+    "type": "SentMessage"
+}
+
+$ http GET http://127.0.0.1:3000/messages/2
+{
+    "id": 2,
+    "date": "2022-07-15T22:23:32.591Z",
+    "message": {
+        "data": [72,105,44,32,73,111,108,97,33],
+        "format": "byte-array",
+        "size": 9,
+        "utf8": "Hi, Iola!"
+    },
+    "type": "ReceivedMessage"
+}
+```
+
+#### List messages
+```shell
+$ http GET http://127.0.0.1:3000/messages
+[
+    {
+        "id": 1,
+        "date": "2022-07-15T22:26:57.442Z",
+        "message": {
+            "data": "Hi, Server",
+            "format": "string"
+        },
+        "type": "SentMessage"
+    },
+    {
+        "id": 2,
+        "date": "2022-07-15T22:26:57.445Z",
+        "message": {
+            "data": "Hi, Iola!",
+            "format": "string"
+        },
+        "type": "ReceivedMessage"
+    }
+]
+```
+
+#### Swagger
+
+To get to know the REST API in more detail you can see a swagger that is exposed on the `/swagger` path.
+
+## WebSocket
 
 <pre>
-$ iola help websocket
+$ iola help ws
 
-Usage: iola websocket|ws [options] &lt;address>
+Usage: iola ws [options] &lt;address&gt;
 
 Run websocket client
 
 Options:
-  -ap, --api-port &lt;port>             Set api port (default: "3000")
-  -ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
-  -h, --header &lt;key:value...>        Set http headers
-  -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (default: "1000")
-  -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
-  -ne, --no-emoji                    Disable emoji
-  --help                             Display help
+  --api-port &lt;port&gt;             Set api port (default: "3000")
+  --api-host &lt;host&gt;             Set api host (default: "127.0.0.1")
+  --header &lt;key:value...&gt;       Set http headers
+  --reply-timeout &lt;timeout&gt;     Set reply timeout in ms (default: "1000")
+  --binary-encoding &lt;encoding&gt;  Set binary encoding (choices: "ascii","utf8","base64","hex")
+  --no-emoji                    Disable emoji
+  --help                        Display help
 
-Examples:
-  <b>$</b> iola websocket ws://127.0.0.1:8080
-  <b>$</b> iola ws ws://127.0.0.1:8080/?token=secret
-  <b>$</b> iola ws ws://127.0.0.1:8080 --header authorization:"Bearer token"
-  <b>$</b> iola websocket ws://127.0.0.1:8080 --binary-encoding utf8
-  <b>$</b> iola websocket ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
+Examples: 
+  $ iola ws ws://127.0.0.1:8080 
+  $ iola ws ws://127.0.0.1:8080/?token=secret 
+  $ iola ws ws://127.0.0.1:8080 --header authorization:"Bearer token"
+  $ iola ws ws://127.0.0.1:8080 --binary-encoding utf8 
+  $ iola ws ws://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
 
-<details>
-  <summary>message formats</summary>
-  <br>
-  <ul>
-    <li><code>string</code></li>
-    <li><code>json</code></li>
-    <li><code>byte-array</code></li>
-  </ul>
-</details>
+### Message formats
+* string
+* json
+* byte-array
 
-<details>
-  <summary>http headers</summary>
-  <br>
-  <p>
-    You can pass http headers using <code>--header &lt;key:value...></code> option. Examples:
-    <ul>
-      <li><code>iola ws ws://127.0.0.1:8080 --header authorization:"Bearer token"</code></li>
-      <li><code>iola ws ws://127.0.0.1:8080 -h content-type:application/json -h content-length:42</code></li>
-    </ul>
-  </p>
-</details>
+### Server replies
 
-<details>
-  <summary>server reply</summary>
-  <br>
-  <p>You can pass the RequestId to the request with json data
-     in order to await the server reply with such RequestId in the reply data.
-  </p>
-  <p align="center">
-    <br>
-    <img src="./docs/send-data-with-requsetid.ws.png">
-  </p>
-  <p>RequestId field can be one of the following:
-    <ul>
-      <li><code>requestId</code></li>
-      <li><code>request_id</code></li>
-      <li><code>reqId</code></li>
-      <li><code>req_id</code></li>
-      <li><code>traceId</code></li>
-      <li><code>trace_id</code></li>
-    </ul>
-  </p>
-  <p>
-    Default reply timeout is 1000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
-  </p>
-</details>
+You can pass the RequestId to the request with json data to await the server reply with such RequestId in the reply data.
+RequestId field can be one of the following:
+* requestId
+* request_id
+* reqId
+* req_id
+* traceId
+* trace_id
 
-### Socket.IO
+```shell
+$ http POST http://127.0.0.1:3000/messages data:='{"requestId":"1","message":"Hi, Server!"}'
+{
+    "messageId": 9,
+    "reply": {
+        "data": {
+            "requestId": "1",
+            "message": "Hi, Iola!"
+        },
+        "format": "json"
+    }
+}
+```
+
+## Socket.IO
 
 **iola** relies on Socket.IO v4. Please check a [version compatibility](https://socket.io/docs/v4/client-installation/#Version-compatibility).
 
 <pre>
-$ iola help socketio
- 
-Usage: iola socketio|io [options] &lt;address>
+$ iola help io
+
+Usage: iola io [options] &lt;address&gt;
 
 Run socket.io client
 
 Options:
-  -ap, --api-port &lt;port>             Set api port (default: "3000")
-  -ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
-  -h, --header &lt;key:value...>        Set http headers
-  -a, --auth &lt;key:value...>          Set authentication payload
-  -t, --transport &lt;transport>        Set transport (choices: "polling","websocket")
-  -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (default: "1000")
-  -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
-  -ne, --no-emoji                    Disable emoji
-  --help                             Display help
+  --api-port &lt;port&gt;             Set api port (default: "3000")
+  --api-host &lt;host&gt;             Set api host (default: "127.0.0.1")
+  --header &lt;key:value...&gt;       Set http headers
+  --auth &lt;key:value...&gt;         Set authentication payload
+  --transport &lt;transport&gt;       Set transport (choices: "websocket","polling")
+  --reply-timeout &lt;timeout&gt;     Set reply timeout in ms (default: "1000")
+  --binary-encoding &lt;encoding&gt;  Set binary encoding (choices: "ascii","utf8","base64","hex")
+  --no-emoji                    Disable emoji
+  --help                        Display help
 
 Examples: 
-  <b>$</b> iola socketio http://127.0.0.1:8080 
-  <b>$</b> iola io http://127.0.0.1:8080/?token=secret --transport websocket
-  <b>$</b> iola io http://127.0.0.1:8080 --header authorization:"Bearer token"  
-  <b>$</b> iola io http://127.0.0.1:8080 --auth user:iola --auth pass:qwerty1
-  <b>$</b> iola socketio http://127.0.0.1:8080 --binary-encoding utf8 
-  <b>$</b> iola socketio http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
+  $ iola io http://127.0.0.1:8080 
+  $ iola io http://127.0.0.1:8080/?token=secret --transport websocket
+  $ iola io http://127.0.0.1:8080 --header authorization:"Bearer token"
+  $ iola io http://127.0.0.1:8080 --auth user:iola --auth pass:qwerty1
+  $ iola io http://127.0.0.1:8080 --binary-encoding utf8 
+  $ iola io http://127.0.0.1:8080 --reply-timeout 3000 --no-emoji
 </pre>
 
-<details>
-  <summary>message formats</summary>
-  <br>
-  <ul>
-    <li><code>string</code></li>
-    <li><code>number</code></li>
-    <li><code>boolean</code></li>
-    <li><code>null</code></li>
-    <li><code>json</code></li>
-    <li><code>byte-array</code></li>
-  </ul>
-</details>
+### Message formats
+* string
+* number
+* boolean
+* null
+* json
+* byte-array
 
-<details>
-  <summary>transport</summary>
-  <br>
-  <p>
-    Client supports "websocket" and "polling" transports. It tries to use "websocket" first, if available.
-  </p>
-  <p>
-    You can explicitly set the type of transport using <code>--transport &lt;transport></code> option.
-  </p>
-</details>
+### Transports
 
-<details>
-  <summary>http headers</summary>
-  <br>
-  <p>
-    You can pass http headers using <code>--header &lt;key:value...></code> option. Examples:
-    <ul>
-      <li><code>iola io http://127.0.0.1:8080 --header authorization:"Bearer token"</code></li>
-      <li><code>iola io http://127.0.0.1:8080 -h content-type:application/json -h content-length:42</code></li>
-    </ul>
-  </p>
-</details>
+Client supports "websocket" and "polling" transports. It tries to use "websocket" first, if available.
+You can explicitly set the type of transport using `--transport <transport>` option.
 
-<details>
-  <summary>auth</summary>
-  <br>
-  <p>
-    Socket.IO client can send credentials with the <a href="https://socket.io/docs/v4/middlewares/#Sending-credentials">auth option</a>.
-  </p>
-  <p>
-    You can set the auth payload using <code>--auth &lt;key:value...></code> option. Examples:
-    <ul>
-      <li><code>iola io http://127.0.0.1:8080 --auth user:iola --auth pass:qwerty1</code></li>
-      <li><code>iola io http://127.0.0.1:8080 --a token:"super secret"</code></li>
-    </ul>
-  </p>
-</details>
+### Auth
 
-<details>
-  <summary>send data</summary>
-  <br>
-  <p>Send any data</p>
-  <p align="center">
-    <br>
-    <img src="./docs/emit-data.rest-api.png">
-  </p>
-  <p>Send binary data</p>
-  <p align="center">
-    <br>
-    <img src="./docs/emit-bytes.rest-api.png">
-  </p>
-</details>
+Socket.IO client can send [auth credentials](https://socket.io/docs/v4/middlewares/#Sending-credentials) using `--auth <key:value...>` option.
 
-<details>
-  <summary>server reply</summary>
-  <br>
-  <p>
-    Socket.IO supports server replies. This feature is named acknowledgements.
-  </p>
-  <p align="center">
-    <br>
-    <img src="./docs/send-data-with-requsetid.io.png">
-  </p>
-  <p>
-    Default reply timeout is 1000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
-  </p>
-</details>
+### Pass event
 
-### TCP & Unix socket
+You can pass event name to sending message. Default event name - `*`.
+
+```shell
+$ http POST http://127.0.0.1:3000/messages event='greeting' data='Hi, Server!'
+{
+    "messageId": 1,
+    "reply": {
+        "data": {
+            "message": "Hi, Iola!"
+        },
+        "event": "greeting",
+        "format": "json"
+    }
+}
+```
+
+### Server replies
+
+Socket.IO client supports server replies by default.
+
+## TCP & Unix socket
 
 TCP and Unix socket clients have the same api. 
 
-**TCP**
-
 <pre>
-$ iola help tcp
+$ iola help tcp|unix
  
-Usage: iola tcp [options] &lt;address>
+Usage: iola tcp|unix [options] &lt;address&gt;
 
-Run tcp client
+Run tcp|unix client
 
 Options:
-  -ap, --api-port &lt;port>             Set api port (default: "3000")
-  -ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
-  -s, --sync                         Enable sync mode
-  -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (sync mode only) (default: "1000")
-  -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
-  -ne, --no-emoji                    Disable emoji
-  --help                             Display help
+  --api-port &lt;port&gt;             Set api port (default: "3000")
+  --api-host &lt;host&gt;             Set api host (default: "127.0.0.1")
+  --sync                        Enable sync mode
+  --reply-timeout &lt;timeout&gt;     Set reply timeout in ms (sync mode only) (default: "1000")
+  --binary-encoding &lt;encoding&gt;  Set binary encoding (choices: "ascii","utf8","base64","hex")
+  --no-emoji                    Disable emoji
+  --help                        Display help
 
 Examples: 
-  <b>$</b> iola tcp 127.0.0.1:8080
-  <b>$</b> iola tcp 127.0.0.1:8080 --sync
-  <b>$</b> iola tcp 127.0.0.1:8080 --binary-encoding utf8 
-  <b>$</b> iola tcp 127.0.0.1:8080 --no-emoji
+  $ iola tcp 127.0.0.1:8080 
+  $ iola tcp 127.0.0.1:8080 --sync 
+  $ iola tcp 127.0.0.1:8080 --binary-encoding utf8 
+  $ iola tcp 127.0.0.1:8080 --no-emoji
 
+  $ iola unix ./unix.sock
+  $ iola unix ./unix.sock --sync
+  $ iola unix ./unix.sock --binary-encoding utf8 
+  $ iola unix ./unix.sock --no-emoji
 </pre>
 
-**Unix socket**
+### Message formats
+* byte-array
 
-<pre>
-$ iola help unix
- 
-Usage: iola unix [options] &lt;address>
-
-Run unix client
-
-Options:
-  -ap, --api-port &lt;port>             Set api port (default: "3000")
-  -ah, --api-host &lt;host>             Set api host (default: "127.0.0.1")
-  -s, --sync                         Enable sync mode
-  -rt, --reply-timeout &lt;timeout>     Set reply timeout in ms (sync mode only) (default: "1000")
-  -be, --binary-encoding &lt;encoding>  Set binary encoding (choices: "ascii","utf8","base64","hex")
-  -ne, --no-emoji                    Disable emoji
-  --help                             Display help
-
-Examples: 
-  <b>$</b> iola unix ./unix.sock
-  <b>$</b> iola unix ./unix.sock --sync
-  <b>$</b> iola unix ./unix.sock --binary-encoding utf8 
-  <b>$</b> iola unix ./unix.sock --no-emoji
-
-</pre>
+### Modes
 
 Clients support async and sync modes and use async mode by default.
 
 In async mode, the client and the server exchange messages independently within one connection.
 
-Sync mode uses a request/response protocol. The client opens a new connection for each request, the server responds.
-The connection is closed either on the server side after a successful response or by a timeout on the client side.
+Sync mode uses a request/response protocol. The client opens a new connection for each request. 
+The connection will be closed either on the server side after a successful response or by a timeout on the client side.
+To enable sync mode you need to set `--sync` option.
 
-<details>
-  <summary>message formats</summary>
-  <br>
-  <ul>
-    <li><code>byte-array</code></li>
-  </ul>
-</details>
+### Server replies
 
-<details>
-  <summary>sync mode</summary>
-  <br>
-  <p>
-    To enable sync mode need to set <code>--sync</code> option.
-  </p>
-</details>
-
-<details>
-  <summary>server reply</summary>
-  <br>
-  <p>
-    Server replies are supported only in sync mode. If the server does not close the connection, the client will close it on its own during the reply timeout.
-  </p>
-  <p align="center">
-    <br>
-    <img src="./docs/send-data-with-requsetid.tcp.png">
-  </p>
-  <p>
-    Default reply timeout is 1000 ms. To change it you can set <code>--reply-timeout &lt;timeout&gt</code> option.
-  </p>
-</details>
+Server replies are supported only in sync mode.
+If the server does not close the connection after receiving the request, the client will close it itself by reply timeout.
 
 ## License
 

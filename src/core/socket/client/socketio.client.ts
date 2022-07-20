@@ -74,7 +74,7 @@ export class SocketIOClient implements ISocketClient {
             message: {reason},
           })
 
-          this.close()
+          this.clear()
           this.retryConnection()
         }
       })
@@ -99,7 +99,7 @@ export class SocketIOClient implements ISocketClient {
         this._info.connected = true
       }
       catch (error) {
-        this.close()
+        this.clear()
         throw error
       }
     }
@@ -134,7 +134,12 @@ export class SocketIOClient implements ISocketClient {
     return this.emit(packed.data, event, eventMessage)
   }
 
-  private close(): void {
+  close(): void {
+    this.clear()
+  }
+
+  private clear(): void {
+    this._client?.removeAllListeners()
     this._client?.close()
 
     this._client = undefined

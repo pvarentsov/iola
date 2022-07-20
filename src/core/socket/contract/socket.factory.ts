@@ -3,7 +3,7 @@ import { NetSocketClient } from '@iola/core/socket/client/net-socket.client'
 import { NetSocketSyncClient } from '@iola/core/socket/client/net-socket.sync.client'
 import { SocketIOClient } from '@iola/core/socket/client/socketio.client'
 import { WebSocketClient } from '@iola/core/socket/client/websocket.client'
-import { BinaryMessageStore } from '@iola/core/socket/store/binary-message.store'
+import { BinaryStore } from '@iola/core/socket/store/binary.store'
 import { EventStore } from '@iola/core/socket/store/event.store'
 
 export class SocketFactory {
@@ -23,6 +23,6 @@ export class SocketFactory {
       return new NetSocketSyncClient(options, new EventStore())
     }
 
-    return new NetSocketClient(options, new EventStore(), new BinaryMessageStore())
+    return new NetSocketClient(options, new EventStore(), new BinaryStore())
   }
 }
