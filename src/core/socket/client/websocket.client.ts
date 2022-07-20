@@ -137,7 +137,7 @@ export class WebSocketClient implements ISocketClient {
     return this.send(packed.data, eventMessage, requestIdInfo)
   }
 
-  sendBytes(bytes: number[]): Promise<SocketSendReply> {
+  async sendBytes(bytes: number[]): Promise<SocketSendReply> {
     const encoding = this._options.binaryEncoding
     const packed = MessageUtil.packToBuffer(bytes)
 
