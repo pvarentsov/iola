@@ -1,7 +1,6 @@
 import { firstValueFrom, from, fromEvent } from 'rxjs'
 import { map, tap, timeout } from 'rxjs/operators'
 import { io, Socket } from 'socket.io-client'
-import { format, URL } from 'url'
 
 import { AnyObject, EnumUtil, MessageFormat, MessageUtil, RxJSUtil, SocketIOTransport } from '@iola/core/common'
 import {
@@ -12,6 +11,7 @@ import {
   SocketOptions,
   SocketSendReply,
 } from '@iola/core/socket'
+import { UrlUtil } from '@iola/core/common/util/url.util'
 
 export class SocketIOClient implements ISocketClient {
   private readonly _info: SocketInfo
@@ -23,7 +23,7 @@ export class SocketIOClient implements ISocketClient {
   constructor(options: SocketOptions, store: ISocketEventStore) {
     this._info = {
       type: options.type,
-      address: format(new URL(options.address), {search: false}),
+      address: UrlUtil.removeSearchParams(options.address),
       originalAddress: options.address,
       connected: false,
       connecting: false,

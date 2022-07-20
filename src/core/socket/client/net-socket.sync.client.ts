@@ -45,7 +45,7 @@ export class NetSocketSyncClient implements ISocketClient {
       eventMessage[encoding] = packed.data.toString(encoding)
     }
 
-    return this.send(Buffer.from(packed.data as Uint8Array) as Buffer, eventMessage)
+    return this.send(Buffer.from(packed.data as Uint8Array), eventMessage)
   }
 
   async sendBytes(bytes: number[]): Promise<SocketSendReply> {

@@ -1,7 +1,6 @@
 import { firstValueFrom, fromEvent } from 'rxjs'
 import { filter, map, tap, timeout } from 'rxjs/operators'
 import * as WebSocket from 'ws'
-import { format, URL } from 'url'
 
 import { AnyObject, MessageFormat, MessageRequestIdInfo, MessageUtil, Optional, RxJSUtil } from '@iola/core/common'
 import {
@@ -13,6 +12,7 @@ import {
   SocketOptions,
   SocketSendReply,
 } from '@iola/core/socket'
+import { UrlUtil } from '@iola/core/common/util/url.util'
 
 export class WebSocketClient implements ISocketClient {
   private readonly _info: SocketInfo
@@ -24,7 +24,7 @@ export class WebSocketClient implements ISocketClient {
   constructor(options: SocketOptions, store: ISocketEventStore) {
     this._info = {
       type: options.type,
-      address: format(new URL(options.address), {search: false}),
+      address: UrlUtil.removeSearchParams(options.address),
       originalAddress: options.address,
       connected: false,
       connecting: false,
