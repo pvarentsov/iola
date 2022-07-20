@@ -1,5 +1,5 @@
 import * as chalk from 'chalk'
-import { OptionValues, ParseOptions, program } from 'commander'
+import { OptionValues, ParseOptions, createCommand } from 'commander'
 import { EOL } from 'os'
 import { platform } from 'process'
 
@@ -56,6 +56,8 @@ export class CliParser implements ICliParser {
       `  $ iola unix ./unix.sock --sync ${EOL}` +
       `  $ iola unix ./unix.sock --binary-encoding utf8 ${EOL}` +
       '  $ iola unix ./unix.sock --no-emoji'
+
+    const program = createCommand()
 
     program
       .name('iola')
