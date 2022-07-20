@@ -9,7 +9,7 @@
   "bin": "dist/index.js",
   "type": "commonjs",
   "scripts": {
-    "build": "rimraf dist && tsc && tsc-alias",
+    "build": "rimraf dist && tsc -p tsconfig.build.json && tsc-alias",
     "build:release": "rimraf dist && tsc -p tsconfig.release.json && tsc-alias -p tsconfig.release.json",
     "bin:amd64": "DOCKER_BUILDKIT=1 docker build -f ./amd64.Dockerfile . --target app-amd64 --output bin",
     "release": "npm run build:release && npm publish",

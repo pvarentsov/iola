@@ -7,5 +7,5 @@ export interface ICliInteractive {
 }
 
 export interface ICliParser {
-  parse(): CliConfig
+  parse(args?: string[]): CliConfig
 }

@@ -1,5 +1,5 @@
 import * as chalk from 'chalk'
-import { OptionValues, program } from 'commander'
+import { OptionValues, ParseOptions, program } from 'commander'
 import { EOL } from 'os'
 import { platform } from 'process'
 
@@ -12,7 +12,7 @@ export class CliParser implements ICliParser {
     private readonly version: string,
   ) {}
 
-  parse(): CliConfig {
+  parse(argv?: readonly string[]): CliConfig {
     let config: Optional<CliConfig>
 
     const connectionTimeout = 5_000
@@ -181,7 +181,8 @@ export class CliParser implements ICliParser {
         }
       })
 
-    program.parse()
+    const opts: Optional<ParseOptions> = argv ? {from: 'user'} : undefined
+    program.parse(argv, opts)
 
     if (!config) {
       console.error('error: unknown command')
