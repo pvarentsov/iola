@@ -10,6 +10,13 @@
   <a href="https://www.npmjs.com/package/iola">
     <img src="https://img.shields.io/npm/dt/iola.svg" alt="downloads" />
   </a>
+  <br> 
+  <a href="">
+    <img src="https://img.shields.io/sonar/quality_gate/pvarentsov_iola/main?server=https%3A%2F%2Fsonarcloud.io" alt="quality" />
+  </a>  
+  <a href="">
+    <img src="https://img.shields.io/sonar/coverage/pvarentsov_iola/main?server=https%3A%2F%2Fsonarcloud.io" alt="coverage" />
+  </a>
 </p>
 
 <details>
