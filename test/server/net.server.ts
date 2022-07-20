@@ -14,7 +14,9 @@ export class NetServer {
       this._clients.push(socket)
 
       socket.on('data', chunk => {
-        socket.write(chunk)
+        if (chunk.toString() !== 'timeout') {
+          socket.write(chunk)
+        }
       })
     })
   }

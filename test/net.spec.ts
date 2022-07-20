@@ -10,14 +10,14 @@ describe('NET', () => {
     binaryEncoding: BinaryEncoding.Utf8,
     connectionTimeout: 1000,
     reconnectionInterval: 1,
-    replyTimeout: 1,
+    replyTimeout: 50,
   }
 
   const stands = new Array<NetTestStand>()
 
   afterEach(async () => TestUtil.closeNetStands(stands))
 
-  it('Reconnect client if active connection is lost',  async () => {
+  it('Async: Reconnect client if active connection is lost',  async () => {
     const types = [SocketType.Tcp, SocketType.Unix]
 
     for (const type of types) {
@@ -77,7 +77,7 @@ describe('NET', () => {
     }
   })
 
-  it('Send string message',  async () => {
+  it('Async: Send string message',  async () => {
     const types = [SocketType.Tcp, SocketType.Unix]
 
     for (const type of types) {
@@ -148,7 +148,7 @@ describe('NET', () => {
     }
   })
 
-  it('Send binary message',  async () => {
+  it('Async: Send binary message',  async () => {
     const types = [SocketType.Tcp, SocketType.Unix]
 
     for (const type of types) {
@@ -191,6 +191,109 @@ describe('NET', () => {
         data: bytes,
         utf8: 'binary msg'
       })
+    }
+  })
+
+  it('Sync: Send binary message',  async () => {
+    const types = [SocketType.Tcp, SocketType.Unix]
+
+    for (const type of types) {
+      const stand = await TestUtil.prepareNetStand({...opts, type: type, netSync: true})
+      stands.push(stand)
+
+      const bytes = Array.from(Buffer.from('binary msg'))
+
+      const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
+        .post('/messages')
+        .send({bytes})
+        .expect(201)
+
+      expect(sendMsgRes.body.reply).toEqual({
+        format: 'byte-array',
+        size: bytes.length,
+        data: bytes,
+        utf8: 'binary msg'
+      })
+
+      const getMsgRes = await supertest(stand.nestApp.getHttpServer())
+        .get('/messages/' + sendMsgRes.body.messageId)
+        .send()
+        .expect(200)
+
+      expect(getMsgRes.body.id).toEqual(sendMsgRes.body.messageId)
+      expect(getMsgRes.body.type).toEqual('SentMessage')
+      expect(getMsgRes.body.message).toEqual({
+        format: 'byte-array',
+        size: bytes.length,
+        data: bytes,
+        utf8: 'binary msg'
+      })
+
+      const getReplyMsgRes = await supertest(stand.nestApp.getHttpServer())
+        .get('/messages/' + (sendMsgRes.body.messageId + 1))
+        .send()
+        .expect(200)
+
+      expect(getReplyMsgRes.body.id).toEqual(sendMsgRes.body.messageId + 1)
+      expect(getReplyMsgRes.body.type).toEqual('ReceivedMessage')
+      expect(getReplyMsgRes.body.message).toEqual({
+        format: 'byte-array',
+        size: bytes.length,
+        data: bytes,
+        utf8: 'binary msg'
+      })
+    }
+  })
+
+  it('Sync: Send string message and do not await timed out reply',  async () => {
+    const types = [SocketType.Tcp, SocketType.Unix]
+
+    for (const type of types) {
+      const stand = await TestUtil.prepareNetStand({...opts, type: type, netSync: true})
+      stands.push(stand)
+
+      const bytes = Array.from(Buffer.from('timeout'))
+
+      const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
+        .post('/messages')
+        .send({data: 'timeout'})
+        .expect(201)
+
+      expect(sendMsgRes.body.reply).toBeUndefined()
+
+      const getMsgRes = await supertest(stand.nestApp.getHttpServer())
+        .get('/messages/' + sendMsgRes.body.messageId)
+        .send()
+        .expect(200)
+
+      expect(getMsgRes.body.id).toEqual(sendMsgRes.body.messageId)
+      expect(getMsgRes.body.type).toEqual('SentMessage')
+      expect(getMsgRes.body.message).toEqual({
+        format: 'byte-array',
+        size: bytes.length,
+        data: bytes,
+        utf8: 'timeout'
+      })
+    }
+  })
+
+  it('Sync: Receive request error if server closed connection',  async () => {
+    const types = [SocketType.Tcp, SocketType.Unix]
+
+    for (const type of types) {
+      const stand = await TestUtil.prepareNetStand({...opts, type: type, netSync: true})
+      stands.push(stand)
+
+      stand.nets.close()
+
+      const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
+        .post('/messages')
+        .send({data: 'request with error'})
+        .expect(201)
+
+      expect(sendMsgRes.body.statusCode).toEqual(500)
+      expect(sendMsgRes.body.message).toContain('connection to')
+      expect(sendMsgRes.body.message).toContain('is timed out')
     }
   })
 })
