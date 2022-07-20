@@ -1,18 +1,16 @@
 import { createServer, Server, Socket } from 'net'
+import { join } from 'path'
 
-export class TCPServer {
-  private tcps: Server
+export class NetServer {
+  private nets: Server
 
   private _clients: Array<Socket> = []
-  private _port: number
 
-  public start(port: number): void {
-    this._port = port
+  public start(portOrPath: number|string): void {
+    this.nets = createServer()
+    this.nets.listen(portOrPath)
 
-    this.tcps = createServer()
-    this.tcps.listen(port)
-
-    this.tcps.on('connection', socket => {
+    this.nets.on('connection', socket => {
       this._clients.push(socket)
 
       socket.on('data', chunk => {
@@ -22,8 +20,8 @@ export class TCPServer {
   }
 
   public close(): void {
-    this.tcps?.removeAllListeners()
-    this.tcps?.close()
+    this.nets?.removeAllListeners()
+    this.nets?.close()
   }
 
   public disconnectClients(): void {
@@ -31,5 +29,9 @@ export class TCPServer {
       client.destroy()
     }
     this._clients = []
+  }
+
+  static unixAddr(): string {
+    return join(__dirname, 'net.server.unix.sock')
   }
 }

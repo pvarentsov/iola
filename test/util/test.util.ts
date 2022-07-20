@@ -1,10 +1,13 @@
 import { AddressInfo, createServer } from 'net'
+import { writeFileSync, readdirSync, unlinkSync } from 'fs'
+import { randomUUID } from 'crypto'
 import { ISocketClient, SocketFactory, SocketOptions, SocketType } from '@iola/core/socket'
 import { WsServer } from '../server/ws.server'
 import { INestApplication } from '@nestjs/common'
 import { HttpFactory } from '@iola/api/http'
 import { IOServer } from '../server/io.server'
-import { TCPServer } from '../server/tcp.server'
+import { NetServer } from '../server/net.server'
+import { join } from 'path'
 
 export type WSTestStand = {
   wss: WsServer
@@ -18,8 +21,8 @@ export type IOTestStand = {
   nestApp: INestApplication
 }
 
-export type TCPTestStand = {
-  tcps: TCPServer
+export type NetTestStand = {
+  nets: NetServer
   client: ISocketClient
   nestApp: INestApplication
 }
@@ -48,10 +51,7 @@ export class TestUtil {
       return {wss, client, nestApp}
 
     } catch (e) {
-      await closeStand.wss?.close()
-      await closeStand.client?.close()
-      await closeStand.nestApp?.close()
-
+      await this.closeWSStands([closeStand])
       throw e
     }
   }
@@ -79,24 +79,26 @@ export class TestUtil {
       return {ios, client, nestApp}
 
     } catch (e) {
-      await closeStand.ios?.close()
-      await closeStand.client?.close()
-      await closeStand.nestApp?.close()
-
+      await this.closeIOStands([closeStand])
       throw e
     }
   }
 
-  static async prepareTCPStand(opts: SocketOptions): Promise<TCPTestStand> {
-    const closeStand: Partial<TCPTestStand> = {}
+  static async prepareNetStand(opts: SocketOptions): Promise<NetTestStand> {
+    const closeStand: Partial<NetTestStand> = {}
 
     try {
-      const tcpsPort = await this.findFreePort()
-      const tcps = new TCPServer()
-      await tcps.start(tcpsPort)
-      closeStand.tcps = tcps
+      const netsPortOrAddr = opts.type === SocketType.Tcp
+        ? await this.findFreePort()
+        : this.createUnixSock()
 
-      const client = SocketFactory.createClient({...opts, address: this.prepareClientAddress(opts.type, tcpsPort)})
+      const nets = new NetServer()
+      await nets.start(netsPortOrAddr)
+      closeStand.nets = nets
+
+      const client = SocketFactory.createClient({
+        ...opts, address: this.prepareClientAddress(opts.type, netsPortOrAddr)
+      })
       await client.connect()
       closeStand.client = client
 
@@ -107,39 +109,40 @@ export class TestUtil {
       const nestApp = httpServer.engine<INestApplication>()
       closeStand.nestApp = nestApp
 
-      return {tcps, client, nestApp}
+      return {nets: nets, client, nestApp}
 
     } catch (e) {
-      await closeStand.tcps?.close()
-      await closeStand.client?.close()
-      await closeStand.nestApp?.close()
-
+      await this.closeNetStands([closeStand])
       throw e
     }
   }
 
-  static async closeWSStands(stands: Array<WSTestStand>): Promise<void> {
+  static async closeWSStands(stands: Array<Partial<WSTestStand>>): Promise<void> {
     for (const stand of stands) {
-      await stand.wss.close()
-      await stand.client.close()
-      await stand.nestApp.close()
+      await stand.wss?.close()
+      await stand.client?.close()
+      await stand.nestApp?.close()
     }
   }
 
-  static async closeIOStands(stands: Array<IOTestStand>): Promise<void> {
+  static async closeIOStands(stands: Array<Partial<IOTestStand>>): Promise<void> {
     for (const stand of stands) {
-      await stand.ios.close()
-      await stand.client.close()
-      await stand.nestApp.close()
+      await stand.ios?.close()
+      await stand.client?.close()
+      await stand.nestApp?.close()
     }
   }
 
-  static async closeTCPStands(stands: Array<TCPTestStand>): Promise<void> {
+  static async closeNetStands(stands: Array<Partial<NetTestStand>>): Promise<void> {
     for (const stand of stands) {
-      await stand.tcps.close()
-      await stand.client.close()
-      await stand.nestApp.close()
+      await stand.nets?.close()
+      await stand.client?.close()
+      await stand.nestApp?.close()
     }
+
+    readdirSync(join(__dirname, '../server/unix'))
+      .filter(filename => filename !== '.gitkeep')
+      .map(filename => unlinkSync(join(__dirname, '../server/unix', filename)))
   }
 
   static async findFreePort(): Promise<number> {
@@ -153,20 +156,27 @@ export class TestUtil {
     })
   }
 
+  static createUnixSock(): string {
+    const path = join(__dirname, '../server/unix', randomUUID() + '.sock')
+    writeFileSync(path, Buffer.alloc(0))
+
+    return path
+  }
+
   static async delay(ms: number): Promise<void> {
     return new Promise( resolve => setTimeout(resolve, ms))
   }
 
-  private static prepareClientAddress(type: SocketType, port: number): string {
+  private static prepareClientAddress(type: SocketType, portOrAddr: number|string): string {
     if (type === SocketType.WebSocket) {
-      return 'ws://127.0.0.1:' + port + '?isTestStand=true'
+      return 'ws://127.0.0.1:' + portOrAddr + '?isTestStand=true'
     }
     if (type === SocketType.SocketIO) {
-      return 'http://127.0.0.1:' + port + '?isTestStand=true'
+      return 'http://127.0.0.1:' + portOrAddr + '?isTestStand=true'
     }
     if (type === SocketType.Tcp) {
-      return '127.0.0.1:' + port
+      return '127.0.0.1:' + portOrAddr
     }
-    return 'unix.sock'
+    return portOrAddr + ''
   }
 }
