@@ -1,6 +1,6 @@
 import { createConnection, NetConnectOpts, Socket } from 'net'
 import { firstValueFrom, fromEvent } from 'rxjs'
-import { mapTo, tap } from 'rxjs/operators'
+import { map, tap } from 'rxjs/operators'
 
 import { AnyObject, MessageUtil, RxJSUtil } from '@iola/core/common'
 import {
@@ -102,7 +102,7 @@ export class NetSocketClient implements ISocketClient {
             date: new Date(),
             message: this._info,
           })),
-          mapTo(undefined),
+          map(() => undefined),
         )
 
         this._info.connecting = true

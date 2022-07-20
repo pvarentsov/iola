@@ -1,7 +1,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common'
 import { Response } from 'express'
 import { Observable, of } from 'rxjs'
-import { mapTo } from 'rxjs/operators'
+import { map } from 'rxjs/operators'
 
 @Catch()
 export class HttpFilter implements ExceptionFilter {
@@ -14,7 +14,7 @@ export class HttpFilter implements ExceptionFilter {
     response.statusCode = body.statusCode
 
     return of(response.json(body)).pipe(
-      mapTo(undefined)
+      map(() => undefined),
     )
   }
 

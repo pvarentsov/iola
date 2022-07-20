@@ -1,5 +1,5 @@
 import { firstValueFrom, fromEvent } from 'rxjs'
-import { filter, map, mapTo, tap, timeout } from 'rxjs/operators'
+import { filter, map, tap, timeout } from 'rxjs/operators'
 import * as WebSocket from 'ws'
 import { format, URL } from 'url'
 
@@ -104,7 +104,7 @@ export class WebSocketClient implements ISocketClient {
             date: new Date(),
             message: this._info,
           })),
-          mapTo(undefined),
+          map(() => undefined),
         )
 
         this._info.connecting = true

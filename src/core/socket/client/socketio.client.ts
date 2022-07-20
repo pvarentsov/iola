@@ -1,5 +1,5 @@
 import { firstValueFrom, from, fromEvent } from 'rxjs'
-import { mapTo, tap, timeout } from 'rxjs/operators'
+import { map, tap, timeout } from 'rxjs/operators'
 import { io, Socket } from 'socket.io-client'
 import { format, URL } from 'url'
 
@@ -88,7 +88,7 @@ export class SocketIOClient implements ISocketClient {
             date: new Date(),
             message: this._info,
           })),
-          mapTo(undefined),
+          map(() => undefined),
         )
 
         this._info.connecting = true

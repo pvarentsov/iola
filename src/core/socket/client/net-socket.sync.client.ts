@@ -1,6 +1,6 @@
 import { createConnection, NetConnectOpts, Socket } from 'net'
 import { first, firstValueFrom, from, fromEvent, merge, switchMap, timer } from 'rxjs'
-import { map, mapTo, tap } from 'rxjs/operators'
+import { map, tap } from 'rxjs/operators'
 
 import { AnyObject, MessageUtil, RxJSUtil } from '@iola/core/common'
 import {
@@ -137,7 +137,7 @@ export class NetSocketSyncClient implements ISocketClient {
           date: new Date(),
           message: {type: this._options.type, address: this._options.address},
         })),
-        mapTo(undefined),
+        map(() => undefined),
       )
       await firstValueFrom(connect$)
 
