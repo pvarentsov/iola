@@ -60,6 +60,7 @@
     "jest-junit": "14.0.0",
     "jest-sonar-reporter": "2.0.0",
     "npm-check-updates": "15.2.6",
+    "pkg": "5.8.0",
     "rimraf": "3.0.2",
     "socket.io": "4.5.1",
     "supertest": "6.2.4",
