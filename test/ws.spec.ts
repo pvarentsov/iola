@@ -223,7 +223,7 @@ describe('WebSocket', () => {
       .expect(201)
 
     const listMsgRes = await supertest(stand.nestApp.getHttpServer())
-      .get('/messages')
+      .get('/messages?type=Connected&type=SentMessage&type=ReceivedMessage')
       .send()
       .expect(200)
 
