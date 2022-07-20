@@ -282,14 +282,14 @@ describe('NET', () => {
 
     for (const type of types) {
       const stand = await TestUtil.prepareNetStand({...opts, type: type, netSync: true})
-      stands.push(stand)
 
+      stands.push(stand)
       stand.nets.close()
 
       const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
         .post('/messages')
         .send({data: 'request with error'})
-        .expect(201)
+        .expect(500)
 
       expect(sendMsgRes.body.statusCode).toEqual(500)
       expect(sendMsgRes.body.message).toContain('connection to')
