@@ -1,6 +1,6 @@
 {
   "name": "iola",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "description": "iola - a socket client with rest api",
   "files": [
     "dist/**/*"
