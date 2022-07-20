@@ -234,8 +234,8 @@ export class WebSocketClient implements ISocketClient {
         && !Array.isArray(event.message.data)
     }
 
-    const isReply = (event: SocketEvent, requestIdInfo: MessageRequestIdInfo): boolean => {
-      return event.message.data[requestIdInfo.key] === requestIdInfo.value
+    const isReply = (event: SocketEvent, info: MessageRequestIdInfo): boolean => {
+      return event.message.data[info.key] === info.value
     }
 
     const reply$ = this._store.listen().pipe(
