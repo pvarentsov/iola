@@ -157,10 +157,7 @@ export class TestUtil {
   }
 
   static createUnixSock(): string {
-    const path = join(__dirname, '../server/unix', randomUUID() + '.sock')
-    writeFileSync(path, Buffer.alloc(0))
-
-    return path
+    return join(__dirname, '../server/unix', randomUUID() + '.sock')
   }
 
   static async delay(ms: number): Promise<void> {
