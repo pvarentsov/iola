@@ -1,4 +1,7 @@
 import { CliFactory, ICliLogger } from '@iola/api/cli'
+import { IHttpServer } from '@iola/api/http'
+import { EventStore } from '@iola/core/socket/store/event.store'
+import { CliLogger } from '@iola/api/cli/cli/cli.logger'
 import {
   ISocketClient,
   ISocketEventStore,
@@ -7,10 +10,7 @@ import {
   SocketSendReply,
   SocketType
 } from '@iola/core/socket'
-import { IHttpServer } from '@iola/api/http'
-import { EventStore } from '@iola/core/socket/store/event.store'
-import { TestUtil } from './util/test.util'
-import { CliLogger } from '@iola/api/cli/cli/cli.logger'
+import { TestUtil } from '@iola/test/util/test.util'
 
 describe('CLI', () => {
   describe('Parser', () => {

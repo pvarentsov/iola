@@ -1,7 +1,8 @@
+import * as supertest from 'supertest'
+
 import { SocketType } from '@iola/core/socket'
 import { BinaryEncoding } from '@iola/core/common'
-import * as supertest from 'supertest'
-import { WSTestStand, TestUtil } from './util/test.util'
+import { TestUtil, WSTestStand } from '@iola/test/util/test.util'
 
 describe('WebSocket', () => {
   const opts = {

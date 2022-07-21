@@ -20,7 +20,9 @@
       "@iola/core/*": ["src/core/*"],
       "@iola/core": ["src/core"],
       "@iola/api/*": ["src/api/*"],
-      "@iola/api": ["src/api"]
+      "@iola/api": ["src/api"],
+      "@iola/test/*": ["test/*"],
+      "@iola/test": ["test"]
     },
     "types": [
       "reflect-metadata",

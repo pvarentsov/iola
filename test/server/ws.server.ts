@@ -1,8 +1,9 @@
 import { Server, WebSocket } from 'ws'
-import { Optional } from '@iola/core/common'
 import { IncomingHttpHeaders } from 'http'
 import { parse as parseURL } from 'url'
 import { parse as parseQuery, ParsedUrlQuery } from 'querystring'
+
+import { Optional } from '@iola/core/common'
 
 export class WsServer {
   private wss: Server

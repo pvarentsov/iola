@@ -20,7 +20,8 @@
   },
   "moduleNameMapper": {
     "@iola/core/(.*)$": "<rootDir>/src/core/$1",
-    "@iola/api/(.*)$": "<rootDir>/src/api/$1"
+    "@iola/api/(.*)$": "<rootDir>/src/api/$1",
+    "@iola/test/(.*)$": "<rootDir>/test/$1"
   },
   "reporters": [
     "default",
