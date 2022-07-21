@@ -117,7 +117,7 @@ API:
 </pre>
 
 ### REST API
-> These examples use [HTTPie](https://httpie.io) as the REST API client
+> These examples use [HTTPie](https://httpie.io) as the REST API client.
 
 #### Send any data
 ```shell
