@@ -7,9 +7,7 @@ export class EventStore implements ISocketEventStore {
 
   constructor() {
     this._events = []
-
     this._events$ = new ReplaySubject(100)
-    this._events$.subscribe()
   }
 
   list(by?: {types?: SocketEventType[]}): Required<SocketEvent>[] {

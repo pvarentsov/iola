@@ -1,233 +1,367 @@
-import { CliFactory } from '@iola/api/cli'
-import { SocketType } from '@iola/core/socket'
+import { CliFactory, ICliLogger } from '@iola/api/cli'
+import {
+  ISocketClient,
+  ISocketEventStore,
+  SocketEvent,
+  SocketEventType,
+  SocketSendReply,
+  SocketType
+} from '@iola/core/socket'
+import { IHttpServer } from '@iola/api/http'
+import { EventStore } from '@iola/core/socket/store/event.store'
+import { TestUtil } from './util/test.util'
 
 describe('CLI', () => {
-  it('WebSocket: Parse default config',  async () => {
-    const args = [
-      'ws',
-      'ws://127.0.0.1:8080'
-    ]
+  describe('Parser', () => {
+    it('WebSocket: Parse default config',  async () => {
+      const args = [
+        'ws',
+        'ws://127.0.0.1:8080'
+      ]
 
-    const parser = CliFactory.createParser('test')
-    const config = parser.parse(args)
+      const parser = CliFactory.createParser('test')
+      const config = parser.parse(args)
 
-    expect(config).toEqual({
-      socketType: SocketType.WebSocket,
-      socketAddress: 'ws://127.0.0.1:8080',
-      apiPort: 3000,
-      apiHost: '127.0.0.1',
-      headers: undefined,
-      binaryEncoding: undefined,
-      emoji: true,
-      replyTimeout: 1000,
-      connectionTimeout: 5000,
-      reconnectionInterval: 10000,
+      expect(config).toEqual({
+        socketType: SocketType.WebSocket,
+        socketAddress: 'ws://127.0.0.1:8080',
+        apiPort: 3000,
+        apiHost: '127.0.0.1',
+        headers: undefined,
+        binaryEncoding: undefined,
+        emoji: true,
+        replyTimeout: 1000,
+        connectionTimeout: 5000,
+        reconnectionInterval: 10000,
+      })
+    })
+
+    it('WebSocket: Parse custom config',  async () => {
+      const args = [
+        'ws',
+        'ws://127.0.0.1:8080',
+        '--api-host', '0.0.0.0',
+        '--api-port', '9000',
+        '--binary-encoding', 'utf8',
+        '--header', 'user:user', 'pass:pass',
+        '--header', 'token:token',
+        '--reply-timeout', '2000',
+        '--no-emoji'
+      ]
+
+      const parser = CliFactory.createParser('test')
+      const config = parser.parse(args)
+
+      expect(config).toEqual({
+        socketType: SocketType.WebSocket,
+        socketAddress: 'ws://127.0.0.1:8080',
+        apiPort: 9000,
+        apiHost: '0.0.0.0',
+        headers: {
+          user: 'user',
+          pass: 'pass',
+          token: 'token'
+        },
+        binaryEncoding: 'utf8',
+        emoji: false,
+        replyTimeout: 2000,
+        connectionTimeout: 5000,
+        reconnectionInterval: 10000,
+      })
+    })
+
+    it('SocketIO: Parse default config',  async () => {
+      const args = [
+        'io',
+        'http://127.0.0.1:8080'
+      ]
+
+      const parser = CliFactory.createParser('test')
+      const config = parser.parse(args)
+
+      expect(config).toEqual({
+        socketType: SocketType.SocketIO,
+        socketAddress: 'http://127.0.0.1:8080',
+        apiPort: 3000,
+        apiHost: '127.0.0.1',
+        headers: undefined,
+        binaryEncoding: undefined,
+        emoji: true,
+        replyTimeout: 1000,
+        connectionTimeout: 5000,
+        reconnectionInterval: 10000,
+        ioAuth: undefined,
+        ioTransport: undefined,
+      })
+    })
+
+    it('SocketIO: Parse custom config',  async () => {
+      const args = [
+        'io',
+        'http://127.0.0.1:8080',
+        '--api-host', '0.0.0.0',
+        '--api-port', '9000',
+        '--binary-encoding', 'utf8',
+        '--header', 'user:user', 'pass:pass',
+        '--header', 'token:token',
+        '--auth', 'user:user', 'pass:pass',
+        '--auth', 'token:token',
+        '--transport', 'websocket',
+        '--reply-timeout', '2000',
+        '--no-emoji'
+      ]
+
+      const parser = CliFactory.createParser('test')
+      const config = parser.parse(args)
+
+      expect(config).toEqual({
+        socketType: SocketType.SocketIO,
+        socketAddress: 'http://127.0.0.1:8080',
+        apiPort: 9000,
+        apiHost: '0.0.0.0',
+        headers: {
+          user: 'user',
+          pass: 'pass',
+          token: 'token'
+        },
+        ioAuth: {
+          user: 'user',
+          pass: 'pass',
+          token: 'token'
+        },
+        binaryEncoding: 'utf8',
+        emoji: false,
+        replyTimeout: 2000,
+        connectionTimeout: 5000,
+        reconnectionInterval: 10000,
+        ioTransport: 'websocket',
+      })
+    })
+
+    it('TCP: Parse default config',  async () => {
+      const args = [
+        'tcp',
+        '127.0.0.1:8080'
+      ]
+
+      const parser = CliFactory.createParser('test')
+      const config = parser.parse(args)
+
+      expect(config).toEqual({
+        socketType: SocketType.Tcp,
+        socketAddress: '127.0.0.1:8080',
+        apiPort: 3000,
+        apiHost: '127.0.0.1',
+        binaryEncoding: undefined,
+        netSync: undefined,
+        emoji: true,
+        replyTimeout: 1000,
+        connectionTimeout: 5000,
+        reconnectionInterval: 10000,
+      })
+    })
+
+    it('TCP: Parse custom config',  async () => {
+      const args = [
+        'tcp',
+        '127.0.0.1:8080',
+        '--api-host', '0.0.0.0',
+        '--api-port', '9000',
+        '--binary-encoding', 'utf8',
+        '--reply-timeout', '2000',
+        '--no-emoji',
+        '--sync'
+      ]
+
+      const parser = CliFactory.createParser('test')
+      const config = parser.parse(args)
+
+      expect(config).toEqual({
+        socketType: SocketType.Tcp,
+        socketAddress: '127.0.0.1:8080',
+        apiPort: 9000,
+        apiHost: '0.0.0.0',
+        binaryEncoding: 'utf8',
+        netSync: true,
+        emoji: false,
+        replyTimeout: 2000,
+        connectionTimeout: 5000,
+        reconnectionInterval: 10000,
+      })
+    })
+
+    it('Unix: Parse default config',  async () => {
+      const args = [
+        'unix',
+        'unix.sock'
+      ]
+
+      const parser = CliFactory.createParser('test')
+      const config = parser.parse(args)
+
+      expect(config).toEqual({
+        socketType: SocketType.Unix,
+        socketAddress: 'unix.sock',
+        apiPort: 3000,
+        apiHost: '127.0.0.1',
+        binaryEncoding: undefined,
+        netSync: undefined,
+        emoji: true,
+        replyTimeout: 1000,
+        connectionTimeout: 5000,
+        reconnectionInterval: 10000,
+      })
+    })
+
+    it('Unix: Parse custom config',  async () => {
+      const args = [
+        'unix',
+        'unix.sock',
+        '--api-host', '0.0.0.0',
+        '--api-port', '9000',
+        '--binary-encoding', 'utf8',
+        '--reply-timeout', '2000',
+        '--no-emoji',
+        '--sync'
+      ]
+
+      const parser = CliFactory.createParser('test')
+      const config = parser.parse(args)
+
+      expect(config).toEqual({
+        socketType: SocketType.Unix,
+        socketAddress: 'unix.sock',
+        apiPort: 9000,
+        apiHost: '0.0.0.0',
+        binaryEncoding: 'utf8',
+        netSync: true,
+        emoji: false,
+        replyTimeout: 2000,
+        connectionTimeout: 5000,
+        reconnectionInterval: 10000,
+      })
     })
   })
 
-  it('WebSocket: Parse custom config',  async () => {
-    const args = [
-      'ws',
-      'ws://127.0.0.1:8080',
-      '--api-host', '0.0.0.0',
-      '--api-port', '9000',
-      '--binary-encoding', 'utf8',
-      '--header', 'user:user', 'pass:pass',
-      '--header', 'token:token',
-      '--reply-timeout', '2000',
-      '--no-emoji'
-    ]
+  describe('Interactive', () => {
+    class MockServer implements IHttpServer {
+      async listen(host: string, port: number): Promise<string> {
+        return `http:${host}:${port}`
+      }
+      engine<T = any>(): T {
+        return undefined as any
+      }
+    }
 
-    const parser = CliFactory.createParser('test')
-    const config = parser.parse(args)
+    class MockLogger implements ICliLogger {
+      messages: string[] = []
 
-    expect(config).toEqual({
-      socketType: SocketType.WebSocket,
-      socketAddress: 'ws://127.0.0.1:8080',
-      apiPort: 9000,
-      apiHost: '0.0.0.0',
-      headers: {
-        user: 'user',
-        pass: 'pass',
-        token: 'token'
-      },
-      binaryEncoding: 'utf8',
-      emoji: false,
-      replyTimeout: 2000,
-      connectionTimeout: 5000,
-      reconnectionInterval: 10000,
-    })
-  })
+      log(message?: any): void {
+        if (message) {
+          message = message.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '')
+          message = message.replace(/(\r\n|\n|\r)/gm, '')
 
-  it('SocketIO: Parse default config',  async () => {
-    const args = [
-      'io',
-      'http://127.0.0.1:8080'
-    ]
+          this.messages.push(message)
+        }
+      }
+    }
 
-    const parser = CliFactory.createParser('test')
-    const config = parser.parse(args)
+    class MockClient implements ISocketClient {
+      constructor(readonly store: ISocketEventStore) {}
 
-    expect(config).toEqual({
-      socketType: SocketType.SocketIO,
-      socketAddress: 'http://127.0.0.1:8080',
-      apiPort: 3000,
-      apiHost: '127.0.0.1',
-      headers: undefined,
-      binaryEncoding: undefined,
-      emoji: true,
-      replyTimeout: 1000,
-      connectionTimeout: 5000,
-      reconnectionInterval: 10000,
-      ioAuth: undefined,
-      ioTransport: undefined,
-    })
-  })
+      async connect(): Promise<void> {
+        return undefined
+      }
+      async sendData(): Promise<SocketSendReply> {
+        return undefined as any
+      }
+      async sendBytes(): Promise<SocketSendReply> {
+        return undefined as any
+      }
+      close(): void {
+        return undefined
+      }
+    }
 
-  it('SocketIO: Parse custom config',  async () => {
-    const args = [
-      'io',
-      'http://127.0.0.1:8080',
-      '--api-host', '0.0.0.0',
-      '--api-port', '9000',
-      '--binary-encoding', 'utf8',
-      '--header', 'user:user', 'pass:pass',
-      '--header', 'token:token',
-      '--auth', 'user:user', 'pass:pass',
-      '--auth', 'token:token',
-      '--transport', 'websocket',
-      '--reply-timeout', '2000',
-      '--no-emoji'
-    ]
+    it('Print events', async () => {
+      const date = new Date('1970-01-01T00:00:00')
+      const events: Array<SocketEvent> = [
+        {
+          type: SocketEventType.Connected,
+          date: date,
+          message: {
+            type: SocketType.WebSocket,
+            address: 'ws://127.0.0.1:8080',
+          }
+        },
+        {
+          type: SocketEventType.SentMessage,
+          date: date,
+          message: {
+            format: 'string',
+            data: 'HI, Server!',
+          }
+        },
+        {
+          type: SocketEventType.ReceivedMessage,
+          date: date,
+          message: {
+            format: 'string',
+            data: 'HI, Iola!',
+          }
+        },
+        {
+          type: SocketEventType.Closed,
+          date: date,
+          message: {
+            code: '1',
+            reason: ':(',
+          }
+        },
+        {
+          type: SocketEventType.Error,
+          date: date,
+          message: {
+            message: ':(',
+          }
+        },
+        {
+          type: SocketEventType.Reconnecting,
+          date: date,
+          message: {
+            type: SocketType.WebSocket,
+            address: 'ws://127.0.0.1:8080',
+          }
+        }
+      ]
 
-    const parser = CliFactory.createParser('test')
-    const config = parser.parse(args)
+      const store = new EventStore()
+      const server = new MockServer()
+      const client = new MockClient(store)
+      const logger = new MockLogger()
 
-    expect(config).toEqual({
-      socketType: SocketType.SocketIO,
-      socketAddress: 'http://127.0.0.1:8080',
-      apiPort: 9000,
-      apiHost: '0.0.0.0',
-      headers: {
-        user: 'user',
-        pass: 'pass',
-        token: 'token'
-      },
-      ioAuth: {
-        user: 'user',
-        pass: 'pass',
-        token: 'token'
-      },
-      binaryEncoding: 'utf8',
-      emoji: false,
-      replyTimeout: 2000,
-      connectionTimeout: 5000,
-      reconnectionInterval: 10000,
-      ioTransport: 'websocket',
-    })
-  })
+      const interactive = CliFactory.createInteractive({
+        apiPort: 3000,
+        apiHost: '127.0.0.1',
+      } as any, logger)
 
-  it('TCP: Parse default config',  async () => {
-    const args = [
-      'tcp',
-      '127.0.0.1:8080'
-    ]
+      for (const event of events) {
+        store.add(event)
+      }
 
-    const parser = CliFactory.createParser('test')
-    const config = parser.parse(args)
+      await interactive.listen(server, client)
+      await TestUtil.delay(1500)
 
-    expect(config).toEqual({
-      socketType: SocketType.Tcp,
-      socketAddress: '127.0.0.1:8080',
-      apiPort: 3000,
-      apiHost: '127.0.0.1',
-      binaryEncoding: undefined,
-      netSync: undefined,
-      emoji: true,
-      replyTimeout: 1000,
-      connectionTimeout: 5000,
-      reconnectionInterval: 10000,
-    })
-  })
-
-  it('TCP: Parse custom config',  async () => {
-    const args = [
-      'tcp',
-      '127.0.0.1:8080',
-      '--api-host', '0.0.0.0',
-      '--api-port', '9000',
-      '--binary-encoding', 'utf8',
-      '--reply-timeout', '2000',
-      '--no-emoji',
-      '--sync'
-    ]
-
-    const parser = CliFactory.createParser('test')
-    const config = parser.parse(args)
-
-    expect(config).toEqual({
-      socketType: SocketType.Tcp,
-      socketAddress: '127.0.0.1:8080',
-      apiPort: 9000,
-      apiHost: '0.0.0.0',
-      binaryEncoding: 'utf8',
-      netSync: true,
-      emoji: false,
-      replyTimeout: 2000,
-      connectionTimeout: 5000,
-      reconnectionInterval: 10000,
-    })
-  })
-
-  it('Unix: Parse default config',  async () => {
-    const args = [
-      'unix',
-      'unix.sock'
-    ]
-
-    const parser = CliFactory.createParser('test')
-    const config = parser.parse(args)
-
-    expect(config).toEqual({
-      socketType: SocketType.Unix,
-      socketAddress: 'unix.sock',
-      apiPort: 3000,
-      apiHost: '127.0.0.1',
-      binaryEncoding: undefined,
-      netSync: undefined,
-      emoji: true,
-      replyTimeout: 1000,
-      connectionTimeout: 5000,
-      reconnectionInterval: 10000,
-    })
-  })
-
-  it('Unix: Parse custom config',  async () => {
-    const args = [
-      'unix',
-      'unix.sock',
-      '--api-host', '0.0.0.0',
-      '--api-port', '9000',
-      '--binary-encoding', 'utf8',
-      '--reply-timeout', '2000',
-      '--no-emoji',
-      '--sync'
-    ]
-
-    const parser = CliFactory.createParser('test')
-    const config = parser.parse(args)
-
-    expect(config).toEqual({
-      socketType: SocketType.Unix,
-      socketAddress: 'unix.sock',
-      apiPort: 9000,
-      apiHost: '0.0.0.0',
-      binaryEncoding: 'utf8',
-      netSync: true,
-      emoji: false,
-      replyTimeout: 2000,
-      connectionTimeout: 5000,
-      reconnectionInterval: 10000,
+      expect(logger.messages).toEqual([
+        'API server: http:127.0.0.1:3000',
+        'Swagger UI: http:127.0.0.1:3000/swagger',
+        '00001 [1970-01-1 00:00:00] Connection established:  { type: \'websocket\', address: \'ws://127.0.0.1:8080\' }',
+        '00002 [1970-01-1 00:00:00] Message sent:  { format: \'string\', data: \'HI, Server!\' }',
+        '00003 [1970-01-1 00:00:00] Message received:  { format: \'string\', data: \'HI, Iola!\' }',
+        '00004 [1970-01-1 00:00:00] Connection closed:  { code: \'1\', reason: \':(\' }',
+        '00005 [1970-01-1 00:00:00] Error:  { message: \':(\' }',
+        '00006 [1970-01-1 00:00:00] Retry connection:  { type: \'websocket\', address: \'ws://127.0.0.1:8080\' }'])
     })
   })
 })
+
