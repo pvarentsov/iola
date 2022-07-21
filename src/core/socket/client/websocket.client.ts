@@ -47,53 +47,9 @@ export class WebSocketClient implements ISocketClient {
         headers: this._options.headers,
       })
 
-      this._client.on('message', (message: WebSocket.Data, isBinary: boolean) => {
-        const unpacked = isBinary
-          ? MessageUtil.unpack(message)
-          : MessageUtil.unpack(message.toString())
-
-        const encoding = this._options.binaryEncoding
-
-        let eventMessage: AnyObject = unpacked
-
-        if (unpacked.format === MessageFormat.ByteArray) {
-          eventMessage = {
-            format: unpacked.format,
-            size: unpacked.data.length,
-            data: unpacked.data,
-          }
-          if (encoding) {
-            eventMessage[encoding] = (Buffer.from(unpacked.data as Uint8Array)).toString(encoding)
-          }
-        }
-
-        this._store.add({
-          type: SocketEventType.ReceivedMessage,
-          date: new Date(),
-          message: eventMessage,
-        })
-      })
-
-      this._client.on('error', err => this._store.add({
-        type: SocketEventType.Error,
-        date: new Date(),
-        message: {
-          message: err.message
-        },
-      }))
-
-      this._client.on('close', (code: number, reason: Buffer) => {
-        if (this._info.connected) {
-          this._store.add({
-            type: SocketEventType.Closed,
-            date: new Date(),
-            message: {code, reason: reason.toString()},
-          })
-
-          this.clear()
-          this.retryConnection()
-        }
-      })
+      this.onMessage(this._client)
+      this.onError(this._client)
+      this.onClose(this._client)
 
       try {
         const open$ = fromEvent(this._client, 'open').pipe(
@@ -165,6 +121,60 @@ export class WebSocketClient implements ISocketClient {
     this._client = undefined
     this._info.connected = false
     this._info.connecting = false
+  }
+
+  private onMessage(client: WebSocket): void {
+    client.on('message', (message: WebSocket.Data, isBinary: boolean) => {
+      const unpacked = isBinary
+        ? MessageUtil.unpack(message)
+        : MessageUtil.unpack(message.toString())
+
+      const encoding = this._options.binaryEncoding
+
+      let eventMessage: AnyObject = unpacked
+
+      if (unpacked.format === MessageFormat.ByteArray) {
+        eventMessage = {
+          format: unpacked.format,
+          size: unpacked.data.length,
+          data: unpacked.data,
+        }
+        if (encoding) {
+          eventMessage[encoding] = (Buffer.from(unpacked.data as Uint8Array)).toString(encoding)
+        }
+      }
+
+      this._store.add({
+        type: SocketEventType.ReceivedMessage,
+        date: new Date(),
+        message: eventMessage,
+      })
+    })
+  }
+
+  private onError(client: WebSocket): void {
+    client.on('error', err => this._store.add({
+      type: SocketEventType.Error,
+      date: new Date(),
+      message: {
+        message: err.message
+      },
+    }))
+  }
+
+  private onClose(client: WebSocket): void {
+    client.on('close', (code: number, reason: Buffer) => {
+      if (this._info.connected) {
+        this._store.add({
+          type: SocketEventType.Closed,
+          date: new Date(),
+          message: {code, reason: reason.toString()},
+        })
+
+        this.clear()
+        this.retryConnection()
+      }
+    })
   }
 
   private retryConnection(): void {
