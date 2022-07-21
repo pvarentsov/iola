@@ -41,7 +41,7 @@
 **iola** - a command-line socket client with REST API. It helps to work with socket servers using your favorite REST client.
 
 <p align="center"> 
-  <img src="./docs/cli.png">
+  <img src="doc/cli.png">
 </p>
 
 **iola** tries to simplify socket server testing and support the most popular socket clients.
@@ -121,12 +121,13 @@ API:
 
 #### Send any data
 ```shell
-# Send string data
+# Send string message
 $ http POST http://127.0.0.1:3000/messages data='Hi, Server!'
 {
     "messageId": 1
 }
 
+# Get string message by id
 $ http GET http://127.0.0.1:3000/messages/1
 {
     "id": 1,
@@ -138,12 +139,13 @@ $ http GET http://127.0.0.1:3000/messages/1
     "type": "SentMessage"
 }
 
-# Send json string data
+# Send json string message
 $ http POST http://127.0.0.1:3000/messages data:='{"message":"Hi, Server!"}'
 {
     "messageId": 2
 }
 
+# Get json string message by id
 $ http GET http://127.0.0.1:3000/messages/2
 {
     "id": 2,
@@ -160,11 +162,13 @@ $ http GET http://127.0.0.1:3000/messages/2
 
 #### Send binary data
 ```shell
+# Send byte-array message
 $ http POST http://127.0.0.1:3000/messages bytes:='[72,101,108,108,111,33]'
 {
     "messageId": 1
 }
 
+# Get byte-array message by id
 $ http GET http://127.0.0.1:3000/messages/1
 {
     "id": 1,
@@ -180,13 +184,16 @@ $ http GET http://127.0.0.1:3000/messages/1
 
 All clients support `--binary-encoding <encoding>` option for more readability of sent and received binary messages.
 ```shell
+# Run iola client with -binary-encoding option
 $ iola ws ws://127.0.0.1:8080 --binary-encoding utf8
 
+# Send byte-array message
 $ http POST http://127.0.0.1:3000/messages bytes:='[72,101,108,108,111,33]'
 {
     "messageId": 1
 }
 
+# Get sent byte-array message by id
 $ http GET http://127.0.0.1:3000/messages/1
 {
     "id": 1,
@@ -200,6 +207,7 @@ $ http GET http://127.0.0.1:3000/messages/1
     "type": "SentMessage"
 }
 
+# Get received byte-array message by id
 $ http GET http://127.0.0.1:3000/messages/2
 {
     "id": 2,
@@ -216,6 +224,7 @@ $ http GET http://127.0.0.1:3000/messages/2
 
 #### List messages
 ```shell
+# List messages
 $ http GET http://127.0.0.1:3000/messages
 [
     {
@@ -288,7 +297,7 @@ RequestId field can be one of the following:
 ```shell
 $ http POST http://127.0.0.1:3000/messages data:='{"requestId":"1","message":"Hi, Server!"}'
 {
-    "messageId": 9,
+    "messageId": 1,
     "reply": {
         "data": {
             "requestId": "1",
