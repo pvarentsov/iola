@@ -343,6 +343,7 @@ describe('CLI', () => {
       const interactive = CliFactory.createInteractive({
         apiPort: 3000,
         apiHost: '127.0.0.1',
+        emoji: true,
       } as any, logger)
 
       for (const event of events) {
@@ -355,12 +356,13 @@ describe('CLI', () => {
       expect(logger.messages).toEqual([
         'API server: http:127.0.0.1:3000',
         'Swagger UI: http:127.0.0.1:3000/swagger',
-        '00001 [1970-01-1 00:00:00] Connection established:  { type: \'websocket\', address: \'ws://127.0.0.1:8080\' }',
-        '00002 [1970-01-1 00:00:00] Message sent:  { format: \'string\', data: \'HI, Server!\' }',
-        '00003 [1970-01-1 00:00:00] Message received:  { format: \'string\', data: \'HI, Iola!\' }',
-        '00004 [1970-01-1 00:00:00] Connection closed:  { code: \'1\', reason: \':(\' }',
-        '00005 [1970-01-1 00:00:00] Error:  { message: \':(\' }',
-        '00006 [1970-01-1 00:00:00] Retry connection:  { type: \'websocket\', address: \'ws://127.0.0.1:8080\' }'])
+        // eslint-disable-next-line max-len
+        '00001 [1970-01-1 00:00:00] 🔄 Connection established:  { type: \'websocket\', address: \'ws://127.0.0.1:8080\' }',
+        '00002 [1970-01-1 00:00:00] 📤 Message sent:  { format: \'string\', data: \'HI, Server!\' }',
+        '00003 [1970-01-1 00:00:00] 📥 Message received:  { format: \'string\', data: \'HI, Iola!\' }',
+        '00004 [1970-01-1 00:00:00] 🚫️ Connection closed:  { code: \'1\', reason: \':(\' }',
+        '00005 [1970-01-1 00:00:00] ❗️ Error:  { message: \':(\' }',
+        '00006 [1970-01-1 00:00:00] 🔁 Retry connection:  { type: \'websocket\', address: \'ws://127.0.0.1:8080\' }'])
     })
   })
 })
