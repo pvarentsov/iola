@@ -2,7 +2,8 @@ name: NPM Publish
 
 on:
   push:
-    branches: [main]
+    tags:
+      - '*'
 
 jobs:
   build:
@@ -40,7 +41,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-#      - name: NPM Release
-#        run: npm run release
-#        env:
-#          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: NPM Release
+        run: npm run release
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
