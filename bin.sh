@@ -5,9 +5,9 @@ SCRIPT_DIR=$(
   pwd
 )
 
-APP_VERSION=$(node -p "require('./package.json').version")
-
 cd "$SCRIPT_DIR"
+
+APP_VERSION=$(node -p "require('./package.json').version")
 
 pkg -t node14-macos-arm64 ./dist/index.js -o ./bin/macos-arm64/iola
 pkg -t node14-macos-x64   ./dist/index.js -o ./bin/macos-x64/iola
