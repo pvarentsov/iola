@@ -283,58 +283,58 @@ describe('CLI', () => {
       }
     }
 
-    it('Print events', async () => {
-      const date = new Date('1970-01-01T00:00:00')
-      const events: Array<SocketEvent> = [
-        {
-          type: SocketEventType.Connected,
-          date: date,
-          message: {
-            type: SocketType.WebSocket,
-            address: 'ws://127.0.0.1:8080',
-          }
-        },
-        {
-          type: SocketEventType.SentMessage,
-          date: date,
-          message: {
-            format: 'string',
-            data: 'HI, Server!',
-          }
-        },
-        {
-          type: SocketEventType.ReceivedMessage,
-          date: date,
-          message: {
-            format: 'string',
-            data: 'HI, Iola!',
-          }
-        },
-        {
-          type: SocketEventType.Closed,
-          date: date,
-          message: {
-            code: '1',
-            reason: ':(',
-          }
-        },
-        {
-          type: SocketEventType.Error,
-          date: date,
-          message: {
-            message: ':(',
-          }
-        },
-        {
-          type: SocketEventType.Reconnecting,
-          date: date,
-          message: {
-            type: SocketType.WebSocket,
-            address: 'ws://127.0.0.1:8080',
-          }
+    const date = new Date('1970-01-01T00:00:00')
+    const events: Array<SocketEvent> = [
+      {
+        type: SocketEventType.Connected,
+        date: date,
+        message: {
+          type: SocketType.WebSocket,
+          address: 'ws://127.0.0.1:8080',
         }
-      ]
+      },
+      {
+        type: SocketEventType.SentMessage,
+        date: date,
+        message: {
+          format: 'string',
+          data: 'HI, Server!',
+        }
+      },
+      {
+        type: SocketEventType.ReceivedMessage,
+        date: date,
+        message: {
+          format: 'string',
+          data: 'HI, Iola!',
+        }
+      },
+      {
+        type: SocketEventType.Closed,
+        date: date,
+        message: {
+          code: '1',
+          reason: ':(',
+        }
+      },
+      {
+        type: SocketEventType.Error,
+        date: date,
+        message: {
+          message: ':(',
+        }
+      },
+      {
+        type: SocketEventType.Reconnecting,
+        date: date,
+        message: {
+          type: SocketType.WebSocket,
+          address: 'ws://127.0.0.1:8080',
+        }
+      }
+    ]
 
+    it('Print events with emoji', async () => {
       const store = new EventStore()
       const server = new MockServer()
       const client = new MockClient(store)
@@ -363,6 +363,37 @@ describe('CLI', () => {
         '00004 [1970-01-1 00:00:00] 🚫️ Connection closed:  { code: \'1\', reason: \':(\' }',
         '00005 [1970-01-1 00:00:00] ❗️ Error:  { message: \':(\' }',
         '00006 [1970-01-1 00:00:00] 🔁 Retry connection:  { type: \'websocket\', address: \'ws://127.0.0.1:8080\' }'])
+    })
+
+    it('Print events without emoji', async () => {
+      const store = new EventStore()
+      const server = new MockServer()
+      const client = new MockClient(store)
+      const logger = new MockLogger()
+
+      const interactive = CliFactory.createInteractive({
+        apiPort: 3000,
+        apiHost: '127.0.0.1',
+        emoji: false,
+      } as any, logger)
+
+      for (const event of events) {
+        store.add(event)
+      }
+
+      await interactive.listen(server, client)
+      await TestUtil.delay(1500)
+
+      expect(logger.messages).toEqual([
+        'API server: http:127.0.0.1:3000',
+        'Swagger UI: http:127.0.0.1:3000/swagger',
+        // eslint-disable-next-line max-len
+        '00001 [1970-01-1 00:00:00] Connection established:  { type: \'websocket\', address: \'ws://127.0.0.1:8080\' }',
+        '00002 [1970-01-1 00:00:00] Message sent:  { format: \'string\', data: \'HI, Server!\' }',
+        '00003 [1970-01-1 00:00:00] Message received:  { format: \'string\', data: \'HI, Iola!\' }',
+        '00004 [1970-01-1 00:00:00] Connection closed:  { code: \'1\', reason: \':(\' }',
+        '00005 [1970-01-1 00:00:00] Error:  { message: \':(\' }',
+        '00006 [1970-01-1 00:00:00] Retry connection:  { type: \'websocket\', address: \'ws://127.0.0.1:8080\' }'])
     })
   })
 })
