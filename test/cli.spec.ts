@@ -10,6 +10,7 @@ import {
 import { IHttpServer } from '@iola/api/http'
 import { EventStore } from '@iola/core/socket/store/event.store'
 import { TestUtil } from './util/test.util'
+import { CliLogger } from '@iola/api/cli/cli/cli.logger'
 
 describe('CLI', () => {
   describe('Parser', () => {
@@ -394,6 +395,20 @@ describe('CLI', () => {
         '00004 [1970-01-1 00:00:00] Connection closed:  { code: \'1\', reason: \':(\' }',
         '00005 [1970-01-1 00:00:00] Error:  { message: \':(\' }',
         '00006 [1970-01-1 00:00:00] Retry connection:  { type: \'websocket\', address: \'ws://127.0.0.1:8080\' }'])
+    })
+  })
+
+  describe('Logger', () => {
+    it('Call console.log', async () => {
+      const message = 'Hi!'
+      let caughtMessage = ''
+
+      jest.spyOn(global.console, 'log').mockImplementation((message) => {
+        caughtMessage = message
+      })
+
+      new CliLogger().log('Hi!')
+      expect(caughtMessage).toEqual(message)
     })
   })
 })
