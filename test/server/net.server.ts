@@ -1,5 +1,4 @@
 import { createServer, Server, Socket } from 'net'
-import { join } from 'path'
 
 export class NetServer {
   private nets: Server
@@ -31,9 +30,5 @@ export class NetServer {
       client.destroy()
     }
     this._clients = []
-  }
-
-  static unixAddr(): string {
-    return join(__dirname, 'net.server.unix.sock')
   }
 }

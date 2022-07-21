@@ -8,3 +8,5 @@ bin
 coverage
 test-report.xml
 junit.xml
+
+*.sock

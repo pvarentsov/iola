@@ -22,10 +22,10 @@
     "link": "npm link",
     "unlink": "npm unlink iola -g",
     "demo:iola": "terminalizer render ./demo/iola-demo.yml -o ./demo/iola-demo.gif",
-    "server:ws": "node ./external/websocket.server.js",
-    "server:io": "node ./external/socket.io.server.js",
-    "server:tcp": "node ./external/tcp.server.js",
-    "server:unix": "node ./external/unix.server.js"
+    "ws": "ts-node ./test/server/main/ws.ts",
+    "io": "ts-node ./test/server/main/io.ts",
+    "tcp": "ts-node ./test/server/main/tcp.ts",
+    "unix": "ts-node ./test/server/main/unix.ts"
   },
   "repository": {
     "type": "git",
@@ -59,12 +59,14 @@
     "jest": "28.1.2",
     "jest-junit": "14.0.0",
     "jest-sonar-reporter": "2.0.0",
+    "module-alias": "2.2.2",
     "npm-check-updates": "15.2.6",
     "pkg": "5.8.0",
     "rimraf": "3.0.2",
     "socket.io": "4.5.1",
     "supertest": "6.2.4",
     "ts-jest": "28.0.5",
+    "ts-node": "10.9.1",
     "tsc-alias": "1.6.11",
     "typescript": "4.7.4"
   },
@@ -84,5 +86,10 @@
     "socket.io-client": "4.5.1",
     "swagger-ui-express": "4.4.0",
     "ws": "8.8.0"
+  },
+  "_moduleAliases": {
+    "@iola/core": "src/core",
+    "@iola/api": "src/api",
+    "@iola/test": "test"
   }
 }
