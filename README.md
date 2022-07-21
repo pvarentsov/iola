@@ -345,7 +345,7 @@ You can explicitly set the type of transport using `--transport <transport>` opt
 
 ### Auth
 
-Socket.IO client can send [auth credentials](https://socket.io/docs/v4/middlewares/#Sending-credentials) using `--auth <key:value...>` option.
+Socket.IO client can send [auth credentials](https://socket.io/docs/v4/middlewares/#sending-credentials) using `--auth <key:value...>` option.
 
 ### Pass event
 
