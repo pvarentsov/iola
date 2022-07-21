@@ -137,8 +137,9 @@ describe('CLI', () => {
         '--binary-encoding', 'utf8',
         '--header', 'user:user', 'pass:pass',
         '--header', 'token:token',
-        '--auth', 'user:user', 'pass:pass',
-        '--auth', 'token:token',
+        '--auth', 'userId:1',
+        '--auth', 'isAdmin:true',
+        '--auth', 'token:null',
         '--transport', 'websocket',
         '--reply-timeout', '2000',
         '--no-emoji'
@@ -158,9 +159,9 @@ describe('CLI', () => {
           token: 'token'
         },
         ioAuth: {
-          user: 'user',
-          pass: 'pass',
-          token: 'token'
+          userId: 1,
+          isAdmin: true,
+          token: null
         },
         binaryEncoding: 'utf8',
         emoji: false,
