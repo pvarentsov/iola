@@ -14,21 +14,23 @@ export class CliInteractive implements ICliInteractive {
   ) {}
 
   async listen(server: IHttpServer, client: ISocketClient): Promise<void> {
-    const spinner = ora('Connecting').start()
+    if (!this.config.netSync) {
+      const spinner = ora('Connecting').start()
 
-    const stopSpinner = (delay: number): Promise<ora.Ora> => new Promise(
-      resolve => setTimeout(() => resolve(spinner.stop()), delay)
-    )
+      const stopSpinner = (delay: number): Promise<ora.Ora> => new Promise(
+        resolve => setTimeout(() => resolve(spinner.stop()), delay)
+      )
 
-    try {
-      await client.connect()
-      await stopSpinner(1000)
-    }
-    catch (err) {
-      spinner.color = 'red'
-      await stopSpinner(1000)
+      try {
+        await client.connect()
+        await stopSpinner(500)
+      }
+      catch (err) {
+        spinner.color = 'red'
+        await stopSpinner(500)
 
-      throw err
+        throw err
+      }
     }
 
     const address = await server
