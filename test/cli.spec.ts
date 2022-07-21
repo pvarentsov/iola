@@ -71,6 +71,39 @@ describe('CLI', () => {
       })
     })
 
+    it('WebSocket: Validate args',  async () => {
+      const args = [
+        'ws',
+        'ws://127.0.0.1:8080',
+        '--api-host', '0.0.0.0',
+        '--api-port', '-1',
+        '--binary-encoding', 'utf8',
+        '--header', 'user:user', 'pass:pass',
+        '--header', 'token:token',
+        '--reply-timeout', 'reply-timeout',
+        '--no-emoji'
+      ]
+
+      let caughtExitCode = 0
+      let caughtError = ''
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      jest.spyOn(global.process, 'exit').mockImplementation(code => caughtExitCode = code || 0)
+      jest.spyOn(global.console, 'error').mockImplementation(message => caughtError = message)
+
+      const parser = CliFactory.createParser('test')
+      parser.parse(args)
+
+      const expError =
+        'errors:\n' +
+        '  api-port must be >= 0 and < 65536\n' +
+        '  reply-timeout must be a positive number'
+
+      expect(caughtExitCode).toEqual(1)
+      expect(caughtError).toEqual(expError)
+    })
+
     it('SocketIO: Parse default config',  async () => {
       const args = [
         'io',
@@ -137,6 +170,49 @@ describe('CLI', () => {
         reconnectionInterval: 10000,
         ioTransport: 'websocket',
       })
+    })
+
+    it('SocketIO: Validate args',  async () => {
+      const args = [
+        'io',
+        'http://127.0.0.1:8080',
+        '--api-host', '0.0.0.0',
+        '--api-port', '-1',
+        '--binary-encoding', 'utf8',
+        '--header', 'user:user', 'pass:pass',
+        '--header', 'token:token',
+        '--auth', 'user:user', 'pass:pass',
+        '--auth', 'token:token',
+        '--transport', 'websocket',
+        '--reply-timeout', '2000',
+        '--no-emoji'
+      ]
+
+      let caughtExitCode = 0
+      let caughtError = ''
+      let exitCall = 0
+      let errorCall = 0
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      jest.spyOn(global.process, 'exit').mockImplementation(code => {
+        exitCall += 1
+        if (exitCall === 1) {
+          caughtExitCode = code || 0
+        }
+      })
+      jest.spyOn(global.console, 'error').mockImplementation(message => {
+        errorCall += 1
+        if (errorCall === 1) {
+          caughtError = message
+        }
+      })
+
+      const parser = CliFactory.createParser('test')
+      parser.parse(args)
+
+      expect(caughtExitCode).toEqual(1)
+      expect(caughtError).toEqual('error: api-port must be >= 0 and < 65536')
     })
 
     it('TCP: Parse default config',  async () => {
@@ -401,13 +477,14 @@ describe('CLI', () => {
   describe('Logger', () => {
     it('Call console.log', async () => {
       const message = 'Hi!'
+      const logger = new CliLogger()
+
       let caughtMessage = ''
 
-      jest.spyOn(global.console, 'log').mockImplementation((message) => {
-        caughtMessage = message
-      })
+      jest.spyOn(global.console, 'log').mockImplementation(message => caughtMessage = message)
 
-      new CliLogger().log('Hi!')
+      logger.log('Hi!')
+
       expect(caughtMessage).toEqual(message)
     })
   })

@@ -289,4 +289,20 @@ describe('WebSocket', () => {
     expect(listMsgRes.body[5].type).toEqual('ReceivedMessage')
     expect(listMsgRes.body[5].message).toEqual({format: 'string', data: 'string reply'})
   })
+
+  it('Route not found',  async () => {
+    const stand = await TestUtil.prepareWSStand(opts)
+    stands.push(stand)
+
+    const sendMsgRes = await supertest(stand.nestApp.getHttpServer())
+      .post('/message')
+      .send({data: 'string msg'})
+      .expect(404)
+
+    expect(sendMsgRes.body).toEqual({
+      statusCode: 404,
+      message: 'Cannot POST /message',
+      error: 'Not Found'
+    })
+  })
 })
