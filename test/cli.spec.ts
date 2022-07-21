@@ -1,7 +1,6 @@
-import { CliFactory, ICliLogger } from '@iola/api/cli'
+import { CliFactory } from '@iola/api/cli'
 import { IHttpServer } from '@iola/api/http'
 import { EventStore } from '@iola/core/socket/store/event.store'
-import { CliLogger } from '@iola/api/cli/cli/cli.logger'
 import {
   ISocketClient,
   ISocketEventStore,
@@ -14,7 +13,7 @@ import { TestUtil } from '@iola/test/util/test.util'
 
 describe('CLI', () => {
   describe('Parser', () => {
-    it('WebSocket: Parse default config',  async () => {
+    it('WebSocket: Parse default config', async () => {
       const args = [
         'ws',
         'ws://127.0.0.1:8080'
@@ -37,7 +36,7 @@ describe('CLI', () => {
       })
     })
 
-    it('WebSocket: Parse custom config',  async () => {
+    it('WebSocket: Parse custom config', async () => {
       const args = [
         'ws',
         'ws://127.0.0.1:8080',
@@ -71,7 +70,7 @@ describe('CLI', () => {
       })
     })
 
-    it('WebSocket: Validate args',  async () => {
+    it('WebSocket: Validate args', async () => {
       const args = [
         'ws',
         'ws://127.0.0.1:8080',
@@ -104,7 +103,7 @@ describe('CLI', () => {
       expect(caughtError).toEqual(expError)
     })
 
-    it('SocketIO: Parse default config',  async () => {
+    it('SocketIO: Parse default config', async () => {
       const args = [
         'io',
         'http://127.0.0.1:8080'
@@ -129,7 +128,7 @@ describe('CLI', () => {
       })
     })
 
-    it('SocketIO: Parse custom config',  async () => {
+    it('SocketIO: Parse custom config', async () => {
       const args = [
         'io',
         'http://127.0.0.1:8080',
@@ -172,7 +171,7 @@ describe('CLI', () => {
       })
     })
 
-    it('SocketIO: Validate args',  async () => {
+    it('SocketIO: Validate args', async () => {
       const args = [
         'io',
         'http://127.0.0.1:8080',
@@ -215,7 +214,7 @@ describe('CLI', () => {
       expect(caughtError).toEqual('error: api-port must be >= 0 and < 65536')
     })
 
-    it('TCP: Parse default config',  async () => {
+    it('TCP: Parse default config', async () => {
       const args = [
         'tcp',
         '127.0.0.1:8080'
@@ -238,7 +237,7 @@ describe('CLI', () => {
       })
     })
 
-    it('TCP: Parse custom config',  async () => {
+    it('TCP: Parse custom config', async () => {
       const args = [
         'tcp',
         '127.0.0.1:8080',
@@ -267,7 +266,7 @@ describe('CLI', () => {
       })
     })
 
-    it('Unix: Parse default config',  async () => {
+    it('Unix: Parse default config', async () => {
       const args = [
         'unix',
         'unix.sock'
@@ -290,7 +289,7 @@ describe('CLI', () => {
       })
     })
 
-    it('Unix: Parse custom config',  async () => {
+    it('Unix: Parse custom config', async () => {
       const args = [
         'unix',
         'unix.sock',
@@ -325,36 +324,28 @@ describe('CLI', () => {
       async listen(host: string, port: number): Promise<string> {
         return `http:${host}:${port}`
       }
+
       engine<T = any>(): T {
         return undefined as any
       }
     }
 
-    class MockLogger implements ICliLogger {
-      messages: string[] = []
-
-      log(message?: any): void {
-        if (message) {
-          message = message.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '')
-          message = message.replace(/(\r\n|\n|\r)/gm, '')
-
-          this.messages.push(message)
-        }
-      }
-    }
-
     class MockClient implements ISocketClient {
-      constructor(readonly store: ISocketEventStore) {}
+      constructor(readonly store: ISocketEventStore) {
+      }
 
       async connect(): Promise<void> {
         return undefined
       }
+
       async sendData(): Promise<SocketSendReply> {
         return undefined as any
       }
+
       async sendBytes(): Promise<SocketSendReply> {
         return undefined as any
       }
+
       close(): void {
         return undefined
       }
@@ -415,22 +406,27 @@ describe('CLI', () => {
       const store = new EventStore()
       const server = new MockServer()
       const client = new MockClient(store)
-      const logger = new MockLogger()
 
+      const log: Array<string> = []
       const interactive = CliFactory.createInteractive({
         apiPort: 3000,
         apiHost: '127.0.0.1',
         emoji: true,
-      } as any, logger)
+      } as any)
 
       for (const event of events) {
         store.add(event)
       }
+      jest.spyOn(global.console, 'log').mockImplementation(message => {
+        if (message !== undefined) {
+          log.push(clearMessage(message))
+        }
+      })
 
       await interactive.listen(server, client)
       await TestUtil.delay(1500)
 
-      expect(logger.messages).toEqual([
+      expect(log).toEqual([
         'API server: http:127.0.0.1:3000',
         'Swagger UI: http:127.0.0.1:3000/swagger',
         // eslint-disable-next-line max-len
@@ -446,22 +442,27 @@ describe('CLI', () => {
       const store = new EventStore()
       const server = new MockServer()
       const client = new MockClient(store)
-      const logger = new MockLogger()
 
+      const log: Array<string> = []
       const interactive = CliFactory.createInteractive({
         apiPort: 3000,
         apiHost: '127.0.0.1',
         emoji: false,
-      } as any, logger)
+      } as any)
 
       for (const event of events) {
         store.add(event)
       }
+      jest.spyOn(global.console, 'log').mockImplementation(message => {
+        if (message !== undefined) {
+          log.push(clearMessage(message))
+        }
+      })
 
       await interactive.listen(server, client)
       await TestUtil.delay(1500)
 
-      expect(logger.messages).toEqual([
+      expect(log).toEqual([
         'API server: http:127.0.0.1:3000',
         'Swagger UI: http:127.0.0.1:3000/swagger',
         // eslint-disable-next-line max-len
@@ -473,20 +474,11 @@ describe('CLI', () => {
         '00006 [1970-01-1 00:00:00] Retry connection:  { type: \'websocket\', address: \'ws://127.0.0.1:8080\' }'])
     })
   })
-
-  describe('Logger', () => {
-    it('Call console.log', async () => {
-      const message = 'Hi!'
-      const logger = new CliLogger()
-
-      let caughtMessage = ''
-
-      jest.spyOn(global.console, 'log').mockImplementation(message => caughtMessage = message)
-
-      logger.log('Hi!')
-
-      expect(caughtMessage).toEqual(message)
-    })
-  })
 })
 
+function clearMessage(message: string): string {
+  message = message.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '')
+  message = message.replace(/(\r\n|\n|\r)/gm, '')
+
+  return message
+}

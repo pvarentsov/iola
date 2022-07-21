@@ -3,7 +3,7 @@ import * as moment from 'moment'
 import * as ora from 'ora'
 import { EOL } from 'os'
 
-import { CliConfig, ICliInteractive, ICliLogger } from '@iola/api/cli'
+import { CliConfig, ICliInteractive } from '@iola/api/cli'
 import { IHttpServer } from '@iola/api/http'
 import { MessageUtil, Optional } from '@iola/core/common'
 import { ISocketClient, SocketEvent, SocketEventType } from '@iola/core/socket'
@@ -11,7 +11,6 @@ import { ISocketClient, SocketEvent, SocketEventType } from '@iola/core/socket'
 export class CliInteractive implements ICliInteractive {
   constructor(
     private readonly config: CliConfig,
-    private readonly logger: ICliLogger,
   ) {}
 
   async listen(server: IHttpServer, client: ISocketClient): Promise<void> {
@@ -35,15 +34,15 @@ export class CliInteractive implements ICliInteractive {
     const address = await server
       .listen(this.config.apiHost, this.config.apiPort)
 
-    this.logger.log()
-    this.logger.log(`${chalk.bold('API server:')} ${address}`)
-    this.logger.log(`${chalk.bold('Swagger UI:')} ${address}/swagger`)
-    this.logger.log()
+    console.log()
+    console.log(`${chalk.bold('API server:')} ${address}`)
+    console.log(`${chalk.bold('Swagger UI:')} ${address}/swagger`)
+    console.log()
 
     setTimeout(() => {
       client.store
         .listen()
-        .subscribe(event => this.logger.log(this.parseEvent(event)))
+        .subscribe(event => console.log(this.parseEvent(event)))
     }, 1000)
   }
 

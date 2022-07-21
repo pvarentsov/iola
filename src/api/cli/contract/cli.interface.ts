@@ -9,7 +9,3 @@ export interface ICliInteractive {
 export interface ICliParser {
   parse(args?: string[]): CliConfig
 }
-
-export interface ICliLogger {
-  log(message?: any): void
-}
