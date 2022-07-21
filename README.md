@@ -21,7 +21,6 @@
 
 <details>
   <summary><b>Table of contents</b> (click to open)</summary>
-  <br>
   <ul>
     <li><a href="#description">Description</a></li>
     <li><a href="#installation">Installation</a></li>
