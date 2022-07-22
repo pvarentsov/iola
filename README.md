@@ -67,7 +67,7 @@ You can manage collections of requests for projects that have socket-based API, 
 
 ## Installation
 
-**Via npm** (for all platforms where [Node.js](https://nodejs.org/en/) installed).
+**Via npm** (for all platforms where [Node.js](https://nodejs.org/en/) >= 12 installed).
 
 ```bash
 $ npm install -g iola
