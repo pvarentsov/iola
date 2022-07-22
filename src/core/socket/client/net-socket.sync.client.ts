@@ -26,7 +26,19 @@ export class NetSocketSyncClient implements ISocketClient {
   }
 
   async connect(): Promise<void> {
-    return undefined
+    const socket = createConnection(this.netOptions())
+
+    const connect$ = fromEvent(socket, 'connect').pipe(
+      RxJSUtil.timeout(1000, `connection to ${this._options.address} is timed out`),
+    )
+
+    try {
+      await firstValueFrom(connect$)
+    } catch (e) {
+      throw e
+    } finally {
+      socket.destroy()
+    }
   }
 
   async sendData<TData>(data: TData): Promise<SocketSendReply> {

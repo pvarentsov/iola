@@ -19,7 +19,7 @@
     "test:cov": "jest --config jest.json --runInBand --coverage",
     "lint": "eslint 'src/**/*.ts'",
     "lint:fix": "eslint --fix 'src/**/*.ts'",
-    "link": "npm link",
+    "link": "npm run build:release && npm link",
     "unlink": "npm unlink iola -g",
     "demo:iola": "terminalizer render ./demo/iola-demo.yml -o ./demo/iola-demo.gif",
     "ws": "ts-node ./test/server/main/ws.ts",
