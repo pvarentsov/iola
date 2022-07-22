@@ -11,7 +11,7 @@
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.build.json && tsc-alias",
     "build:release": "rimraf dist && tsc -p tsconfig.release.json && tsc-alias -p tsconfig.release.json",
-    "bin": "npm run build:release && ./bin.sh",
+    "bin": "rimraf bin && npm run build:release && ./bin.sh",
     "release": "npm run build:release && npm publish",
     "lib:check": "ncu",
     "lib:upgrade": "ncu -u && npm install",

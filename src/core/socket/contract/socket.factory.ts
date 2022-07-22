@@ -1,3 +1,5 @@
+import { resolve } from 'path'
+
 import { ISocketClient, SocketOptions, SocketType } from '@iola/core/socket'
 import { NetSocketClient } from '@iola/core/socket/client/net-socket.client'
 import { NetSocketSyncClient } from '@iola/core/socket/client/net-socket.sync.client'
@@ -19,6 +21,9 @@ export class SocketFactory {
   }
 
   private static createNetSocket(options: SocketOptions): ISocketClient {
+    if (options.type === SocketType.Unix) {
+      options.address = resolve(process.cwd(), options.address)
+    }
     if (options.netSync) {
       return new NetSocketSyncClient(options, new EventStore())
     }
