@@ -26,6 +26,9 @@
     "tcp": "ts-node ./test/server/main/tcp.ts",
     "unix": "ts-node ./test/server/main/unix.ts"
   },
+  "engines": {
+    "node": ">=12"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pvarentsov/iola.git"
