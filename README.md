@@ -117,7 +117,7 @@ API:
 </pre>
 
 ### REST API
-> These examples use [HTTPie](https://httpie.io) as the REST API client.
+> **Note**: These examples use [HTTPie](https://httpie.io) as the REST API client.
 
 #### Send any data
 ```shell
@@ -184,7 +184,7 @@ $ http GET http://127.0.0.1:3000/messages/1
 
 All clients support `--binary-encoding <encoding>` option for more readability of sent and received binary messages.
 ```shell
-# Run iola client with -binary-encoding option
+# Run iola client with --binary-encoding option
 $ iola ws ws://127.0.0.1:8080 --binary-encoding utf8
 
 # Send byte-array message
