@@ -11,12 +11,12 @@
     <img src="https://img.shields.io/npm/dt/iola.svg" alt="downloads" />
   </a>
   <br> 
-  <a href="https://sonarcloud.io/project/overview?id=pvarentsov_iola">
+  <!-- <a href="https://sonarcloud.io/project/overview?id=pvarentsov_iola">
     <img src="https://img.shields.io/sonar/quality_gate/pvarentsov_iola/main?server=https%3A%2F%2Fsonarcloud.io" alt="quality" />
   </a>  
   <a href="https://sonarcloud.io/project/overview?id=pvarentsov_iola">
     <img src="https://img.shields.io/sonar/coverage/pvarentsov_iola/main?server=https%3A%2F%2Fsonarcloud.io" alt="coverage" />
-  </a>
+  </a> -->
 </p>
 
 <details>
